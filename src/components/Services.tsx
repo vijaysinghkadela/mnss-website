@@ -145,11 +145,11 @@ function ServiceCard({ service, index, isVisible }: ServiceCardProps) {
         </CardContent>
 
         <CardFooter className="relative z-10">
-          {service.contacts && (
+          {service.contacts && service.contacts.length > 0 && (
             <div className="flex items-center justify-between w-full">
               <span className="text-xs text-gray-500">Emergency:</span>
               <a
-                href={`tel:${service.contacts.replace(/\D/g, "")}`}
+                href={`tel:${service.contacts[0].replace(/\D/g, "")}`}
                 className="text-xs text-accent-600 font-semibold hover:text-accent-700 flex items-center group"
               >
                 <Phone className="w-3 h-3 mr-1" />

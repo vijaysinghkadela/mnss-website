@@ -1,5 +1,5 @@
 "use client";
-
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { TrendingUp, Award, MapPin, Calendar } from "lucide-react";
 import { Container } from "./ui/Container";
@@ -146,7 +146,7 @@ function StatisticCard({ stat, index, isVisible }: StatisticCardProps) {
     suffix: stat.suffix,
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isVisible) {
       const timer = setTimeout(() => startAnimation(), index * 200);
       return () => clearTimeout(timer);
