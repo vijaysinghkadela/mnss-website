@@ -1,12 +1,4 @@
-import {
-  Organization,
-  HeroStat,
-  Service,
-  TimelineItem,
-  Partnership,
-  District,
-  EmergencyContact,
-} from "@/types";
+import { Organization, HeroStat, Service, TimelineItem, Partnership, District, EmergencyContact } from '@/types'
 
 export const organizationData: Organization = {
   name: "Marut Narayan Sewa Sansthan",
@@ -16,11 +8,9 @@ export const organizationData: Organization = {
   headquarters: "Rampole Choraya Station Road, Nagaur 341001, Rajasthan",
   phone: "01582-240408",
   email: "marutnarayan7181@gmail.com",
-  mission:
-    "To create a comprehensive social safety net through women's empowerment, rehabilitation services, skill development, and community transformation across multiple districts of Rajasthan.",
-  vision:
-    "A society where every individual has access to safety, dignity, skill development, and sustainable livelihoods through integrated social services and government partnerships.",
-};
+  mission: "To create a comprehensive social safety net through women's empowerment, rehabilitation services, skill development, and community transformation across multiple districts of Rajasthan.",
+  vision: "A society where every individual has access to safety, dignity, skill development, and sustainable livelihoods through integrated social services and government partnerships."
+}
 
 export const heroStats: HeroStat[] = [
   {
@@ -29,7 +19,7 @@ export const heroStats: HeroStat[] = [
     suffix: "+",
     description: "Individuals directly impacted across 5+ districts",
     icon: "👥",
-    color: "from-blue-500 to-cyan-500",
+    color: "from-blue-500 to-cyan-500"
   },
   {
     number: 16,
@@ -37,7 +27,7 @@ export const heroStats: HeroStat[] = [
     suffix: "",
     description: "Continuous community transformation",
     icon: "📅",
-    color: "from-emerald-500 to-teal-500",
+    color: "from-emerald-500 to-teal-500"
   },
   {
     number: 200,
@@ -45,7 +35,7 @@ export const heroStats: HeroStat[] = [
     suffix: "+",
     description: "Successful training and empowerment courses",
     icon: "🎯",
-    color: "from-purple-500 to-pink-500",
+    color: "from-purple-500 to-pink-500"
   },
   {
     number: 5,
@@ -53,50 +43,33 @@ export const heroStats: HeroStat[] = [
     suffix: "+",
     description: "Multi-district operations across Rajasthan",
     icon: "🗺️",
-    color: "from-orange-500 to-red-500",
-  },
-];
+    color: "from-orange-500 to-red-500"
+  }
+]
 
 export const services: Service[] = [
   {
     id: 1,
     title: "Women's Safety & Counseling",
-    shortDesc:
-      "Comprehensive safety network with professional counseling centers",
+    shortDesc: "Comprehensive safety network with professional counseling centers",
     icon: "🛡️",
     bgGradient: "from-rose-500 to-pink-500",
     beneficiaries: "2000+",
     locations: "4 Centers",
-    features: [
-      "24/7 Crisis Counseling",
-      "Legal Aid & Court Support",
-      "Police Station Integration",
-      "Emergency Shelter",
-    ],
+    features: ["24/7 Crisis Counseling", "Legal Aid & Court Support", "Police Station Integration", "Emergency Shelter"],
     contacts: ["9772062226", "Emergency: 102"],
-    districts: [
-      "Churu (Ratangarh)",
-      "Pratapgarh (Dhariyawad)",
-      "Nagaur",
-      "Hanumangath",
-    ],
+    districts: ["Churu (Ratangarh)", "Pratapgarh (Dhariyawad)", "Nagaur", "Hanumangath"]
   },
   {
     id: 2,
     title: "Drug Rehabilitation & Mental Health",
-    shortDesc:
-      "Residential treatment centers with integrated therapy approaches",
+    shortDesc: "Residential treatment centers with integrated therapy approaches",
     icon: "❤️",
     bgGradient: "from-emerald-500 to-green-500",
     beneficiaries: "500+",
     locations: "2 Centers",
-    features: [
-      "Residential Treatment",
-      "CBT Therapy",
-      "Yoga & Meditation",
-      "24/7 Medical Care",
-    ],
-    contacts: ["Bikaner: 7737631828", "Nagaur: 9414327181"],
+    features: ["Residential Treatment", "CBT Therapy", "Yoga & Meditation", "24/7 Medical Care"],
+    contacts: ["Bikaner: 7737631828", "Nagaur: 9414327181"]
   },
   {
     id: 3,
@@ -106,12 +79,7 @@ export const services: Service[] = [
     bgGradient: "from-blue-500 to-indigo-500",
     beneficiaries: "1000+",
     locations: "5+ Ministries",
-    features: [
-      "ITDP Furniture Craft",
-      "NABARD Financial Literacy",
-      "Cultural Heritage",
-      "KVIC Training",
-    ],
+    features: ["ITDP Furniture Craft", "NABARD Financial Literacy", "Cultural Heritage", "KVIC Training"]
   },
   {
     id: 4,
@@ -121,51 +89,52 @@ export const services: Service[] = [
     bgGradient: "from-purple-500 to-pink-500",
     beneficiaries: "2000+",
     locations: "5+ Districts",
-    features: [
-      "92-day Programs",
-      "Job Placement",
-      "Entrepreneurship Support",
-      "Multi-trade Training",
-    ],
-  },
-];
+    features: ["92-day Programs", "Job Placement", "Entrepreneurship Support", "Multi-trade Training"]
+  }
+]
 
 export const timeline: TimelineItem[] = [
   {
     year: "2009",
     title: "Foundation & Vision",
-    description:
-      "Established in Nagaur with mission to empower women and children",
+  description: "Established in Nagaur with the mission to empower women and children through local outreach programs and community engagement.",
     icon: "🌟",
     milestone: "Organization Founded",
-    impact: "Local community focus",
+    impact: "Local community focus"
+  ,
+  image: '/assets/timeline-2009.jpg'
   },
   {
     year: "2014-17",
     title: "Growth & Recognition",
-    description: "First major training programs and government registration",
+  description: "Scaled training programs, gained formal government registration, and launched the first multi-district initiatives focused on skills and livelihoods.",
     icon: "📚",
     milestone: "Programs Launched",
-    impact: "Government recognition",
+    impact: "Government recognition"
+  ,
+  image: '/assets/timeline-2014-17.jpg'
   },
   {
     year: "2022-23",
     title: "Craft Innovation",
-    description: "Advanced handicraft programs with KVIC partnerships",
+  description: "Launched craft innovation and handicraft modernization programs in partnership with KVIC and the Ministry of Textiles, enabling artisan incomes and market access.",
     icon: "🎨",
     milestone: "Craft Programs",
-    impact: "Traditional skills modernized",
+    impact: "Traditional skills modernized"
+  ,
+  image: '/assets/timeline-2022-23.jpg'
   },
   {
     year: "2024-25",
     title: "Integrated Social Services",
-    description:
-      "Women's safety centers and rehabilitation facilities operational",
+  description: "Rolled out integrated women&apos;s safety centers, rehabilitation facilities, and emergency response systems across multiple districts.",
     icon: "🏥",
     milestone: "Specialized Centers",
-    impact: "Comprehensive care network",
-  },
-];
+    impact: "Comprehensive care network"
+  ,
+  image: '/assets/timeline-2024-25.jpg'
+  }
+]
 
 export const partnerships: Partnership[] = [
   {
@@ -173,81 +142,81 @@ export const partnerships: Partnership[] = [
     program: "ITDP - Handicrafts Development",
     logo: "🏛️",
     color: "bg-blue-100 text-blue-700",
-    impact: "50 artisans with toolkit",
+    impact: "50 artisans with toolkit"
   },
   {
     name: "NABARD",
     program: "Financial Inclusion Fund",
     logo: "🏦",
     color: "bg-green-100 text-green-700",
-    impact: "126+ village societies",
+    impact: "126+ village societies"
   },
   {
     name: "Ministry of Culture",
     program: "Heritage Preservation",
     logo: "🎭",
     color: "bg-purple-100 text-purple-700",
-    impact: "Cultural programs",
+    impact: "Cultural programs"
   },
   {
     name: "KVIC",
     program: "Advanced Craft Training",
     logo: "⚙️",
     color: "bg-orange-100 text-orange-700",
-    impact: "Machine distribution",
-  },
-];
+    impact: "Machine distribution"
+  }
+]
 
 export const districts: District[] = [
   {
     name: "Nagaur",
     status: "Headquarters",
     services: ["All Programs", "Women's Safety", "Rehabilitation"],
-    color: "bg-blue-500",
+    color: "bg-blue-500"
   },
   {
     name: "Churu",
     status: "Active Operations",
     services: ["Women's Safety (Ratangarh)", "126 Societies", "Training"],
-    color: "bg-green-500",
+    color: "bg-green-500"
   },
   {
     name: "Pratapgarh",
     status: "Active Operations",
     services: ["Women's Safety (Dhariyawad)", "Skill Development"],
-    color: "bg-purple-500",
+    color: "bg-purple-500"
   },
   {
     name: "Bikaner",
     status: "Active Operations",
     services: ["Rehabilitation Center", "KVIC Training", "Navjeevan"],
-    color: "bg-orange-500",
-  },
-];
+    color: "bg-orange-500"
+  }
+]
 
 export const emergencyContacts: EmergencyContact[] = [
   {
     service: "Women's Safety Emergency",
     number: "9772062226",
     available: "24/7",
-    type: "crisis",
+    type: "crisis"
   },
   {
     service: "General Emergency",
     number: "102",
     available: "24/7",
-    type: "emergency",
+    type: "emergency"
   },
   {
     service: "Rehabilitation Bikaner",
     number: "7737631828",
     available: "24/7",
-    type: "rehabilitation",
+    type: "rehabilitation"
   },
   {
     service: "Main Office",
     number: "01582-240408",
     available: "9 AM - 6 PM",
-    type: "office",
-  },
-];
+    type: "office"
+  }
+]

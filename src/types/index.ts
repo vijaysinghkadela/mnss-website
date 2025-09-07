@@ -39,6 +39,7 @@ export interface TimelineItem {
   icon: string;
   milestone: string;
   impact: string;
+  image?: string; // optional path under /public/assets/
 }
 
 export interface Partnership {
