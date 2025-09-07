@@ -58,7 +58,7 @@ function ServiceCard({ service }: ServiceCardProps) {
         className="h-full group cursor-pointer relative overflow-hidden"
       >
         <div
-          className={`absolute inset-0 bg-gradient-to-br ${service.bgGradient} opacity-0 group-hover:opacity-10 transition-all duration-500`}
+          className={`absolute inset-0 bg-gradient-to-br from-primary-500 to-primary-600 opacity-0 group-hover:opacity-12 transition-all duration-500`}
         />
 
         <CardContent className="relative z-10">

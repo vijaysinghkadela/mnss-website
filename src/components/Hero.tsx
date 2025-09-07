@@ -7,10 +7,13 @@ import { Button } from "./ui/Button";
 import { useCounter } from "@/hooks/useCounter";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { heroStats } from "@/lib/data";
+import Icon from './icons'
 import { scrollToElement } from "@/lib/utils";
+import { useLanguage } from '@/context/LanguageContext'
 
 export function Hero() {
   const { elementRef, isVisible } = useScrollAnimation();
+  const { t } = useLanguage()
 
   return (
     <section
@@ -29,8 +32,8 @@ export function Hero() {
           <div className="space-y-8">
             <div className="space-y-4">
               <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-primary-100 to-primary-200 text-primary-700 rounded-full text-sm font-medium">
-                <span className="mr-2">🏅</span>
-                16 Years of Trusted Service • ISO 9001:2015 Certified
+                <span className="mr-2">�️</span>
+                {new Date().getFullYear() - 2009} {t('yearsOfService')} • ISO 9001:2015 Certified
               </div>
 
               <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight">
@@ -46,18 +49,13 @@ export function Hero() {
               </h1>
 
               <p className="text-xl text-gray-600 max-w-2xl leading-relaxed">
-                Comprehensive social services spanning women&apos;s safety,
-                rehabilitation, skill development, and community empowerment
-                across 5+ districts of Rajasthan through trusted government
-                partnerships.
+                {t('aboutTitle')} — Comprehensive social services spanning women&apos;s safety, rehabilitation, skill development, and community empowerment across 5+ districts of Rajasthan through trusted government partnerships.
               </p>
             </div>
 
             <div className="flex items-center space-x-2 text-gray-600">
               <span className="text-lg">📍</span>
-              <span className="font-medium">
-                Serving Nagaur, Churu, Pratapgarh, Bikaner, Ganganagar
-              </span>
+              <span className="font-medium">{t('serving')}</span>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -66,18 +64,12 @@ export function Hero() {
                 onClick={() => scrollToElement("services")}
                 className="group text-gray-900 bg-purple-300"
               >
-                Explore Our Services
-                <span className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform">
-                  ➤
-                </span>
+                {t('exploreHero')}
+                <span className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform">➤</span>
               </Button>
 
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={() => scrollToElement("contact")}
-              >
-                Get Emergency Help
+              <Button variant="outline" size="lg" onClick={() => scrollToElement("contact")}>
+                {t('emergencyHelp')}
               </Button>
             </div>
 
@@ -129,7 +121,6 @@ function StatCard({ stat, index, isVisible }: StatCardProps) {
   const { count, startAnimation } = useCounter({
     end: stat.number,
     duration: 2500,
-    suffix: stat.suffix,
   });
 
   React.useEffect(() => {
@@ -150,9 +141,11 @@ function StatCard({ stat, index, isVisible }: StatCardProps) {
 
       {/* Icon */}
       <div className="relative z-10">
-        <div className="text-3xl mb-2">{stat.icon ?? "🌐"}</div>
+        <div className="text-3xl mb-2">
+          {stat.icon ? <Icon name={String(stat.icon)} className="w-8 h-8" /> : <span className="text-2xl">🌐</span>}
+        </div>
         <div className="space-y-1">
-          <div className="text-2xl font-bold text-gray-900">{count}</div>
+    <div className="text-2xl font-bold text-gray-900">{count.toLocaleString()}{stat.suffix}</div>
           <div className="text-sm font-semibold text-gray-700">
             {stat.label}
           </div>

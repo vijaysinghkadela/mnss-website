@@ -78,7 +78,7 @@ export function Header() {
                 <button
                   key={item.key}
                   onClick={() => handleNavClick(item.href)}
-                  className="text-gray-700 hover:text-primary-600 font-medium transition-colors duration-200 relative group"
+                  className="text-gray-700 hover:text-primary-600 font-medium transition-colors duration-200 relative group cursor-pointer"
                 >
                   {t(item.key)}
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full"></span>
@@ -93,7 +93,7 @@ export function Header() {
                 <span className="text-gray-700">{t('emergency')}: </span>
                 <Link
                   href="tel:9772062226"
-                  className="text-accent-600 font-semibold hover:text-accent-700"
+                  className="text-accent-600 font-semibold hover:text-accent-700 cursor-pointer"
                 >
                   9772062226
                 </Link>
@@ -108,19 +108,14 @@ export function Header() {
                 {t('getHelp')}
               </Button>
 
-              {/* Language selector */}
-              <div className="ml-2 flex items-center space-x-2">
+              {/* Single Language toggle */}
+              <div className="ml-2">
                 <button
-                  onClick={() => setLang('en')}
-                  className={`px-3 py-2 rounded-md border ${lang === 'en' ? 'bg-gray-100 dark:bg-gray-800 font-semibold' : 'bg-transparent'}`}
+                  onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
+                  className="px-3 py-2 rounded-md border bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 font-medium"
+                  aria-label="Toggle language"
                 >
-                  EN
-                </button>
-                <button
-                  onClick={() => setLang('hi')}
-                  className={`px-3 py-2 rounded-md border ${lang === 'hi' ? 'bg-gray-100 dark:bg-gray-800 font-semibold' : 'bg-transparent'}`}
-                >
-                  हिं
+                  {lang === 'en' ? 'EN' : 'हिं'}
                 </button>
               </div>
 

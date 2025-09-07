@@ -21,7 +21,15 @@ const translations: Record<string, { en: string; hi: string }> = {
   contact: { en: 'Contact', hi: 'संपर्क' },
   emergency: { en: 'Emergency', hi: 'आपातकाल' },
   getHelp: { en: 'Get Help', hi: 'मदद लें' },
-  explore: { en: 'Explore Services', hi: 'सेवाएँ देखें' }
+  explore: { en: 'Explore Services', hi: 'सेवाएँ देखें' },
+  aboutTitle: { en: 'About Us', hi: 'हमारे बारे में' },
+  mission: { en: 'Our Mission', hi: 'हमारा लक्ष्य' },
+  vision: { en: 'Our Vision', hi: 'हमारी दृष्टि' },
+  exploreServices: { en: 'Explore Services', hi: 'सेवाएँ देखें' },
+  getHelpShort: { en: 'Get Help', hi: 'मदद लें' },
+  exploreHero: { en: 'Explore Our Services', hi: 'हमारी सेवाएँ देखें' },
+  emergencyHelp: { en: 'Get Emergency Help', hi: 'आपातकालीन सहायता प्राप्त करें' },
+  serving: { en: 'Serving Nagaur, Churu, Pratapgarh, Bikaner, Ganganagar', hi: 'नागौर, चूरू, प्रतापगढ़, बीकानेर, गंगानगर में सेवा' }
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)

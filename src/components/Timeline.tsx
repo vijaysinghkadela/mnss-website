@@ -3,6 +3,7 @@
 // avoid framer-motion for compatibility; use plain divs and emoji
 import Image from "next/image";
 import { Container } from "./ui/Container";
+import { Card } from "./ui/Card";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { timeline } from "@/lib/data";
 
@@ -27,40 +28,36 @@ export function Timeline() {
         </div>
 
         <div className="max-w-5xl mx-auto">
-          <ul className="space-y-8">
+          <ul className="relative space-y-8 before:absolute before:top-6 before:bottom-6 before:left-10 before:w-0.5 before:bg-gray-200">
             {timeline.map((item) => (
-              <li
-                key={item.year}
-                className="bg-white p-6 rounded-2xl shadow-md flex gap-6 items-start"
-              >
-                <div className="flex-shrink-0 w-20 text-center">
-                  <div className="text-sm text-gray-500">{item.year}</div>
-                  <div className="text-2xl mt-2">{item.icon}</div>
+              <li key={item.year} className="relative pl-16">
+                <div className="absolute left-4 top-6 w-12 h-12 rounded-full bg-white border border-gray-100 flex items-center justify-center shadow-sm">
+                  <div className="text-xl">{item.icon}</div>
                 </div>
 
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      {item.title}
-                    </h3>
-                    <div className="text-xs text-gray-500">
-                      {item.milestone}
+                <Card className="p-6 shadow-md">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <div className="text-sm text-gray-500">{item.year}</div>
+                      <h3 className="text-lg font-semibold text-gray-900 mt-1">
+                        {item.title}
+                      </h3>
+                      <div className="text-xs text-gray-500 mt-1">{item.milestone}</div>
+                      <p className="text-gray-600 mt-3">{item.description}</p>
                     </div>
+                    {item.image && (
+                      <div className="w-40 h-28 rounded-md overflow-hidden flex-shrink-0">
+                        <Image
+                          src={item.image}
+                          alt={`${item.title} image`}
+                          width={400}
+                          height={280}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
                   </div>
-                  <p className="text-gray-600 mt-2">{item.description}</p>
-
-                  {item.image && (
-                    <div className="mt-4 rounded-lg overflow-hidden">
-                      <Image
-                        src={item.image}
-                        alt={`${item.title} image`}
-                        width={900}
-                        height={480}
-                        className="w-full h-48 object-cover rounded-md"
-                      />
-                    </div>
-                  )}
-                </div>
+                </Card>
               </li>
             ))}
           </ul>

@@ -12,32 +12,24 @@ const statistics = [
     suffix: '+',
     label: 'Lives Transformed',
     description: 'Individuals directly impacted across all programs',
-    color: 'from-blue-500 to-cyan-500',
-    bgColor: 'bg-blue-50'
   },
   {
     number: 200,
     suffix: '+',
     label: 'Programs Completed',
     description: 'Successful training and empowerment initiatives',
-    color: 'from-emerald-500 to-teal-500',
-    bgColor: 'bg-emerald-50'
   },
   {
     number: 5,
     suffix: '+',
     label: 'Districts Served',
     description: 'Multi-district operations across Rajasthan',
-    color: 'from-purple-500 to-pink-500',
-    bgColor: 'bg-purple-50'
   },
   {
     number: 16,
     suffix: '',
     label: 'Years of Service',
     description: 'Continuous community transformation since 2009',
-    color: 'from-orange-500 to-red-500',
-    bgColor: 'bg-orange-50'
   }
 ]
 
@@ -61,7 +53,7 @@ export function Statistics() {
           </p>
           </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {statistics.map((stat, index) => (
             <StatisticCard
               key={stat.label}
@@ -119,7 +111,6 @@ function StatisticCard({ stat, index, isVisible }: StatisticCardProps) {
   const { count, startAnimation } = useCounter({
     end: stat.number,
     duration: 2500,
-    suffix: stat.suffix
   })
 
   React.useEffect(() => {
@@ -136,14 +127,13 @@ function StatisticCard({ stat, index, isVisible }: StatisticCardProps) {
     <div>
       <Card 
         hover 
-        className={`text-center p-8 relative overflow-hidden group ${stat.bgColor} border-0`}
-      >
+        className={`text-center p-8 relative overflow-hidden group border-0`}>
         {/* Background Gradient */}
-        <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-5 group-hover:opacity-10 transition-opacity duration-300`} />
+  <div className={`absolute inset-0 bg-gradient-to-br from-primary-500 to-primary-600 opacity-5 group-hover:opacity-10 transition-opacity duration-300`} />
         
         {/* Icon */}
         <div className="relative z-10 mb-6">
-            <div className={`w-16 h-16 bg-gradient-to-br ${stat.color} rounded-full flex items-center justify-center text-white mx-auto transform group-hover:scale-110 transition-all duration-300 shadow-lg`}>
+            <div className={`w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center text-white mx-auto transform group-hover:scale-110 transition-all duration-300 shadow-lg`}>
               <span className="text-2xl">{IconEmoji}</span>
             </div>
         </div>
@@ -151,7 +141,7 @@ function StatisticCard({ stat, index, isVisible }: StatisticCardProps) {
         {/* Content */}
         <div className="relative z-10">
           <div className="text-4xl font-bold text-gray-900 mb-2 group-hover:scale-105 transition-transform duration-300">
-            {count}
+            {count.toLocaleString()}{stat.suffix}
           </div>
           <h3 className="text-xl font-semibold text-gray-800 mb-3">
             {stat.label}

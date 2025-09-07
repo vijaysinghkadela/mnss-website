@@ -18,7 +18,7 @@ export const heroStats: HeroStat[] = [
     label: "Lives Transformed",
     suffix: "+",
     description: "Individuals directly impacted across 5+ districts",
-    icon: "👥",
+  icon: "users",
     color: "from-blue-500 to-cyan-500"
   },
   {
@@ -26,7 +26,7 @@ export const heroStats: HeroStat[] = [
     label: "Years of Service",
     suffix: "",
     description: "Continuous community transformation",
-    icon: "📅",
+  icon: "calendar",
     color: "from-emerald-500 to-teal-500"
   },
   {
@@ -34,7 +34,7 @@ export const heroStats: HeroStat[] = [
     label: "Programs Completed",
     suffix: "+",
     description: "Successful training and empowerment courses",
-    icon: "🎯",
+  icon: "target",
     color: "from-purple-500 to-pink-500"
   },
   {
@@ -42,7 +42,7 @@ export const heroStats: HeroStat[] = [
     label: "Districts Served",
     suffix: "+",
     description: "Multi-district operations across Rajasthan",
-    icon: "🗺️",
+  icon: "map",
     color: "from-orange-500 to-red-500"
   }
 ]
@@ -52,7 +52,7 @@ export const services: Service[] = [
     id: 1,
     title: "Women's Safety & Counseling",
     shortDesc: "Comprehensive safety network with professional counseling centers",
-    icon: "🛡️",
+  icon: "shield",
     bgGradient: "from-rose-500 to-pink-500",
     beneficiaries: "2000+",
     locations: "4 Centers",
@@ -64,7 +64,7 @@ export const services: Service[] = [
     id: 2,
     title: "Drug Rehabilitation & Mental Health",
     shortDesc: "Residential treatment centers with integrated therapy approaches",
-    icon: "❤️",
+  icon: "heart",
     bgGradient: "from-emerald-500 to-green-500",
     beneficiaries: "500+",
     locations: "2 Centers",
@@ -75,7 +75,7 @@ export const services: Service[] = [
     id: 3,
     title: "Government Partnership Programs",
     shortDesc: "Ministry-level collaborations for comprehensive development",
-    icon: "🤝",
+  icon: "handshake",
     bgGradient: "from-blue-500 to-indigo-500",
     beneficiaries: "1000+",
     locations: "5+ Ministries",
@@ -85,7 +85,7 @@ export const services: Service[] = [
     id: 4,
     title: "Multi-District Skill Development",
     shortDesc: "Comprehensive training across 5+ districts with job placement",
-    icon: "🎓",
+  icon: "graduation",
     bgGradient: "from-purple-500 to-pink-500",
     beneficiaries: "2000+",
     locations: "5+ Districts",
@@ -98,7 +98,7 @@ export const timeline: TimelineItem[] = [
     year: "2009",
     title: "Foundation & Vision",
   description: "Established in Nagaur with the mission to empower women and children through local outreach programs and community engagement.",
-    icon: "🌟",
+  icon: "star",
     milestone: "Organization Founded",
     impact: "Local community focus"
   ,
@@ -108,7 +108,7 @@ export const timeline: TimelineItem[] = [
     year: "2014-17",
     title: "Growth & Recognition",
   description: "Scaled training programs, gained formal government registration, and launched the first multi-district initiatives focused on skills and livelihoods.",
-    icon: "📚",
+  icon: "book",
     milestone: "Programs Launched",
     impact: "Government recognition"
   ,
@@ -118,7 +118,7 @@ export const timeline: TimelineItem[] = [
     year: "2022-23",
     title: "Craft Innovation",
   description: "Launched craft innovation and handicraft modernization programs in partnership with KVIC and the Ministry of Textiles, enabling artisan incomes and market access.",
-    icon: "🎨",
+  icon: "palette",
     milestone: "Craft Programs",
     impact: "Traditional skills modernized"
   ,
@@ -128,7 +128,7 @@ export const timeline: TimelineItem[] = [
     year: "2024-25",
     title: "Integrated Social Services",
   description: "Rolled out integrated women&apos;s safety centers, rehabilitation facilities, and emergency response systems across multiple districts.",
-    icon: "🏥",
+  icon: "hospital",
     milestone: "Specialized Centers",
     impact: "Comprehensive care network"
   ,
