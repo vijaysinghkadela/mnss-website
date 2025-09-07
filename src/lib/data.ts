@@ -102,7 +102,7 @@ export const timeline: TimelineItem[] = [
     milestone: "Organization Founded",
     impact: "Local community focus"
   ,
-  image: '/assets/timeline-2009.jpg'
+  image: '/assets/timeline-2009.svg'
   },
   {
     year: "2014-17",
@@ -112,7 +112,7 @@ export const timeline: TimelineItem[] = [
     milestone: "Programs Launched",
     impact: "Government recognition"
   ,
-  image: '/assets/timeline-2014-17.jpg'
+  image: '/assets/timeline-2014-17.svg'
   },
   {
     year: "2022-23",
@@ -122,7 +122,7 @@ export const timeline: TimelineItem[] = [
     milestone: "Craft Programs",
     impact: "Traditional skills modernized"
   ,
-  image: '/assets/timeline-2022-23.jpg'
+  image: '/assets/timeline-2022-23.svg'
   },
   {
     year: "2024-25",
@@ -132,7 +132,7 @@ export const timeline: TimelineItem[] = [
     milestone: "Specialized Centers",
     impact: "Comprehensive care network"
   ,
-  image: '/assets/timeline-2024-25.jpg'
+  image: '/assets/timeline-2024-25.svg'
   }
 ]
 

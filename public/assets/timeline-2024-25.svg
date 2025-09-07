@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600">
+  <rect width="1200" height="600" fill="#ECFEFF" />
+  <circle cx="150" cy="150" r="80" fill="#FB7185" />
+  <text x="150" y="165" font-size="36" text-anchor="middle" fill="#fff" font-family="sans-serif">2024-25</text>
+  <text x="340" y="160" font-size="28" fill="#0F172A" font-family="sans-serif">Integrated Social Services</text>
+</svg>

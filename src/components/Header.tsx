@@ -6,14 +6,15 @@ import Image from "next/image";
 // avoid framer-motion and lucide-react typing issues; use simple divs and emoji
 import { Container } from "./ui/Container";
 import { Button } from "./ui/Button";
+import { useLanguage } from '@/context/LanguageContext'
 import { scrollToElement } from "@/lib/utils";
 
 const navigation = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Services", href: "#services" },
-  { name: "Impact", href: "#impact" },
-  { name: "Contact", href: "#contact" },
+  { key: 'home', href: "#home" },
+  { key: 'about', href: "#about" },
+  { key: 'services', href: "#services" },
+  { key: 'impact', href: "#impact" },
+  { key: 'contact', href: "#contact" },
 ];
 
 export function Header() {
@@ -35,6 +36,8 @@ export function Header() {
     setIsMobileMenuOpen(false);
   };
 
+  const { lang, setLang, theme, toggleTheme, t } = useLanguage()
+
   return (
     <>
       <header
@@ -49,9 +52,9 @@ export function Header() {
             {/* Logo */}
             <div className="flex items-center space-x-3">
               <div className="w-12 h-12 rounded-lg overflow-hidden shadow-lg bg-white flex items-center justify-center">
-                {/* prefer a provided logo at /public/logo.png (place the PNG exported from your PDF) */}
+                {/* prefer a provided logo at /public/logo.svg (exported from your PDF) */}
                 <Image
-                  src="/logo.png"
+                  src="/logo.svg"
                   alt="MNSS logo"
                   width={48}
                   height={48}
@@ -73,11 +76,11 @@ export function Header() {
             <nav className="hidden lg:flex items-center space-x-8">
               {navigation.map((item) => (
                 <button
-                  key={item.name}
+                  key={item.key}
                   onClick={() => handleNavClick(item.href)}
                   className="text-gray-700 hover:text-primary-600 font-medium transition-colors duration-200 relative group"
                 >
-                  {item.name}
+                  {t(item.key)}
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full"></span>
                 </button>
               ))}
@@ -87,7 +90,7 @@ export function Header() {
             <div className="flex items-center space-x-4">
               <div className="hidden md:flex items-center space-x-2 text-sm">
                 <span className="text-lg">📞</span>
-                <span className="text-gray-700">Emergency: </span>
+                <span className="text-gray-700">{t('emergency')}: </span>
                 <Link
                   href="tel:9772062226"
                   className="text-accent-600 font-semibold hover:text-accent-700"
@@ -102,8 +105,33 @@ export function Header() {
                 onClick={() => handleNavClick("#contact")}
                 className="hidden md:inline-flex text-gray-900 bg-purple-400"
               >
-                Get Help
+                {t('getHelp')}
               </Button>
+
+              {/* Language selector */}
+              <div className="ml-2 flex items-center space-x-2">
+                <button
+                  onClick={() => setLang('en')}
+                  className={`px-3 py-2 rounded-md border ${lang === 'en' ? 'bg-gray-100 dark:bg-gray-800 font-semibold' : 'bg-transparent'}`}
+                >
+                  EN
+                </button>
+                <button
+                  onClick={() => setLang('hi')}
+                  className={`px-3 py-2 rounded-md border ${lang === 'hi' ? 'bg-gray-100 dark:bg-gray-800 font-semibold' : 'bg-transparent'}`}
+                >
+                  हिं
+                </button>
+              </div>
+
+              {/* Theme toggle */}
+              <button
+                onClick={toggleTheme}
+                className="ml-2 px-3 py-2 rounded-md border border-gray-200"
+                aria-label="Toggle theme"
+              >
+                {theme === 'dark' ? '🌙' : '☀️'}
+              </button>
 
               {/* Mobile menu button */}
               <button
@@ -128,17 +156,17 @@ export function Header() {
             <div className="px-4 py-6 space-y-4">
               {navigation.map((item) => (
                 <button
-                  key={item.name}
+                  key={item.key}
                   onClick={() => handleNavClick(item.href)}
                   className="block w-full text-left px-4 py-3 text-lg font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
                 >
-                  {item.name}
+                  {t(item.key)}
                 </button>
               ))}
               <div className="px-4 py-3 border-t border-gray-200">
                 <div className="flex items-center space-x-2 text-sm text-gray-600 mb-3">
                   <span className="text-base">📞</span>
-                  <span>Emergency: </span>
+                  <span>{t('emergency')}: </span>
                   <Link
                     href="tel:9772062226"
                     className="text-accent-600 font-semibold"
@@ -151,7 +179,7 @@ export function Header() {
                   className="w-full"
                   onClick={() => handleNavClick("#contact")}
                 >
-                  Get Help Now
+                  {t('getHelp')}
                 </Button>
               </div>
             </div>
