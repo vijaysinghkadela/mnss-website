@@ -42,12 +42,12 @@ export function Contact() {
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
-    if (!formData.name.trim()) newErrors.name = "Name is required";
-    if (!formData.email.trim()) newErrors.email = "Email is required";
+    if (!formData.name.trim()) newErrors.name = t('nameRequired');
+    if (!formData.email.trim()) newErrors.email = t('emailRequired');
     else if (!isValidEmail(formData.email))
-      newErrors.email = "Please enter a valid email";
-    if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
-    if (!formData.message.trim()) newErrors.message = "Message is required";
+      newErrors.email = t('validEmail');
+    if (!formData.phone.trim()) newErrors.phone = t('phoneRequired');
+    if (!formData.message.trim()) newErrors.message = t('messageRequired');
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

@@ -37,14 +37,7 @@ export function Hero() {
               </div>
 
               <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight">
-                Transforming{" "}
-                <span className=" bg-clip-text bg-gradient-to-r from-primary-600 text-gray-900 to-secondary-600">
-                  Lives
-                </span>
-                <br />
-                <span className="text-gray-900 bg-clip-text bg-gradient-to-r from-secondary-600 to-accent-600">
-                  Building
-                </span>{" "}
+                {t('siteTagline')}
                 Communities
               </h1>
 

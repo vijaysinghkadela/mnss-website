@@ -31,6 +31,8 @@ const translations: Record<string, { en: string; hi: string }> = {
   emergencyHelp: { en: 'Get Emergency Help', hi: 'आपातकालीन सहायता प्राप्त करें' },
   serving: { en: 'Serving Nagaur, Churu, Pratapgarh, Bikaner, Ganganagar', hi: 'नागौर, चूरू, प्रतापगढ़, बीकानेर, गंगानगर में सेवा' }
   ,
+    siteName: { en: 'Marut Narayan Sewa Sansthan', hi: 'मरुत नारायण सेवा संस्थान' },
+    siteTagline: { en: 'Transforming Communities Since 2009', hi: '2009 से समुदायों का परिवर्तन' },
   // Additional UI translations
   aboutParagraph: {
     en: "Marut Narayan Sewa Sansthan (MNSS) is a Rajasthan-based NGO established in 2009. We focus on women's safety, rehabilitation, skill development, and sustainable community programs spanning multiple districts. Our work combines grassroots outreach with government partnerships to create lasting impact.",
@@ -85,6 +87,29 @@ const translations: Record<string, { en: string; hi: string }> = {
   optionPartnership: { en: 'Partnership Inquiry', hi: 'साझेदारी पूछताछ' }
 }
 
+// placeholders and messages
+translations['fullNamePlaceholder'] = { en: 'Enter your full name', hi: 'अपना पूरा नाम दर्ज करें' }
+translations['emailPlaceholder'] = { en: 'Enter your email', hi: 'अपना ईमेल दर्ज करें' }
+translations['phonePlaceholder'] = { en: 'Enter your phone number', hi: 'अपना फ़ोन नंबर दर्ज करें' }
+translations['messagePlaceholder'] = { en: 'Please describe how we can help you...', hi: 'कृपया बताएं कि हम आपकी कैसे मदद कर सकते हैं...' }
+translations['messageSent'] = { en: 'Thank you! Your message has been sent successfully.', hi: 'धन्यवाद! आपका संदेश सफलतापूर्वक भेज दिया गया है।' }
+translations['address'] = { en: 'Address', hi: 'पता' }
+translations['emailAddressLabel'] = { en: 'Email', hi: 'ईमेल' }
+translations['officeHours'] = { en: 'Office Hours', hi: 'कार्यालय समय' }
+
+// validation messages
+translations['nameRequired'] = { en: 'Name is required', hi: 'नाम आवश्यक है' }
+translations['emailRequired'] = { en: 'Email is required', hi: 'ईमेल आवश्यक है' }
+translations['validEmail'] = { en: 'Please enter a valid email', hi: 'कृपया एक मान्य ईमेल दर्ज करें' }
+translations['phoneRequired'] = { en: 'Phone number is required', hi: 'फोन नंबर आवश्यक है' }
+translations['messageRequired'] = { en: 'Message is required', hi: 'संदेश आवश्यक है' }
+
+// Reports / documents
+translations['reports'] = { en: 'Reports', hi: 'रिपोर्ट' }
+translations['reportsTitle'] = { en: 'Progress & Annual Reports', hi: 'प्रगति और वार्षिक रिपोर्ट' }
+translations['downloadReport'] = { en: 'Download PDF', hi: 'पीडीएफ डाउनलोड करें' }
+translations['reportsDescription'] = { en: 'Download our progress and annual reports for program details, financials, and impact highlights.', hi: 'कार्यक्रम विवरण, वित्त और प्रभाव हाइलाइट के लिए हमारी प्रगति और वार्षिक रिपोर्ट डाउनलोड करें।' }
+
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
@@ -134,6 +159,15 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       }
     } catch {}
   }, [theme])
+
+  // update the document language attribute for accessibility & SEO
+  useEffect(() => {
+    try {
+      if (typeof document !== 'undefined') {
+        document.documentElement.lang = lang === 'hi' ? 'hi' : 'en'
+      }
+    } catch {}
+  }, [lang])
 
   function toggle() {
     setLangState((s) => (s === 'en' ? 'hi' : 'en'))

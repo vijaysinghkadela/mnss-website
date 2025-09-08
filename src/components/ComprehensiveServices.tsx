@@ -9,16 +9,37 @@ export default function ComprehensiveServices() {
 
   useEffect(() => {
     // if the hash is #comprehensive, open the section on arrival
-    if (typeof window !== 'undefined' && window.location.hash === '#comprehensive') {
-      setExpanded(true)
-      scrollToElement('comprehensive', 80)
+    if (typeof window !== 'undefined') {
+      if (window.location.hash === '#comprehensive') {
+        setExpanded(true)
+        scrollToElement('comprehensive', 80)
+      }
+
+      const onHash = () => {
+        if (window.location.hash === '#comprehensive') {
+          setExpanded(true)
+          scrollToElement('comprehensive', 80)
+        }
+      }
+
+      const onOpenEvent = () => {
+        setExpanded(true)
+        scrollToElement('comprehensive', 80)
+      }
+
+      window.addEventListener('hashchange', onHash)
+      window.addEventListener('openComprehensive', onOpenEvent as EventListener)
+      return () => {
+        window.removeEventListener('hashchange', onHash)
+        window.removeEventListener('openComprehensive', onOpenEvent as EventListener)
+      }
     }
   }, [])
 
   const handleOpen = () => {
-    setExpanded(true)
-    // scroll into view
-    scrollToElement('comprehensive', 80)
+  // set the hash so the URL is shareable and dispatch an event to open immediately
+  if (typeof window !== 'undefined') window.location.hash = '#comprehensive'
+  window.dispatchEvent(new Event('openComprehensive'))
   }
 
   return (

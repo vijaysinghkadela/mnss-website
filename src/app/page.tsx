@@ -7,6 +7,7 @@ import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { Statistics } from "@/components/Statistics";
 import { Timeline } from "@/components/Timeline";
+import { Reports } from "@/components/Reports";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 // ComprehensiveServices intentionally not included on the home page by default
@@ -89,7 +90,8 @@ export default function Home() {
   {/* <ComprehensiveServices /> */}
   <Services />
         <Statistics />
-        <Timeline />
+  <Timeline />
+  {/* <Reports /> */}
         <Contact />
       </main>
 

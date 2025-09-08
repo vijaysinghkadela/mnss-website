@@ -33,7 +33,14 @@ export function Services() {
         </div>
 
         <div className="mt-16 text-center">
-          <Button size="lg" className="group text-gray-900 bg-purple-300 ">
+          <Button
+            size="lg"
+            className="group text-gray-900 bg-purple-300 "
+            onClick={() => {
+              if (typeof window !== 'undefined') window.location.hash = '#comprehensive'
+              window.dispatchEvent(new Event('openComprehensive'))
+            }}
+          >
             {t('viewAllPrograms')}
             <span className="ml-2">➤</span>
           </Button>
