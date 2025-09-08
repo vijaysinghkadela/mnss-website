@@ -3,11 +3,13 @@
 import { Container } from "./ui/Container";
 import { Card, CardContent, CardFooter } from "./ui/Card";
 import { Button } from "./ui/Button";
+import { useLanguage } from "@/context/LanguageContext";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { services } from "@/lib/data";
 
 export function Services() {
   const { elementRef } = useScrollAnimation();
+  const { t } = useLanguage();
 
   return (
     <section
@@ -17,15 +19,10 @@ export function Services() {
       <Container>
         <div ref={elementRef} className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Comprehensive{" "}
-            <span className="text-gray-900 bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600">
-              Social Services
-            </span>
+            {t('servicesTitle')}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            From emergency crisis support to long-term empowerment programs, we
-            provide integrated services that address the full spectrum of
-            community needs.
+            {t('servicesDescription')}
           </p>
         </div>
 
@@ -37,7 +34,7 @@ export function Services() {
 
         <div className="mt-16 text-center">
           <Button size="lg" className="group text-gray-900 bg-purple-300 ">
-            View All Programs
+            {t('viewAllPrograms')}
             <span className="ml-2">➤</span>
           </Button>
         </div>
@@ -51,6 +48,7 @@ interface ServiceCardProps {
 }
 
 function ServiceCard({ service }: ServiceCardProps) {
+  const { t } = useLanguage();
   return (
     <div>
       <Card
@@ -72,13 +70,13 @@ function ServiceCard({ service }: ServiceCardProps) {
 
           <div className="space-y-2 mb-4">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-500">Beneficiaries:</span>
+              <span className="text-gray-500">{t('beneficiaries')}:</span>
               <span className="font-semibold text-primary-600">
                 {service.beneficiaries}
               </span>
             </div>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-500">Locations:</span>
+              <span className="text-gray-500">{t('locations')}:</span>
               <span className="font-semibold text-secondary-600">
                 {service.locations}
               </span>
@@ -116,13 +114,13 @@ function ServiceCard({ service }: ServiceCardProps) {
             </div>
           )}
 
-          <Button
-            variant="ghost"
-            size="sm"
-            className="w-full mt-3 group-hover:bg-primary-50 group-hover:text-primary-700"
-          >
-            Learn More
-          </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="w-full mt-3 group-hover:bg-primary-50 group-hover:text-primary-700"
+            >
+              {t('learnMore')}
+            </Button>
         </CardFooter>
       </Card>
     </div>

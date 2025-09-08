@@ -5,6 +5,7 @@ import { Container } from './ui/Container'
 import { Card } from './ui/Card'
 import { useCounter } from '@/hooks/useCounter'
 import { useScrollAnimation } from '@/hooks/useScrollAnimation'
+import { useLanguage } from '@/context/LanguageContext'
 
 const statistics = [
   {
@@ -35,21 +36,17 @@ const statistics = [
 
 export function Statistics() {
   const { elementRef, isVisible } = useScrollAnimation()
+  const { t } = useLanguage()
 
   return (
     <section className="py-24 bg-gradient-to-br from-primary-50 to-secondary-50">
       <Container>
   <div ref={elementRef} className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Our{' '}
-            <span className="text-gray-900 bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600">
-              Impact
-            </span>{' '}
-            in Numbers
+            {t('statisticsTitle')}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Measurable outcomes that reflect our commitment to community transformation 
-            and sustainable social development across Rajasthan.
+            {t('statisticsDescription')}
           </p>
           </div>
 

@@ -7,6 +7,7 @@ import { Card, CardContent } from "./ui/Card";
 import { Button } from "./ui/Button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { emergencyContacts } from "@/lib/data";
+import { useLanguage } from '@/context/LanguageContext'
 import { isValidEmail } from "@/lib/utils";
 
 interface FormData {
@@ -26,6 +27,7 @@ interface FormErrors {
 
 export function Contact() {
   const { elementRef, isVisible } = useScrollAnimation();
+  const { t } = useLanguage()
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -87,14 +89,10 @@ export function Contact() {
           }`}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Get in{" "}
-            <span className="text-gray-900 bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600">
-              Touch
-            </span>
+            {t('contactTitle')}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Reach out for emergency support, program information, or to learn
-            how you can contribute to community transformation across Rajasthan.
+            {t('contactDescription')}
           </p>
         </div>
 
@@ -103,7 +101,7 @@ export function Contact() {
             <Card className="p-8 bg-gradient-to-br from-white to-gray-50">
               <CardContent>
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                  Emergency Contacts
+                  {t('emergencyContactsTitle')}
                 </h3>
                 <div className="space-y-4">
                   {emergencyContacts.map((contact) => (
@@ -149,7 +147,7 @@ export function Contact() {
             <Card className="p-8">
               <CardContent>
                 <h3 className="text-xl font-bold text-gray-900 mb-6">
-                  Head Office
+                  {t('headOffice')}
                 </h3>
                 <div className="space-y-4">
                   <div className="flex items-start space-x-3">
@@ -160,7 +158,7 @@ export function Contact() {
                       📍
                     </span>
                     <div>
-                      <div className="font-medium text-gray-900">Address</div>
+                      <div className="font-medium text-gray-900">{t('address') || 'Address'}</div>
                       <div className="text-gray-600">
                         Rampole Choraya Station Road
                         <br />
@@ -177,7 +175,7 @@ export function Contact() {
                       ✉️
                     </span>
                     <div>
-                      <div className="font-medium text-gray-900">Email</div>
+                      <div className="font-medium text-gray-900">{t('emailAddressLabel') || 'Email'}</div>
                       <a
                         href="mailto:marutnarayan7181@gmail.com"
                         className="text-secondary-600 hover:text-secondary-700"
@@ -195,9 +193,7 @@ export function Contact() {
                       ⏰
                     </span>
                     <div>
-                      <div className="font-medium text-gray-900">
-                        Office Hours
-                      </div>
+                      <div className="font-medium text-gray-900">{t('officeHours') || 'Office Hours'}</div>
                       <div className="text-gray-600">
                         Monday - Saturday: 9 AM - 6 PM
                       </div>
@@ -212,7 +208,7 @@ export function Contact() {
             <Card className="p-8">
               <CardContent>
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                  Send us a Message
+                  {t('sendMessage')}
                 </h3>
 
                 {isSuccess && (
@@ -223,10 +219,7 @@ export function Contact() {
                     >
                       ✅
                     </span>
-                    <div className="text-green-700">
-                      Thank you! Your message has been sent successfully.
-                      We&apos;ll get back to you soon.
-                    </div>
+                    <div className="text-green-700">{t('messageSent') || 'Thank you! Your message has been sent successfully.'}</div>
                   </div>
                 )}
 
@@ -234,7 +227,7 @@ export function Contact() {
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Full Name *
+                        {t('fullName')}
                       </label>
                       <input
                         type="text"
@@ -246,7 +239,7 @@ export function Contact() {
                             ? "border-red-300 focus:ring-red-500"
                             : "border-gray-300 focus:ring-primary-500 focus:border-primary-500"
                         }`}
-                        placeholder="Enter your full name"
+                        placeholder={t('fullNamePlaceholder') || 'Enter your full name'}
                       />
                       {errors.name && (
                         <p className="mt-1 text-sm text-red-600 flex items-center">
@@ -260,7 +253,7 @@ export function Contact() {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Email Address *
+                        {t('emailAddress')}
                       </label>
                       <input
                         type="email"
@@ -272,7 +265,7 @@ export function Contact() {
                             ? "border-red-300 focus:ring-red-500"
                             : "border-gray-300 focus:ring-primary-500 focus:border-primary-500"
                         }`}
-                        placeholder="Enter your email"
+                        placeholder={t('emailPlaceholder') || 'Enter your email'}
                       />
                       {errors.email && (
                         <p className="mt-1 text-sm text-red-600 flex items-center">
@@ -288,7 +281,7 @@ export function Contact() {
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Phone Number *
+                        {t('phoneNumber')}
                       </label>
                       <input
                         type="tel"
@@ -300,7 +293,7 @@ export function Contact() {
                             ? "border-red-300 focus:ring-red-500"
                             : "border-gray-300 focus:ring-primary-500 focus:border-primary-500"
                         }`}
-                        placeholder="Enter your phone number"
+                        placeholder={t('phonePlaceholder') || 'Enter your phone number'}
                       />
                       {errors.phone && (
                         <p className="mt-1 text-sm text-red-600 flex items-center">
@@ -314,7 +307,7 @@ export function Contact() {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Service Needed
+                        {t('serviceNeeded')}
                       </label>
                       <select
                         name="service"
@@ -322,25 +315,21 @@ export function Contact() {
                         onChange={handleChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                       >
-                        <option value="">Select a service</option>
-                        <option value="emergency">Emergency Support</option>
-                        <option value="womens-safety">
-                          Women&apos;s Safety
-                        </option>
-                        <option value="rehabilitation">Rehabilitation</option>
-                        <option value="skill-development">
-                          Skill Development
-                        </option>
-                        <option value="information">General Information</option>
-                        <option value="partnership">Partnership Inquiry</option>
+                        <option value="">{t('selectService')}</option>
+                        <option value="emergency">{t('optionEmergency')}</option>
+                        <option value="womens-safety">{t('optionWomensSafety')}</option>
+                        <option value="rehabilitation">{t('optionRehabilitation')}</option>
+                        <option value="skill-development">{t('optionSkillDev')}</option>
+                        <option value="information">{t('optionInformation')}</option>
+                        <option value="partnership">{t('optionPartnership')}</option>
                       </select>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Message *
-                    </label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      {t('messageLabel')}
+                      </label>
                     <textarea
                       name="message"
                       value={formData.message}
@@ -351,7 +340,7 @@ export function Contact() {
                           ? "border-red-300 focus:ring-red-500"
                           : "border-gray-300 focus:ring-primary-500 focus:border-primary-500"
                       }`}
-                      placeholder="Please describe how we can help you..."
+                      placeholder={t('messagePlaceholder') || 'Please describe how we can help you...'}
                     />
                     {errors.message && (
                       <p className="mt-1 text-sm text-red-600 flex items-center">
@@ -369,14 +358,14 @@ export function Contact() {
                     disabled={isSubmitting}
                     className="w-full group text-gray-900 bg-purple-400"
                   >
-                    {isSubmitting ? (
+          {isSubmitting ? (
                       <div className="flex items-center">
                         <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2 text-gray-900" />
-                        Sending Message...
+            {t('sendingMessage')}
                       </div>
                     ) : (
                       <>
-                        Send Message
+            {t('sendMessage')}
                         <span
                           className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform text-lg"
                           aria-hidden

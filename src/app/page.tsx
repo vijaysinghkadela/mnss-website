@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react";
+import Image from 'next/image'
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
@@ -26,28 +27,13 @@ export default function Home() {
 
             <div className="grid md:grid-cols-2 gap-8 items-start">
               <div>
-                <p className="text-gray-700 mb-4">
-                  Marut Narayan Sewa Sansthan (MNSS) is a Rajasthan-based NGO
-                  established in 2009. We focus on women&apos;s safety,
-                  rehabilitation, skill development, and sustainable community
-                  programs spanning multiple districts. Our work combines
-                  grassroots outreach with government partnerships to create
-                  lasting impact.
-                </p>
+                <p className="text-gray-700 mb-4">{t('aboutParagraph')}</p>
 
                 <h3 className="text-lg font-semibold mt-4">{t('mission')}</h3>
-                <p className="text-gray-600">
-                  To create a comprehensive social safety net for vulnerable
-                  populations through empowerment, rehabilitation, and
-                  livelihood programs that restore dignity and create economic
-                  opportunity.
-                </p>
+                <p className="text-gray-600">{t('missionText')}</p>
 
                 <h3 className="text-lg font-semibold mt-4">{t('vision')}</h3>
-                <p className="text-gray-600">
-                  A Rajasthan where every woman and family has access to safety,
-                  skills, and sustainable livelihoods.
-                </p>
+                <p className="text-gray-600">{t('visionText')}</p>
 
                 <div className="mt-6 flex gap-3">
                   <a href="#services" className="inline-flex items-center px-5 py-3 bg-primary-600 text-gray-900  rounded-lg shadow hover:opacity-95 bg-purple-400">{t('exploreServices')}</a>
@@ -56,46 +42,43 @@ export default function Home() {
               </div>
 
               <div>
-                <h4 className="text-sm font-semibold text-gray-700 uppercase mb-3">
-                  Core Programs
-                </h4>
+                {/* Responsive image placeholder - replace /mnss-hero.jpg with the image you provide in /public */}
+                <div className="relative w-full h-56 md:h-80 rounded-lg overflow-hidden shadow-sm mb-6">
+                  <Image
+                    src="/mnss-hero.jpg"
+                    alt="MNSS community outreach"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+
+                <h4 className="text-sm font-semibold text-gray-700 uppercase mb-3">{t('corePrograms')}</h4>
                 <ul className="space-y-2 text-gray-600 mb-4">
-                  <li>• Women&apos;s Safety & Crisis Counseling (24/7)</li>
-                  <li>• Residential Drug Rehabilitation & Mental Health</li>
-                  <li>• Multi-district Skill Development & Job Placement</li>
-                  <li>
-                    • Government Partnership Programs (KVIC, NABARD, Ministry of
-                    Textiles)
-                  </li>
+                  <li>• {t('coreProgram1')}</li>
+                  <li>• {t('coreProgram2')}</li>
+                  <li>• {t('coreProgram3')}</li>
+                  <li>• {t('coreProgram4')}</li>
                 </ul>
 
-                <h4 className="text-sm font-semibold text-gray-700 uppercase mb-3">
-                  Impact Highlights
-                </h4>
+                <h4 className="text-sm font-semibold text-gray-700 uppercase mb-3">{t('impactHighlights')}</h4>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-white p-4 rounded-lg shadow-sm text-center">
                     <div className="text-2xl font-bold">10,000+</div>
-                    <div className="text-sm text-gray-500">
-                      Lives positively impacted
-                    </div>
+                    <div className="text-sm text-gray-500">{t('livesPositivelyImpacted')}</div>
                   </div>
                   <div className="bg-white p-4 rounded-lg shadow-sm text-center">
                     <div className="text-2xl font-bold">5+</div>
-                    <div className="text-sm text-gray-500">
-                      Districts served
-                    </div>
+                    <div className="text-sm text-gray-500">{t('districtsServed')}</div>
                   </div>
                   <div className="bg-white p-4 rounded-lg shadow-sm text-center">
                     <div className="text-2xl font-bold">200+</div>
-                    <div className="text-sm text-gray-500">
-                      Programs & trainings
-                    </div>
+                    <div className="text-sm text-gray-500">{t('programsTrainings')}</div>
                   </div>
                   <div className="bg-white p-4 rounded-lg shadow-sm text-center">
                     <div className="text-2xl font-bold">16</div>
-                    <div className="text-sm text-gray-500">
-                      Years of service
-                    </div>
+                    <div className="text-sm text-gray-500">{t('yearsOfServiceLabel')}</div>
                   </div>
                 </div>
               </div>

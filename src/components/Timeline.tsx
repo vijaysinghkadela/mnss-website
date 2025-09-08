@@ -6,24 +6,21 @@ import { Container } from "./ui/Container";
 import { Card } from "./ui/Card";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { timeline } from "@/lib/data";
+import { useLanguage } from '@/context/LanguageContext'
 
 export function Timeline() {
   const { elementRef } = useScrollAnimation();
+  const { t } = useLanguage()
 
   return (
     <section className="py-24 bg-gradient-to-br from-slate-50 to-gray-100">
       <Container>
         <div ref={elementRef} className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Our{" "}
-            <span className="text-gray-900 bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600">
-              Journey
-            </span>{" "}
-            of Impact
+            {t('timelineTitle')}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            From a local initiative to a multi-district social service
-            organization with government partnerships and specialized programs.
+            {t('timelineDescription')}
           </p>
         </div>
 
