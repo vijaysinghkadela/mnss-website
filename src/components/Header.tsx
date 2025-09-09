@@ -1,30 +1,52 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import Image from "next/image";
 // avoid framer-motion and lucide-react typing issues; use simple divs and emoji
 import { Container } from "./ui/Container";
 import { Button } from "./ui/Button";
-import { useLanguage } from '@/context/LanguageContext'
+import { useLanguage } from "@/context/LanguageContext";
 import { scrollToElement } from "@/lib/utils";
 
 const navigation = [
-  { key: 'home', href: "#home" },
-  { key: 'about', href: "#about" },
-  { key: 'services', href: "#services" },
-  { key: 'impact', href: "#impact" },
-  { key: 'reports', href: "#reports" },
-  { key: 'contact', href: "#contact" },
+  { key: "home", href: "#home" },
+  { key: "about", href: "#about" },
+  { key: "services", href: "#services" },
+  { key: "impact", href: "#impact" },
+  { key: "reports", href: "#reports" },
+  { key: "contact", href: "#contact" },
 ];
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("home");
+  const [scrollProgress, setScrollProgress] = useState<number>(0);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
+
+      // scroll progress
+      const doc = document.documentElement;
+      const scrollTop = window.scrollY || doc.scrollTop;
+      const scrollHeight = doc.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+      setScrollProgress(progress);
+
+      // active section detection
+      let current: string = "home";
+      for (const item of navigation) {
+        const id = item.href.replace('#', '');
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= 100 && rect.bottom >= 100) {
+          current = id;
+          break;
+        }
+      }
+      setActiveSection(current);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -37,25 +59,29 @@ export function Header() {
     setIsMobileMenuOpen(false);
   };
 
-  const { lang, setLang, theme, toggleTheme, t } = useLanguage()
+  const { lang, setLang, t } = useLanguage();
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? "bg-white/90 dark:bg-slate-900/80 backdrop-blur-md shadow-lg border-b border-gray-200 dark:border-gray-700"
+            ? "bg-white/95 backdrop-blur-xl shadow-xl border-b border-slate-200/50"
             : "bg-transparent"
         }`}
       >
+        {/* Scroll progress bar */}
+        <div
+          className="h-0.5 bg-gradient-to-r from-blue-600 via-amber-500 to-purple-600"
+          style={{ width: `${scrollProgress}%` }}
+        />
         <Container>
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-12">
             {/* Logo */}
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-lg overflow-hidden shadow-lg bg-white dark:bg-slate-800 flex items-center justify-center">
-                {/* prefer a provided logo at /public/logo.svg (exported from your PDF) */}
+              <div className="w-12 h-12 rounded-lg overflow-hidden shadow-md bg-white flex items-center justify-center border border-gray-200">
                 <Image
-                  src="/logo.svg"
+                  src="/Logo MNSS.jpg"
                   alt="MNSS logo"
                   width={48}
                   height={48}
@@ -64,69 +90,53 @@ export function Header() {
                 />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
-                  {t('siteName')}
+                <h1 className="text-xs font-bold text-slate-900 leading-tight">
+                  {t("siteName")}
                 </h1>
-                <p className="text-sm text-gray-600 dark:text-gray-300">
-                  {t('siteTagline')}
+                <p className=" text-slate-600 leading-tight">
+                  {t("siteTagline")}
                 </p>
               </div>
             </div>
 
             {/* Desktop Navigation */}
-    <nav className="hidden lg:flex items-center space-x-8">
+            <nav className="hidden lg:flex items-center space-x-8 text-sm ">
               {navigation.map((item) => (
                 <button
                   key={item.key}
                   onClick={() => handleNavClick(item.href)}
-      className="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors duration-200 relative group cursor-pointer"
+                  className={`font-medium transition-all duration-300 relative group cursor-pointer px-3 py-2 rounded-lg hover:bg-blue-50/50 ${
+                    activeSection === item.href.replace('#','')
+                      ? 'text-blue-700'
+                      : 'text-slate-700 hover:text-blue-600'
+                  }`}
                 >
                   {t(item.key)}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full"></span>
+                  <span className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 bg-gradient-to-r from-blue-600 to-amber-500 transition-all duration-300 rounded-full ${
+                    activeSection === item.href.replace('#','') ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`}></span>
                 </button>
               ))}
             </nav>
 
-            {/* Emergency Contact & Mobile Menu */}
-            <div className="flex items-center space-x-4">
-              <div className="hidden md:flex items-center space-x-2 text-sm">
-                <span className="text-lg">📞</span>
-                <span className="text-gray-700 dark:text-gray-300">{t('emergency')}: </span>
-                <Link
-                  href="tel:9772062226"
-                  className="text-accent-600 font-semibold hover:text-accent-700 cursor-pointer"
-                >
-                  9772062226
-                </Link>
-              </div>
-
+            {/* Mobile Menu */}
+            <div className="flex items-center space-x-4 md:space-x-8">
               <Button
                 variant="primary"
                 size="sm"
                 onClick={() => handleNavClick("#contact")}
-                className="hidden md:inline-flex text-gray-900 bg-purple-400"
+                className="hidden md:inline-flex text-sm"
               >
-                {t('getHelp')}
+                {t("Help")}
               </Button>
 
-              {/* Single Language toggle */}
-        <div className="ml-2">
-                <button
-                  onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
-          className="px-3 py-2 rounded-md border bg-transparent hover:bg-gray-100 dark:hover:bg-slate-700 font-medium text-gray-700 dark:text-gray-200"
-                  aria-label="Toggle language"
-                >
-                  {lang === 'en' ? 'EN' : 'हिं'}
-                </button>
-              </div>
-
-              {/* Theme toggle */}
+              {/* Language toggle */}
               <button
-                onClick={toggleTheme}
-                className="ml-2 px-3 py-2 rounded-md border border-gray-200 bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-200"
-                aria-label="Toggle theme"
+                onClick={() => setLang(lang === "en" ? "hi" : "en")}
+                className="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 font-medium text-slate-700 transition-all duration-300 text-sm"
+                aria-label="Toggle language"
               >
-                {theme === 'dark' ? '🌙' : '☀️'}
+                {lang === "en" ? "EN" : "हिं"}
               </button>
 
               {/* Mobile menu button */}
@@ -148,34 +158,28 @@ export function Header() {
             className="absolute inset-0 bg-black/50"
             onClick={() => setIsMobileMenuOpen(false)}
           />
-          <div className="absolute top-20 left-0 right-0 bg-white dark:bg-slate-900 shadow-xl border-t border-gray-200 dark:border-gray-700">
+          <div className="absolute top-20 left-0 right-0 bg-white dark:bg-slate-900 shadow-xl border-t border-gray-200 dark:border-gray-700 animate-fade-in-up">
             <div className="px-4 py-6 space-y-4">
               {navigation.map((item) => (
                 <button
                   key={item.key}
                   onClick={() => handleNavClick(item.href)}
-                  className="block w-full text-left px-4 py-3 text-lg font-medium text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                  className={`block w-full text-left px-4 py-3 text-lg font-medium rounded-lg transition-colors ${
+                    activeSection === item.href.replace('#','')
+                      ? 'text-blue-700 bg-blue-50'
+                      : 'text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-slate-800'
+                  }`}
                 >
                   {t(item.key)}
                 </button>
               ))}
               <div className="px-4 py-3 border-t border-gray-200">
-        <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300 mb-3">
-                  <span className="text-base">📞</span>
-                  <span>{t('emergency')}: </span>
-                  <Link
-                    href="tel:9772062226"
-          className="text-accent-600 font-semibold"
-                  >
-                    9772062226
-                  </Link>
-                </div>
                 <Button
                   variant="primary"
                   className="w-full"
                   onClick={() => handleNavClick("#contact")}
                 >
-                  {t('getHelp')}
+                  {t("getHelp")}
                 </Button>
               </div>
             </div>

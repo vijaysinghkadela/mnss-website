@@ -79,28 +79,39 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="py-24 bg-gradient-to-br from-primary-50 to-secondary-50"
+      className="py-24 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden"
     >
-      <Container>
+      {/* Background Pattern */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(59,130,246,0.1)_1px,transparent_0)] bg-[length:40px_40px]"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
+      </div>
+
+      <Container className="relative z-10">
         <div
           ref={elementRef}
           className={`text-center mb-16 transition-all duration-500 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600/20 to-amber-500/20 backdrop-blur-sm border border-blue-500/30 text-blue-300 rounded-full text-sm font-medium mb-6">
+            <span className="mr-2">📞</span>
+            Get in Touch
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             {t('contactTitle')}
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
             {t('contactDescription')}
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
           <div className="space-y-8">
-            <Card className="p-8 bg-gradient-to-br from-white to-gray-50">
+            <Card className="p-8 bg-white/10 backdrop-blur-sm border border-white/20">
               <CardContent>
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+                  <span className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white text-sm mr-3">🚨</span>
                   {t('emergencyContactsTitle')}
                 </h3>
                 <div className="space-y-4">
@@ -108,34 +119,32 @@ export function Contact() {
                     <a
                       key={contact.service}
                       href={`tel:${contact.number}`}
-                      className="flex items-center justify-between p-4 bg-white rounded-xl hover:shadow-md transition-all duration-300 group border border-gray-100"
+                      className="flex items-center justify-between p-4 bg-white/10 backdrop-blur-sm rounded-xl hover:bg-white/20 transition-all duration-300 group border border-white/20"
                     >
-                      <div className="flex items-center space-x-3">
+                      <div className="flex items-center space-x-4">
                         <div
-                          className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                          className={`w-12 h-12 rounded-xl flex items-center justify-center ${
                             contact.type === "crisis"
-                              ? "bg-accent-100 text-accent-600"
+                              ? "bg-red-500/20 text-red-400"
                               : contact.type === "emergency"
-                              ? "bg-red-100 text-red-600"
+                              ? "bg-orange-500/20 text-orange-400"
                               : contact.type === "rehabilitation"
-                              ? "bg-emerald-100 text-emerald-600"
-                              : "bg-primary-100 text-primary-600"
+                              ? "bg-emerald-500/20 text-emerald-400"
+                              : "bg-blue-500/20 text-blue-400"
                           }`}
                         >
-                          <span className="w-5 h-5 text-lg" aria-hidden>
-                            📞
-                          </span>
+                          <span className="text-xl">📞</span>
                         </div>
                         <div>
-                          <div className="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">
+                          <div className="font-semibold text-white group-hover:text-blue-300 transition-colors">
                             {contact.service}
                           </div>
-                          <div className="text-sm text-gray-600">
+                          <div className="text-sm text-slate-300">
                             {contact.available}
                           </div>
                         </div>
                       </div>
-                      <div className="text-lg font-bold text-gray-900 group-hover:text-primary-600 transition-colors">
+                      <div className="text-lg font-bold text-white group-hover:text-blue-300 transition-colors">
                         {contact.number}
                       </div>
                     </a>
@@ -144,59 +153,32 @@ export function Contact() {
               </CardContent>
             </Card>
 
-            <Card className="p-8">
+            <Card className="p-8 bg-white/10 backdrop-blur-sm border border-white/20">
               <CardContent>
-                <h3 className="text-xl font-bold text-gray-900 mb-6">
+                <h3 className="text-xl font-bold text-white mb-6 flex items-center">
+                  <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm mr-3">📍</span>
                   {t('headOffice')}
                 </h3>
-                <div className="space-y-4">
+                <div className="space-y-4 text-slate-300">
                   <div className="flex items-start space-x-3">
-                    <span
-                      className="w-5 h-5 text-primary-500 mt-1 flex-shrink-0 text-lg"
-                      aria-hidden
-                    >
-                      📍
-                    </span>
+                    <span className="text-lg">📍</span>
                     <div>
-                      <div className="font-medium text-gray-900">{t('address') || 'Address'}</div>
-                      <div className="text-gray-600">
-                        Rampole Choraya Station Road
-                        <br />
-                        Nagaur 341001, Rajasthan
-                      </div>
+                      <p className="font-medium text-white">Address</p>
+                      <p className="text-sm">Rajasthan, India</p>
                     </div>
                   </div>
-
                   <div className="flex items-start space-x-3">
-                    <span
-                      className="w-5 h-5 text-secondary-500 mt-1 flex-shrink-0 text-lg"
-                      aria-hidden
-                    >
-                      ✉️
-                    </span>
+                    <span className="text-lg">📧</span>
                     <div>
-                      <div className="font-medium text-gray-900">{t('emailAddressLabel') || 'Email'}</div>
-                      <a
-                        href="mailto:marutnarayan7181@gmail.com"
-                        className="text-secondary-600 hover:text-secondary-700"
-                      >
-                        marutnarayan7181@gmail.com
-                      </a>
+                      <p className="font-medium text-white">Email</p>
+                      <p className="text-sm">marutnarayan7181@gmail.com</p>
                     </div>
                   </div>
-
                   <div className="flex items-start space-x-3">
-                    <span
-                      className="w-5 h-5 text-accent-500 mt-1 flex-shrink-0 text-lg"
-                      aria-hidden
-                    >
-                      ⏰
-                    </span>
+                    <span className="text-lg">⏰</span>
                     <div>
-                      <div className="font-medium text-gray-900">{t('officeHours') || 'Office Hours'}</div>
-                      <div className="text-gray-600">
-                        Monday - Saturday: 9 AM - 6 PM
-                      </div>
+                      <p className="font-medium text-white">{t('officeHours')}</p>
+                      <p className="text-sm">24/7 Emergency Support</p>
                     </div>
                   </div>
                 </div>
@@ -204,181 +186,120 @@ export function Contact() {
             </Card>
           </div>
 
-          <div>
-            <Card className="p-8">
-              <CardContent>
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                  {t('sendMessage')}
-                </h3>
+          <Card className="p-8 bg-white/10 backdrop-blur-sm border border-white/20">
+            <CardContent>
+              <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+                <span className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm mr-3">✉️</span>
+                Send us a Message
+              </h3>
+              
+              {isSuccess && (
+                <div className="mb-6 p-4 bg-green-500/20 border border-green-500/30 rounded-xl text-green-300 text-center">
+                  {t('messageSent')}
+                </div>
+              )}
 
-                {isSuccess && (
-                  <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center space-x-3">
-                    <span
-                      className="w-5 h-5 text-green-600 text-lg"
-                      aria-hidden
-                    >
-                      ✅
-                    </span>
-                    <div className="text-green-700">{t('messageSent') || 'Thank you! Your message has been sent successfully.'}</div>
-                  </div>
-                )}
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        {t('fullName')}
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
-                          errors.name
-                            ? "border-red-300 focus:ring-red-500"
-                            : "border-gray-300 focus:ring-primary-500 focus:border-primary-500"
-                        }`}
-                        placeholder={t('fullNamePlaceholder') || 'Enter your full name'}
-                      />
-                      {errors.name && (
-                        <p className="mt-1 text-sm text-red-600 flex items-center">
-                          <span className="w-4 h-4 mr-1 text-base" aria-hidden>
-                            ⚠️
-                          </span>
-                          {errors.name}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        {t('emailAddress')}
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
-                          errors.email
-                            ? "border-red-300 focus:ring-red-500"
-                            : "border-gray-300 focus:ring-primary-500 focus:border-primary-500"
-                        }`}
-                        placeholder={t('emailPlaceholder') || 'Enter your email'}
-                      />
-                      {errors.email && (
-                        <p className="mt-1 text-sm text-red-600 flex items-center">
-                          <span className="w-4 h-4 mr-1 text-base" aria-hidden>
-                            ⚠️
-                          </span>
-                          {errors.email}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        {t('phoneNumber')}
-                      </label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
-                          errors.phone
-                            ? "border-red-300 focus:ring-red-500"
-                            : "border-gray-300 focus:ring-primary-500 focus:border-primary-500"
-                        }`}
-                        placeholder={t('phonePlaceholder') || 'Enter your phone number'}
-                      />
-                      {errors.phone && (
-                        <p className="mt-1 text-sm text-red-600 flex items-center">
-                          <span className="w-4 h-4 mr-1 text-base" aria-hidden>
-                            ⚠️
-                          </span>
-                          {errors.phone}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        {t('serviceNeeded')}
-                      </label>
-                      <select
-                        name="service"
-                        value={formData.service}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                      >
-                        <option value="">{t('selectService')}</option>
-                        <option value="emergency">{t('optionEmergency')}</option>
-                        <option value="womens-safety">{t('optionWomensSafety')}</option>
-                        <option value="rehabilitation">{t('optionRehabilitation')}</option>
-                        <option value="skill-development">{t('optionSkillDev')}</option>
-                        <option value="information">{t('optionInformation')}</option>
-                        <option value="partnership">{t('optionPartnership')}</option>
-                      </select>
-                    </div>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-2">
+                      {t('fullName')} *
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                      placeholder={t('fullNamePlaceholder')}
+                    />
+                    {errors.name && (
+                      <p className="mt-1 text-sm text-red-400">{errors.name}</p>
+                    )}
                   </div>
 
                   <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {t('messageLabel')}
-                      </label>
-                    <textarea
-                      name="message"
-                      value={formData.message}
+                    <label className="block text-sm font-medium text-white mb-2">
+                      {t('emailAddress')} *
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
                       onChange={handleChange}
-                      rows={4}
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all resize-none ${
-                        errors.message
-                          ? "border-red-300 focus:ring-red-500"
-                          : "border-gray-300 focus:ring-primary-500 focus:border-primary-500"
-                      }`}
-                      placeholder={t('messagePlaceholder') || 'Please describe how we can help you...'}
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                      placeholder={t('emailPlaceholder')}
                     />
-                    {errors.message && (
-                      <p className="mt-1 text-sm text-red-600 flex items-center">
-                        <span className="w-4 h-4 mr-1 text-base" aria-hidden>
-                          ⚠️
-                        </span>
-                        {errors.message}
-                      </p>
+                    {errors.email && (
+                      <p className="mt-1 text-sm text-red-400">{errors.email}</p>
                     )}
                   </div>
+                </div>
 
-                  <Button
-                    type="submit"
-                    size="lg"
-                    disabled={isSubmitting}
-                    className="w-full group text-gray-900 bg-purple-400"
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    {t('phoneNumber')} *
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                    placeholder={t('phonePlaceholder')}
+                  />
+                  {errors.phone && (
+                    <p className="mt-1 text-sm text-red-400">{errors.phone}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    {t('serviceNeeded')}
+                  </label>
+                  <select
+                    name="service"
+                    value={formData.service}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                   >
-          {isSubmitting ? (
-                      <div className="flex items-center">
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2 text-gray-900" />
-            {t('sendingMessage')}
-                      </div>
-                    ) : (
-                      <>
-            {t('sendMessage')}
-                        <span
-                          className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform text-lg"
-                          aria-hidden
-                        >
-                          ➤
-                        </span>
-                      </>
-                    )}
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
+                    <option value="">{t('selectService')}</option>
+                    <option value="emergency">{t('optionEmergency')}</option>
+                    <option value="womens-safety">{t('optionWomensSafety')}</option>
+                    <option value="rehabilitation">{t('optionRehabilitation')}</option>
+                    <option value="skill-development">{t('optionSkillDev')}</option>
+                    <option value="information">{t('optionInformation')}</option>
+                    <option value="partnership">{t('optionPartnership')}</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    {t('messageLabel')} *
+                  </label>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows={4}
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-none"
+                    placeholder={t('messagePlaceholder')}
+                  />
+                  {errors.message && (
+                    <p className="mt-1 text-sm text-red-400">{errors.message}</p>
+                  )}
+                </div>
+
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white border-0 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 py-4 text-lg font-semibold"
+                >
+                  {isSubmitting ? t('sendingMessage') : t('sendMessage')}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </Container>
     </section>
