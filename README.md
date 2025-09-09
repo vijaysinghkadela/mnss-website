@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## MNSS Website (NGO)
+
+A modern, fast, and responsive website for the MNSS NGO built with Next.js 15 (App Router), React 19, and Tailwind CSS 4. It showcases programs, impact statistics, timelines, reports, and contact information with multilingual support.
+
+### Tech Stack
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **UI**: React 19, Tailwind CSS 4
+- **Animations**: Framer Motion
+- **Icons**: lucide-react
+
+### Key Features
+- **Hero, Programs, Services, Statistics, Timeline, Reports, Contact** sections
+- **Progress gallery** with curated images
+- **Language context** for future i18n support
+- **Accessible, responsive layout** with reusable UI primitives
+
+---
+
+## Project Structure
+
+```
+src/
+  app/                # App Router pages (home, about, programs, contact)
+  components/         # UI sections and reusable components
+    ui/               # Button, Card, Container primitives
+  context/            # Language context provider
+  data/               # Static data (constants, progress)
+  hooks/              # Custom hooks (counter, scroll animations)
+  lib/                # Utilities and data helpers
+  types/              # Type declarations
+public/               # Static assets (images, icons, timelines)
+```
+
+Notable files:
+- `src/app/page.tsx` – Home page composition
+- `src/components/*` – Feature sections (e.g., `Hero`, `Timeline`, `Statistics`)
+- `src/context/LanguageContext.tsx` – Language state
+- `public/assets/*` – Timeline SVGs and other assets
+
+---
 
 ## Getting Started
 
-First, run the development server:
-
+1) Install dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2) Run the development server
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3) Open the app
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Build and run production locally:
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+Lint:
+```bash
+npm run lint
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Scripts (package.json)
+- `dev`: next dev --turbopack
+- `build`: next build --turbopack
+- `start`: next start
+- `lint`: eslint
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Assets & Images
+- Place images in `public/` (served from the site root).
+- See `PUBLIC_ASSETS.md` and `PUBLIC_IMAGE_INSTRUCTIONS.md` for conventions.
+- Timeline SVGs live in `public/assets/` and are used by `Timeline.tsx`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+- Optimized for deployment on Vercel.
+- After pushing to GitHub, connect the repo on Vercel and deploy.
+- Alternatively, use any Node.js host that supports Next.js 15.
+
+---
+
+## Contributing
+1. Create a feature branch from `new`.
+2. Make changes and ensure `npm run lint` passes.
+3. Submit a PR.
+
+---
+
+## License
+Specify a license if applicable (e.g., MIT). If omitted, all rights reserved.
