@@ -1,22 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import Image from "next/image";
 // avoid framer-motion and lucide-react typing issues; use simple divs and emoji
 import { Container } from "./ui/Container";
 import { Button } from "./ui/Button";
-import { useLanguage } from '@/context/LanguageContext'
+import { useLanguage } from "@/context/LanguageContext";
 import { scrollToElement } from "@/lib/utils";
-import logo from "@/public/Logo MNSS.jpg";
 
 const navigation = [
-  { key: 'home', href: "#home" },
-  { key: 'about', href: "#about" },
-  { key: 'services', href: "#services" },
-  { key: 'impact', href: "#impact" },
-  { key: 'reports', href: "#reports" },
-  { key: 'contact', href: "#contact" },
+  { key: "home", href: "#home" },
+  { key: "about", href: "#about" },
+  { key: "services", href: "#services" },
+  { key: "impact", href: "#impact" },
+  { key: "reports", href: "#reports" },
+  { key: "contact", href: "#contact" },
 ];
 
 export function Header() {
@@ -38,7 +36,7 @@ export function Header() {
     setIsMobileMenuOpen(false);
   };
 
-  const { lang, setLang, theme, toggleTheme, t } = useLanguage()
+  const { lang, setLang, t } = useLanguage();
 
   return (
     <>
@@ -50,31 +48,31 @@ export function Header() {
         }`}
       >
         <Container>
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-12">
             {/* Logo */}
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-lg overflow-hidden shadow-md bg-white flex items-center justify-center border border-gray-200">
+              <div className="w-12 h-12 rounded-lg overflow-hidden shadow-md bg-white flex items-center justify-center border border-gray-200">
                 <Image
                   src="/Logo MNSS.jpg"
                   alt="MNSS logo"
-                  width={40}
-                  height={40}
-                  className="object-cover"
+                  width={48}
+                  height={48}
+                  className="object-contain"
                   priority
                 />
               </div>
               <div>
-                <h1 className="text-base font-bold text-slate-900 leading-tight">
-                  {t('siteName')}
+                <h1 className="text-xs font-bold text-slate-900 leading-tight">
+                  {t("siteName")}
                 </h1>
-                <p className="text-xs text-slate-600 leading-tight">
-                  {t('siteTagline')}
+                <p className=" text-slate-600 leading-tight">
+                  {t("siteTagline")}
                 </p>
               </div>
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-8">
+            <nav className="hidden lg:flex items-center space-x-8 text-sm ">
               {navigation.map((item) => (
                 <button
                   key={item.key}
@@ -87,35 +85,24 @@ export function Header() {
               ))}
             </nav>
 
-            {/* Emergency Contact & Mobile Menu */}
-            <div className="flex items-center space-x-4">
-              <div className="hidden md:flex items-center space-x-2 text-sm">
-                <span className="text-lg">📞</span>
-                <span className="text-gray-700 dark:text-gray-300">{t('emergency')}: </span>
-                <Link
-                  href="tel:9772062226"
-                  className="text-accent-600 font-semibold hover:text-accent-700 cursor-pointer"
-                >
-                  9772062226
-                </Link>
-              </div>
-
+            {/* Mobile Menu */}
+            <div className="flex items-center space-x-4 md:space-x-8">
               <Button
                 variant="primary"
                 size="sm"
                 onClick={() => handleNavClick("#contact")}
-                className="hidden md:inline-flex"
+                className="hidden md:inline-flex text-sm"
               >
-                {t('getHelp')}
+                {t("Help")}
               </Button>
 
               {/* Language toggle */}
               <button
-                onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
+                onClick={() => setLang(lang === "en" ? "hi" : "en")}
                 className="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 font-medium text-slate-700 transition-all duration-300 text-sm"
                 aria-label="Toggle language"
               >
-                {lang === 'en' ? 'EN' : 'हिं'}
+                {lang === "en" ? "EN" : "हिं"}
               </button>
 
               {/* Mobile menu button */}
@@ -149,22 +136,12 @@ export function Header() {
                 </button>
               ))}
               <div className="px-4 py-3 border-t border-gray-200">
-        <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300 mb-3">
-                  <span className="text-base">📞</span>
-                  <span>{t('emergency')}: </span>
-                  <Link
-                    href="tel:9772062226"
-          className="text-accent-600 font-semibold"
-                  >
-                    9772062226
-                  </Link>
-                </div>
                 <Button
                   variant="primary"
                   className="w-full"
                   onClick={() => handleNavClick("#contact")}
                 >
-                  {t('getHelp')}
+                  {t("getHelp")}
                 </Button>
               </div>
             </div>

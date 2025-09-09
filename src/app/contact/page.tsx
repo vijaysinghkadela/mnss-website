@@ -20,6 +20,7 @@ export default function ContactPage() {
   const onSubmit = async (data: ContactForm) => {
     setIsSubmitting(true);
     try {
+      console.log("Form data:", data);
       await new Promise((r) => setTimeout(r, 800));
       alert("Message sent successfully!");
       reset();
@@ -41,7 +42,7 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
           <p className="text-blue-100 max-w-3xl mx-auto">
-            We'd love to hear from you. Get in touch with us for any inquiries, volunteer opportunities, or to learn more about our programs.
+            We&apos;d love to hear from you. Get in touch with us for any inquiries, volunteer opportunities, or to learn more about our programs.
           </p>
         </div>
       </section>
@@ -83,7 +84,7 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</nlabel>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
                 <input
                   type="email"
                   {...register('email', { required: 'Email is required' })}

@@ -8,8 +8,6 @@ type LanguageContextType = {
   lang: Lang
   toggle: () => void
   setLang: (l: Lang) => void
-  theme: 'light' | 'dark'
-  toggleTheme: () => void
   t: (key: string) => string
 }
 
@@ -115,8 +113,6 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   // state for language
   const [lang, setLangState] = useState<Lang>('en')
-  // state for theme
-  const [theme, setTheme] = useState<'light' | 'dark'>('light')
 
   // initialize language from localStorage
   useEffect(() => {
@@ -128,19 +124,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  // initialize theme from localStorage and apply class
-  useEffect(() => {
-    try {
-      const storedTheme = localStorage.getItem('mnss_theme') as 'light' | 'dark' | null
-      if (storedTheme === 'dark' || storedTheme === 'light') {
-        setTheme(storedTheme)
-        if (typeof document !== 'undefined') {
-          if (storedTheme === 'dark') document.documentElement.classList.add('dark')
-          else document.documentElement.classList.remove('dark')
-        }
-      }
-    } catch {}
-  }, [])
 
   // persist language
   useEffect(() => {
@@ -149,16 +132,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     } catch {}
   }, [lang])
 
-  // persist theme and toggle root class
-  useEffect(() => {
-    try {
-      localStorage.setItem('mnss_theme', theme)
-      if (typeof document !== 'undefined') {
-        if (theme === 'dark') document.documentElement.classList.add('dark')
-        else document.documentElement.classList.remove('dark')
-      }
-    } catch {}
-  }, [theme])
 
   // update the document language attribute for accessibility & SEO
   useEffect(() => {
@@ -177,9 +150,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     setLangState(l)
   }
 
-  function toggleTheme() {
-    setTheme((t) => (t === 'light' ? 'dark' : 'light'))
-  }
 
   function t(key: string) {
     const entry = translations[key]
@@ -188,7 +158,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <LanguageContext.Provider value={{ lang, toggle, setLang, theme, toggleTheme, t }}>
+    <LanguageContext.Provider value={{ lang, toggle, setLang, t }}>
       {children}
     </LanguageContext.Provider>
   )
