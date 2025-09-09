@@ -20,10 +20,33 @@ const navigation = [
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("home");
+  const [scrollProgress, setScrollProgress] = useState<number>(0);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
+
+      // scroll progress
+      const doc = document.documentElement;
+      const scrollTop = window.scrollY || doc.scrollTop;
+      const scrollHeight = doc.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+      setScrollProgress(progress);
+
+      // active section detection
+      let current: string = "home";
+      for (const item of navigation) {
+        const id = item.href.replace('#', '');
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= 100 && rect.bottom >= 100) {
+          current = id;
+          break;
+        }
+      }
+      setActiveSection(current);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -47,6 +70,11 @@ export function Header() {
             : "bg-transparent"
         }`}
       >
+        {/* Scroll progress bar */}
+        <div
+          className="h-0.5 bg-gradient-to-r from-blue-600 via-amber-500 to-purple-600"
+          style={{ width: `${scrollProgress}%` }}
+        />
         <Container>
           <div className="flex items-center justify-between h-12">
             {/* Logo */}
@@ -77,10 +105,23 @@ export function Header() {
                 <button
                   key={item.key}
                   onClick={() => handleNavClick(item.href)}
+<<<<<<< HEAD
+                  className={`font-medium transition-all duration-300 relative group cursor-pointer px-3 py-2 rounded-lg hover:bg-blue-50/50 ${
+                    activeSection === item.href.replace('#','')
+                      ? 'text-blue-700'
+                      : 'text-slate-700 hover:text-blue-600'
+                  }`}
+                >
+                  {t(item.key)}
+                  <span className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 bg-gradient-to-r from-blue-600 to-amber-500 transition-all duration-300 rounded-full ${
+                    activeSection === item.href.replace('#','') ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`}></span>
+=======
                   className="text-slate-700 hover:text-blue-600 font-medium transition-all duration-300 relative group cursor-pointer px-3 py-2 rounded-lg hover:bg-blue-50/50"
                 >
                   {t(item.key)}
                   <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-amber-500 transition-all duration-300 group-hover:w-full rounded-full"></span>
+>>>>>>> 52c523db16cd974ed66830f75b40fdf213c1b6e8
                 </button>
               ))}
             </nav>
@@ -124,13 +165,17 @@ export function Header() {
             className="absolute inset-0 bg-black/50"
             onClick={() => setIsMobileMenuOpen(false)}
           />
-          <div className="absolute top-20 left-0 right-0 bg-white dark:bg-slate-900 shadow-xl border-t border-gray-200 dark:border-gray-700">
+          <div className="absolute top-20 left-0 right-0 bg-white dark:bg-slate-900 shadow-xl border-t border-gray-200 dark:border-gray-700 animate-fade-in-up">
             <div className="px-4 py-6 space-y-4">
               {navigation.map((item) => (
                 <button
                   key={item.key}
                   onClick={() => handleNavClick(item.href)}
-                  className="block w-full text-left px-4 py-3 text-lg font-medium text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                  className={`block w-full text-left px-4 py-3 text-lg font-medium rounded-lg transition-colors ${
+                    activeSection === item.href.replace('#','')
+                      ? 'text-blue-700 bg-blue-50'
+                      : 'text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-slate-800'
+                  }`}
                 >
                   {t(item.key)}
                 </button>
