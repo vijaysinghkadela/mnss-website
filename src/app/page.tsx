@@ -11,6 +11,8 @@ import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 // ComprehensiveServices intentionally not included on the home page by default
 import { useLanguage } from '@/context/LanguageContext'
+import AnnualProgressReports from "@/components/AnnualProgressReports";
+import ProgramHighlights from "@/components/ProgramHighlights";
 
 
 export default function Home() {
@@ -88,6 +90,9 @@ export default function Home() {
 
   {/* <ComprehensiveServices /> */}
   <Services />
+  {/* <AnnualProgressReports /> */}
+  {/* <AnnualProgressReports /> */}
+  <ProgramHighlights />
         <Statistics />
         <Timeline />
         <Contact />

@@ -48,9 +48,9 @@ export function Hero() {
                 Communities
               </h1>
 
-              <p className="text-xl text-gray-600 max-w-2xl leading-relaxed">
+              {/* <p className="text-xl text-gray-600 max-w-2xl leading-relaxed">
                 {t('aboutTitle')} — Comprehensive social services spanning women&apos;s safety, rehabilitation, skill development, and community empowerment across 5+ districts of Rajasthan through trusted government partnerships.
-              </p>
+              </p> */}
             </div>
 
             <div className="flex items-center space-x-2 text-gray-600">
