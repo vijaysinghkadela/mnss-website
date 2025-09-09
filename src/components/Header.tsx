@@ -105,6 +105,7 @@ export function Header() {
                 <button
                   key={item.key}
                   onClick={() => handleNavClick(item.href)}
+<<<<<<< HEAD
                   className={`font-medium transition-all duration-300 relative group cursor-pointer px-3 py-2 rounded-lg hover:bg-blue-50/50 ${
                     activeSection === item.href.replace('#','')
                       ? 'text-blue-700'
@@ -115,6 +116,12 @@ export function Header() {
                   <span className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 bg-gradient-to-r from-blue-600 to-amber-500 transition-all duration-300 rounded-full ${
                     activeSection === item.href.replace('#','') ? 'w-full' : 'w-0 group-hover:w-full'
                   }`}></span>
+=======
+                  className="text-slate-700 hover:text-blue-600 font-medium transition-all duration-300 relative group cursor-pointer px-3 py-2 rounded-lg hover:bg-blue-50/50"
+                >
+                  {t(item.key)}
+                  <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-amber-500 transition-all duration-300 group-hover:w-full rounded-full"></span>
+>>>>>>> 52c523db16cd974ed66830f75b40fdf213c1b6e8
                 </button>
               ))}
             </nav>
