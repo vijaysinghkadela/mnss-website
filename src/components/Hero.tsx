@@ -18,13 +18,19 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50"
+      className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50"
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.15),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_49%,rgba(59,130,246,0.05)_50%,transparent_51%)] bg-[length:20px_20px]" />
+      {/* Enhanced Background Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.2),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(245,158,11,0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_49%,rgba(59,130,246,0.05)_50%,transparent_51%)] bg-[length:30px_30px]" />
       </div>
+      
+      {/* Floating Elements */}
+      <div className="absolute top-20 left-10 w-20 h-20 bg-blue-200/20 rounded-full blur-xl animate-float"></div>
+      <div className="absolute bottom-20 right-10 w-32 h-32 bg-amber-200/20 rounded-full blur-xl animate-float" style={{animationDelay: '1s'}}></div>
+      <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-indigo-200/20 rounded-full blur-xl animate-float" style={{animationDelay: '2s'}}></div>
 
       <Container className="relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -36,17 +42,17 @@ export function Hero() {
                 {new Date().getFullYear() - 2009} {t('yearsOfService')} • ISO 9001:2015 Certified
               </div>
 
-              <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight">
+              <h1 className="text-4xl md:text-6xl font-bold text-slate-800 leading-tight">
                 {t('siteTagline')}
                 Communities
               </h1>
 
-              <p className="text-xl text-gray-600 max-w-2xl leading-relaxed">
+              <p className="text-xl text-slate-700 max-w-2xl leading-relaxed">
                 {t('aboutTitle')} — Comprehensive social services spanning women&apos;s safety, rehabilitation, skill development, and community empowerment across 5+ districts of Rajasthan through trusted government partnerships.
               </p>
             </div>
 
-            <div className="flex items-center space-x-2 text-gray-600">
+            <div className="flex items-center space-x-2 text-slate-700">
               <span className="text-lg">📍</span>
               <span className="font-medium">{t('serving')}</span>
             </div>
@@ -66,7 +72,7 @@ export function Hero() {
               </Button>
             </div>
 
-            <div className="flex items-center space-x-6 text-sm text-gray-500">
+            <div className="flex items-center space-x-6 text-sm text-slate-600">
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                 <span>24/7 Emergency Support</span>

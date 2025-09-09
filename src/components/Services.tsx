@@ -35,10 +35,11 @@ export function Services() {
         <div className="mt-16 text-center">
           <Button
             size="lg"
-            className="group text-gray-900 bg-purple-300 "
+            className="group"
             onClick={() => {
-              if (typeof window !== 'undefined') window.location.hash = '#comprehensive'
-              window.dispatchEvent(new Event('openComprehensive'))
+              if (typeof window !== 'undefined') {
+                window.location.href = '/programs'
+              }
             }}
           >
             {t('viewAllPrograms')}
@@ -121,13 +122,6 @@ function ServiceCard({ service }: ServiceCardProps) {
             </div>
           )}
 
-            <Button
-              variant="ghost"
-              size="sm"
-              className="w-full mt-3 group-hover:bg-primary-50 group-hover:text-primary-700"
-            >
-              {t('learnMore')}
-            </Button>
         </CardFooter>
       </Card>
     </div>

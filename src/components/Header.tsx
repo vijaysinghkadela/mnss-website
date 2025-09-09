@@ -8,6 +8,7 @@ import { Container } from "./ui/Container";
 import { Button } from "./ui/Button";
 import { useLanguage } from '@/context/LanguageContext'
 import { scrollToElement } from "@/lib/utils";
+import logo from "@/public/Logo MNSS.jpg";
 
 const navigation = [
   { key: 'home', href: "#home" },
@@ -42,47 +43,46 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? "bg-white/90 dark:bg-slate-900/80 backdrop-blur-md shadow-lg border-b border-gray-200 dark:border-gray-700"
+            ? "bg-white/95 backdrop-blur-xl shadow-xl border-b border-slate-200/50"
             : "bg-transparent"
         }`}
       >
         <Container>
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-lg overflow-hidden shadow-lg bg-white dark:bg-slate-800 flex items-center justify-center">
-                {/* prefer a provided logo at /public/logo.svg (exported from your PDF) */}
+              <div className="w-10 h-10 rounded-lg overflow-hidden shadow-md bg-white flex items-center justify-center border border-gray-200">
                 <Image
-                  src="/logo.svg"
+                  src="/Logo MNSS.jpg"
                   alt="MNSS logo"
-                  width={48}
-                  height={48}
-                  className="object-contain"
+                  width={40}
+                  height={40}
+                  className="object-cover"
                   priority
                 />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
+                <h1 className="text-base font-bold text-slate-900 leading-tight">
                   {t('siteName')}
                 </h1>
-                <p className="text-sm text-gray-600 dark:text-gray-300">
+                <p className="text-xs text-slate-600 leading-tight">
                   {t('siteTagline')}
                 </p>
               </div>
             </div>
 
             {/* Desktop Navigation */}
-    <nav className="hidden lg:flex items-center space-x-8">
+            <nav className="hidden lg:flex items-center space-x-8">
               {navigation.map((item) => (
                 <button
                   key={item.key}
                   onClick={() => handleNavClick(item.href)}
-      className="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors duration-200 relative group cursor-pointer"
+                  className="text-slate-700 hover:text-blue-600 font-medium transition-all duration-300 relative group cursor-pointer px-3 py-2 rounded-lg hover:bg-blue-50/50"
                 >
                   {t(item.key)}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-amber-500 transition-all duration-300 group-hover:w-full rounded-full"></span>
                 </button>
               ))}
             </nav>
@@ -104,29 +104,18 @@ export function Header() {
                 variant="primary"
                 size="sm"
                 onClick={() => handleNavClick("#contact")}
-                className="hidden md:inline-flex text-gray-900 bg-purple-400"
+                className="hidden md:inline-flex"
               >
                 {t('getHelp')}
               </Button>
 
-              {/* Single Language toggle */}
-        <div className="ml-2">
-                <button
-                  onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
-          className="px-3 py-2 rounded-md border bg-transparent hover:bg-gray-100 dark:hover:bg-slate-700 font-medium text-gray-700 dark:text-gray-200"
-                  aria-label="Toggle language"
-                >
-                  {lang === 'en' ? 'EN' : 'हिं'}
-                </button>
-              </div>
-
-              {/* Theme toggle */}
+              {/* Language toggle */}
               <button
-                onClick={toggleTheme}
-                className="ml-2 px-3 py-2 rounded-md border border-gray-200 bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-200"
-                aria-label="Toggle theme"
+                onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
+                className="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 font-medium text-slate-700 transition-all duration-300 text-sm"
+                aria-label="Toggle language"
               >
-                {theme === 'dark' ? '🌙' : '☀️'}
+                {lang === 'en' ? 'EN' : 'हिं'}
               </button>
 
               {/* Mobile menu button */}
