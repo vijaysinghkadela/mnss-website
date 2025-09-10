@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+// Removed phone contact; Link no longer needed
 import Image from "next/image";
 // avoid framer-motion and lucide-react typing issues; use simple divs and emoji
 import { Container } from "./ui/Container";
@@ -20,6 +20,7 @@ const navigation = [
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [logoSrc, setLogoSrc] = useState<string>("/logo.svg");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,7 +37,22 @@ export function Header() {
     setIsMobileMenuOpen(false);
   };
 
-  const { lang, setLang, theme, toggleTheme, t } = useLanguage()
+  const { lang, setLang, t } = useLanguage()
+
+  // Attempt to use JPG logo only if the resource actually is an image (not a PDF placeholder)
+  useEffect(() => {
+    const encodedJpg = "/Logo%20MNSS.jpg";
+    fetch(encodedJpg, { method: "HEAD" })
+      .then((res) => {
+        const ct = res.headers.get("content-type") || "";
+        if (res.ok && ct.startsWith("image/")) {
+          setLogoSrc(encodedJpg);
+        } else {
+          setLogoSrc("/logo.svg");
+        }
+      })
+      .catch(() => setLogoSrc("/logo.svg"));
+  }, []);
 
   return (
     <>
@@ -52,9 +68,8 @@ export function Header() {
             {/* Logo */}
             <div className="flex items-center space-x-3">
               <div className="w-12 h-12 rounded-lg overflow-hidden shadow-lg bg-white flex items-center justify-center">
-                {/* prefer a provided logo at /public/logo.svg (exported from your PDF) */}
                 <Image
-                  src="/logo.svg"
+                  src={logoSrc}
                   alt="MNSS logo"
                   width={48}
                   height={48}
@@ -86,18 +101,8 @@ export function Header() {
               ))}
             </nav>
 
-            {/* Emergency Contact & Mobile Menu */}
+            {/* Utility Controls & Mobile Menu */}
             <div className="flex items-center space-x-4">
-              <div className="hidden md:flex items-center space-x-2 text-sm">
-                <span className="text-lg">📞</span>
-                <span className="text-gray-700">{t('emergency')}: </span>
-                <Link
-                  href="tel:9772062226"
-                  className="text-accent-600 font-semibold hover:text-accent-700 cursor-pointer"
-                >
-                  9772062226
-                </Link>
-              </div>
 
               <Button
                 variant="primary"
@@ -119,14 +124,7 @@ export function Header() {
                 </button>
               </div>
 
-              {/* Theme toggle */}
-              <button
-                onClick={toggleTheme}
-                className="ml-2 px-3 py-2 rounded-md border border-gray-200"
-                aria-label="Toggle theme"
-              >
-                {theme === 'dark' ? '🌙' : '☀️'}
-              </button>
+              {/* Theme toggle removed as requested */}
 
               {/* Mobile menu button */}
               <button
@@ -159,16 +157,6 @@ export function Header() {
                 </button>
               ))}
               <div className="px-4 py-3 border-t border-gray-200">
-                <div className="flex items-center space-x-2 text-sm text-gray-600 mb-3">
-                  <span className="text-base">📞</span>
-                  <span>{t('emergency')}: </span>
-                  <Link
-                    href="tel:9772062226"
-                    className="text-accent-600 font-semibold"
-                  >
-                    9772062226
-                  </Link>
-                </div>
                 <Button
                   variant="primary"
                   className="w-full"

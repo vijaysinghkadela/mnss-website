@@ -1,6 +1,7 @@
 "use client";
 
 import { Container } from "./ui/Container";
+import Link from 'next/link';
 import { Card, CardContent, CardFooter } from "./ui/Card";
 import { Button } from "./ui/Button";
 import { useLanguage } from "@/context/LanguageContext";
@@ -33,10 +34,10 @@ export function Services() {
         </div>
 
         <div className="mt-16 text-center">
-          <Button size="lg" className="group text-gray-900 bg-purple-300 ">
+          <Link href="/programs" className="inline-flex items-center px-8 py-3 rounded-lg font-medium bg-purple-300 text-gray-900 shadow-lg hover:bg-purple-200 transition-colors group">
             {t('viewAllPrograms')}
-            <span className="ml-2">➤</span>
-          </Button>
+            <span className="ml-2 group-hover:translate-x-1 transition-transform">➤</span>
+          </Link>
         </div>
       </Container>
     </section>

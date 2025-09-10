@@ -1,7 +1,8 @@
-"use client"
+"use client";
 
 import React from "react";
-import Image from 'next/image'
+import Image from "next/image";
+
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
@@ -10,13 +11,14 @@ import { Timeline } from "@/components/Timeline";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 // ComprehensiveServices intentionally not included on the home page by default
-import { useLanguage } from '@/context/LanguageContext'
-import AnnualProgressReports from "@/components/AnnualProgressReports";
+import { useLanguage } from "@/context/LanguageContext";
+// Removed AnnualProgressReports (unused on home page)
 import ProgramHighlights from "@/components/ProgramHighlights";
-
+import ReportsSection from "@/components/ReportsSection";
+import Gallery from "@/components/Gallery";
 
 export default function Home() {
-  const { t } = useLanguage()
+  const { t } = useLanguage();
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <Header />
@@ -25,21 +27,31 @@ export default function Home() {
         <Hero />
         <section id="about" className="py-16 bg-gray-50">
           <div className="max-w-6xl mx-auto px-6">
-            <h2 className="text-3xl font-bold mb-6">{t('aboutTitle')}</h2>
+            <h2 className="text-3xl font-bold mb-6">{t("aboutTitle")}</h2>
 
             <div className="grid md:grid-cols-2 gap-8 items-start">
               <div>
-                <p className="text-gray-700 mb-4">{t('aboutParagraph')}</p>
+                <p className="text-gray-700 mb-4">{t("aboutParagraph")}</p>
 
-                <h3 className="text-lg font-semibold mt-4">{t('mission')}</h3>
-                <p className="text-gray-600">{t('missionText')}</p>
+                <h3 className="text-lg font-semibold mt-4">{t("mission")}</h3>
+                <p className="text-gray-600">{t("missionText")}</p>
 
-                <h3 className="text-lg font-semibold mt-4">{t('vision')}</h3>
-                <p className="text-gray-600">{t('visionText')}</p>
+                <h3 className="text-lg font-semibold mt-4">{t("vision")}</h3>
+                <p className="text-gray-600">{t("visionText")}</p>
 
                 <div className="mt-6 flex gap-3">
-                  <a href="#services" className="inline-flex items-center px-5 py-3 bg-primary-600 text-gray-900  rounded-lg shadow hover:opacity-95 bg-purple-400">{t('exploreServices')}</a>
-                  <a href="#contact" className="inline-flex items-center px-5 py-3 border border-gray-200 rounded-lg text-gray-700">{t('getHelpShort')}</a>
+                  <a
+                    href="#services"
+                    className="inline-flex items-center px-5 py-3 bg-primary-600 text-gray-900  rounded-lg shadow hover:opacity-95 bg-purple-400"
+                  >
+                    {t("exploreServices")}
+                  </a>
+                  <a
+                    href="#contact"
+                    className="inline-flex items-center px-5 py-3 border border-gray-200 rounded-lg text-gray-700"
+                  >
+                    {t("getHelpShort")}
+                  </a>
                 </div>
               </div>
 
@@ -56,31 +68,43 @@ export default function Home() {
                   />
                 </div>
 
-                <h4 className="text-sm font-semibold text-gray-700 uppercase mb-3">{t('corePrograms')}</h4>
+                <h4 className="text-sm font-semibold text-gray-700 uppercase mb-3">
+                  {t("corePrograms")}
+                </h4>
                 <ul className="space-y-2 text-gray-600 mb-4">
-                  <li>• {t('coreProgram1')}</li>
-                  <li>• {t('coreProgram2')}</li>
-                  <li>• {t('coreProgram3')}</li>
-                  <li>• {t('coreProgram4')}</li>
+                  <li>• {t("coreProgram1")}</li>
+                  <li>• {t("coreProgram2")}</li>
+                  <li>• {t("coreProgram3")}</li>
+                  <li>• {t("coreProgram4")}</li>
                 </ul>
 
-                <h4 className="text-sm font-semibold text-gray-700 uppercase mb-3">{t('impactHighlights')}</h4>
+                <h4 className="text-sm font-semibold text-gray-700 uppercase mb-3">
+                  {t("impactHighlights")}
+                </h4>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-white p-4 rounded-lg shadow-sm text-center">
                     <div className="text-2xl font-bold">10,000+</div>
-                    <div className="text-sm text-gray-500">{t('livesPositivelyImpacted')}</div>
+                    <div className="text-sm text-gray-500">
+                      {t("livesPositivelyImpacted")}
+                    </div>
                   </div>
                   <div className="bg-white p-4 rounded-lg shadow-sm text-center">
                     <div className="text-2xl font-bold">5+</div>
-                    <div className="text-sm text-gray-500">{t('districtsServed')}</div>
+                    <div className="text-sm text-gray-500">
+                      {t("districtsServed")}
+                    </div>
                   </div>
                   <div className="bg-white p-4 rounded-lg shadow-sm text-center">
                     <div className="text-2xl font-bold">200+</div>
-                    <div className="text-sm text-gray-500">{t('programsTrainings')}</div>
+                    <div className="text-sm text-gray-500">
+                      {t("programsTrainings")}
+                    </div>
                   </div>
                   <div className="bg-white p-4 rounded-lg shadow-sm text-center">
                     <div className="text-2xl font-bold">16</div>
-                    <div className="text-sm text-gray-500">{t('yearsOfServiceLabel')}</div>
+                    <div className="text-sm text-gray-500">
+                      {t("yearsOfServiceLabel")}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -88,11 +112,13 @@ export default function Home() {
           </div>
         </section>
 
-  {/* <ComprehensiveServices /> */}
-  <Services />
-  {/* <AnnualProgressReports /> */}
-  {/* <AnnualProgressReports /> */}
-  <ProgramHighlights />
+        {/* <ComprehensiveServices /> */}
+        <Services />
+        {/* <AnnualProgressReports /> */}
+        {/* <AnnualProgressReports /> */}
+        <ProgramHighlights />
+  <ReportsSection />
+  <Gallery />
         <Statistics />
         <Timeline />
         <Contact />

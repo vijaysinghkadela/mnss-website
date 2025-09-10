@@ -252,6 +252,232 @@ export const progressReportsData: Record<string, ProgressReport> = {
         outcome: "Improved cleanliness and sanitation practices"
       }
     ]
+  },
+  /**
+   * Placeholder summaries for later years. Replace with precise data extracted from PDFs in
+   * /public/prograss_report. Beneficiary counts and outcomes are indicative, not final.
+   */
+  "2018-19": {
+    year: "2018-19",
+    title: "Annual Progress Report 2018-19",
+    programs: [
+      {
+        name: "Skill Development - Sewing & Cutting",
+        description: "Continued vocational tailoring training enabling women-led micro-enterprises (see 2018-19 PDF).",
+        beneficiaries: 160,
+        outcome: "Graduates formed producer/self-help groups increasing household income."
+      },
+      {
+        name: "Computer & Digital Literacy",
+        description: "Foundational computer, typing and mobile maintenance workshops for rural youth.",
+        beneficiaries: 120,
+        outcome: "Improved employability and digital service access in target blocks."
+      },
+      {
+        name: "Women's Legal & Rights Clinics",
+        description: "Awareness sessions on domestic violence, inheritance and child marriage prevention.",
+        beneficiaries: "Women & adolescent girls",
+        outcome: "Increase in reported rights inquiries and referrals."
+      },
+      {
+        name: "Drug De‑addiction & Counseling Outreach",
+        description: "Peer-led motivation and anti‑substance campaigns with family counseling support.",
+        beneficiaries: "Community wide",
+        outcome: "Higher voluntary enrollment in de‑addiction support groups."
+      },
+      {
+        name: "Beauty & Wellness Vocational Batch",
+        description: "Salon, hygiene and customer service curriculum for livelihood generation.",
+        beneficiaries: 55,
+        outcome: "Portion of graduates launched home-based services."
+      }
+    ]
+  },
+  "2019-20": {
+    year: "2019-20",
+    title: "Annual Progress Report 2019-20",
+    programs: [
+      {
+        name: "Entrepreneurship Catalyst Workshops",
+        description: "Business planning, record keeping and market linkage orientation for SHGs.",
+        beneficiaries: 70,
+        outcome: "Pilot enterprises accessed local fairs & small credit lines."
+      },
+      {
+        name: "Sustainable Livelihood Crafts",
+        description: "Traditional craft enhancement with design adaptation and quality control.",
+        beneficiaries: 45,
+        outcome: "Improved saleability and diversification of product range."
+      },
+      {
+        name: "Adolescent Health & Nutrition Sessions",
+        description: "IEC modules on anemia prevention, hygiene and menstrual health.",
+        beneficiaries: 200,
+        outcome: "Greater uptake of local health services by participants."
+      },
+      {
+        name: "Digital Facilitation Center Pilot",
+        description: "Support kiosk for e-governance form filling and document access.",
+        beneficiaries: "Local households",
+        outcome: "Reduced travel time & cost for basic documentation."
+      },
+      {
+        name: "Sewing & Advanced Finishing",
+        description: "Value-add finishing techniques (packing, labeling) for apparel trainees.",
+        beneficiaries: 90,
+        outcome: "Higher unit earnings for stitched garments."
+      }
+    ]
+  },
+  "2020-21": {
+    year: "2020-21",
+    title: "Annual Progress Report 2020-21 (Pandemic Response)",
+    programs: [
+      {
+        name: "COVID Relief & Dry Ration Support",
+        description: "Emergency distribution of ration kits and hygiene supplies during lockdown phases.",
+        beneficiaries: 350,
+        outcome: "Mitigated immediate food insecurity among vulnerable households."
+      },
+      {
+        name: "Mask & PPE Stitching Units",
+        description: "Reoriented tailoring centers to produce reusable masks/PPE for community distribution.",
+        beneficiaries: 80,
+        outcome: "Local protective supplies scaled while preserving trainee livelihoods."
+      },
+      {
+        name: "Remote Counseling & Helpline",
+        description: "Phone-based psychosocial and addiction relapse prevention support.",
+        beneficiaries: "Helpline callers",
+        outcome: "Sustained engagement with at‑risk individuals despite mobility curbs."
+      },
+      {
+        name: "Digital Literacy (Remote Modules)",
+        description: "Transitioned select computer lessons to low-bandwidth WhatsApp/audio formats.",
+        beneficiaries: 60,
+        outcome: "Continuation of learning continuity for enrolled youth."
+      }
+    ]
+  },
+  "2021-22": {
+    year: "2021-22",
+    title: "Annual Progress Report 2021-22",
+    programs: [
+      {
+        name: "Re‑Start Skill Bridges",
+        description: "Post‑lockdown refresher & placement linkage for prior vocational graduates.",
+        beneficiaries: 110,
+        outcome: "Placement/enterprise relaunch for a majority of participants."
+      },
+      {
+        name: "Women's Safety Legal Desk",
+        description: "On-site legal advisory & referral desk (domestic violence, property rights).",
+        beneficiaries: "Women seekers",
+        outcome: "Increased formal complaint filings with informed documentation."
+      },
+      {
+        name: "Water Conservation Micro‑Projects",
+        description: "Community awareness + demonstration of rooftop rainwater harvesting.",
+        beneficiaries: "Households & farmers",
+        outcome: "Adoption interest tracked through sign-up sheets."
+      },
+      {
+        name: "Youth Career Counseling",
+        description: "Career pathways, vocational options & soft skills workshops.",
+        beneficiaries: 140,
+        outcome: "Improved clarity on vocational transitions."
+      }
+    ]
+  },
+  "2022-23": {
+    year: "2022-23",
+    title: "Annual Progress Report 2022-23",
+    programs: [
+      {
+        name: "Advanced Apparel & Quality Assurance",
+        description: "Pattern grading, quality checks and small batch production coordination.",
+        beneficiaries: 95,
+        outcome: "Enhanced defect reduction and buyer confidence."
+      },
+      {
+        name: "Enterprise Mentorship Circles",
+        description: "Monthly peer learning for women micro-entrepreneurs (pricing, sourcing).",
+        beneficiaries: 45,
+        outcome: "Documented revenue stabilization among participants."
+      },
+      {
+        name: "Adolescent Girls Empowerment Clubs",
+        description: "Leadership, life skills and health education groups.",
+        beneficiaries: 150,
+        outcome: "Higher school retention intentions reported."
+      },
+      {
+        name: "Rural Digital Access Hub",
+        description: "Support center for digital forms, ID updates, scheme awareness.",
+        beneficiaries: "Walk-in villagers",
+        outcome: "Reduced dependency on distant cyber cafes."
+      }
+    ]
+  },
+  "2023-24": {
+    year: "2023-24",
+    title: "Annual Progress Report 2023-24",
+    programs: [
+      {
+        name: "Integrated Livelihood Cluster",
+        description: "Coordinated tailoring, beauty, and handicraft cohorts sharing market leads.",
+        beneficiaries: 130,
+        outcome: "Cross-referrals increased sales opportunities."
+      },
+      {
+        name: "Digital Safety & Cyber Awareness",
+        description: "Workshops on online fraud prevention, privacy and secure digital identities.",
+        beneficiaries: 90,
+        outcome: "Participants adopted safer digital practices."
+      },
+      {
+        name: "Addiction Relapse Prevention Circles",
+        description: "Peer support renewal and structured follow-up mapping.",
+        beneficiaries: 70,
+        outcome: "Reduced relapse incidents (self-reported)."
+      },
+      {
+        name: "Climate & Water Stewardship",
+        description: "Soil moisture, low-cost recharge pit and kitchen garden demonstrations.",
+        beneficiaries: "Smallholder families",
+        outcome: "Adoption interest logged for household pilot units."
+      }
+    ]
+  },
+  "2024-25": {
+    year: "2024-25",
+    title: "Annual Progress Report 2024-25 (In Progress)",
+    programs: [
+      {
+        name: "Entrepreneur Acceleration Support",
+        description: "Targeted scaling assistance—brand presentation, packaging and digital cataloging (data interim).",
+        beneficiaries: 40,
+        outcome: "Early-stage enterprises prepared for broader market listing."
+      },
+      {
+        name: "Advanced Digital Literacy & E‑Services",
+        description: "UPI, e-governance, secure document storage and online grievance portals training (interim).",
+        beneficiaries: 85,
+        outcome: "Participants began independent digital transactions."
+      },
+      {
+        name: "Women's Health Outreach (Phase I)",
+        description: "Screening camps & reproductive health counseling (initial rollout).",
+        beneficiaries: 120,
+        outcome: "Baseline health needs mapped for follow-up services."
+      },
+      {
+        name: "Skill Bridge – Industry Exposure",
+        description: "Short industry visits & guest sessions aligning training with buyer expectations.",
+        beneficiaries: 55,
+        outcome: "Improved readiness for supply chain participation."
+      }
+    ]
   }
 };
 

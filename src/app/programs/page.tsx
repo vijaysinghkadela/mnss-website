@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { ArrowRight, FileText } from 'lucide-react';
+// Removed lucide-react icons due to type issues; using emoji fallbacks
 import { ProgramHighlights } from '@/components/ProgramHighlights';
 import { EnhancedStatistics } from '@/components/EnhancedStatistics';
 
@@ -9,16 +9,16 @@ export default function ProgramsPage() {
     <main className="min-h-screen">
       <section className="bg-gradient-to-br from-blue-600 to-indigo-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Our Programs & Impact</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">Our Programs &amp; Impact</h1>
           <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-8">
             Comprehensive community development programs transforming lives across Rajasthan since 2009.
-            Explore our documented journey from 2014-2018 and see the real impact we've made together.
+            Explore our documented journey from 2014-2018 and see the real impact we&apos;ve made together.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/progress-reports" className="bg-white text-blue-600 px-8 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors shadow-lg flex items-center">
-              <FileText size={20} className="mr-2" />
+              <span className="mr-2" aria-hidden>📄</span>
               View Annual Reports
-              <ArrowRight size={16} className="ml-2" />
+              <span className="ml-2" aria-hidden>➡️</span>
             </Link>
             <Link href="/contact" className="border-2 border-white text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-all">
               Get Involved
@@ -41,7 +41,7 @@ export default function ProgramsPage() {
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="text-left p-6 bg-white rounded-lg shadow-md">
-                <h3 className="font-semibold text-gray-800 mb-2">What You'll Find:</h3>
+                <h3 className="font-semibold text-gray-800 mb-2">What You&apos;ll Find:</h3>
                 <ul className="text-sm text-gray-600 space-y-1">
                   <li>• Detailed program descriptions</li>
                   <li>• Number of beneficiaries reached</li>
@@ -60,9 +60,9 @@ export default function ProgramsPage() {
               </div>
             </div>
             <Link href="/progress-reports" className="inline-flex items-center bg-indigo-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors shadow-lg">
-              <FileText size={20} className="mr-2" />
+              <span className="mr-2" aria-hidden>📄</span>
               Explore Annual Reports
-              <ArrowRight size={16} className="ml-2" />
+              <span className="ml-2" aria-hidden>➡️</span>
             </Link>
           </div>
         </div>
