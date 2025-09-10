@@ -1,35 +1,60 @@
 import { NextResponse } from "next/server";
-import { supabase } from "../../../lib/supabaseClient"; // still using Supabase storage for now
-import { getDb } from '@/lib/mongodb';
+import { getDb } from "@/lib/mongodb";
+import { promises as fs } from "fs";
+import path from "path";
+import crypto from "crypto";
 
 /**
  * Constraints (adjust if needed)
  */
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024; // 10MB
 const MAX_VIDEO_BYTES = 200 * 1024 * 1024; // 200MB
-const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/svg+xml"];
-const ALLOWED_VIDEO_TYPES = ["video/mp4", "video/webm", "video/ogg", "video/mpeg"];
+const ALLOWED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg", // some browsers / environments still emit this legacy form
+  "image/png",
+  "image/webp",
+  "image/gif",
+  "image/svg+xml",
+  "image/avif",
+  "image/heic",
+  "image/heif",
+];
+const ALLOWED_VIDEO_TYPES = [
+  "video/mp4",
+  "video/webm",
+  "video/ogg",
+  "video/mpeg",
+];
 
-type UploadedAsset = { kind: "image" | "video"; path: string; publicUrl: string };
+type UploadedAsset = {
+  kind: "image" | "video";
+  path: string;
+  publicUrl: string;
+};
 
 // Helper to build consistent error responses
 function jsonError(message: string, status = 400) {
   return NextResponse.json({ success: false, message }, { status });
 }
 
-async function uploadToBucket(opts: { file: File; folder: string; kind: "image" | "video" }): Promise<UploadedAsset> {
+async function saveToLocal(opts: {
+  file: File;
+  folder: string;
+  kind: "image" | "video";
+}): Promise<UploadedAsset> {
   const { file, folder, kind } = opts;
-  const timestamp = Date.now();
-  const sanitizedName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-  const objectPath = `${folder}/${timestamp}_${sanitizedName}`;
-
-  const { data, error } = await supabase.storage.from("media").upload(objectPath, file, {
-    cacheControl: "3600",
-    upsert: false,
-  });
-  if (error) throw new Error(`${kind} upload failed: ${error.message}`);
-  const { data: pub } = supabase.storage.from("media").getPublicUrl(data.path);
-  return { kind, path: data.path, publicUrl: pub.publicUrl };
+  const uploadRoot = path.join(process.cwd(), "public", "uploads");
+  const subDir = path.join(uploadRoot, folder);
+  await fs.mkdir(subDir, { recursive: true });
+  const ext = path.extname(file.name) || "";
+  const base = crypto.randomBytes(8).toString("hex");
+  const filename = `${Date.now()}_${base}${ext}`;
+  const filePath = path.join(subDir, filename);
+  const arrayBuffer = await file.arrayBuffer();
+  await fs.writeFile(filePath, Buffer.from(arrayBuffer));
+  const publicPath = `/uploads/${folder}/${filename}`;
+  return { kind, path: filePath, publicUrl: publicPath };
 }
 
 export async function POST(request: Request) {
@@ -44,20 +69,37 @@ export async function POST(request: Request) {
     const imageField = form.get("image");
     const videoField = form.get("video");
 
-    const description = typeof rawDescription === "string" ? rawDescription.trim() : "";
+    const description =
+      typeof rawDescription === "string" ? rawDescription.trim() : "";
     const imageFile = imageField instanceof File ? imageField : null;
     const videoFile = videoField instanceof File ? videoField : null;
 
     if (!description) return jsonError("Description is required", 422);
-    if (!imageFile && !videoFile) return jsonError("At least one of image or video is required", 422);
+    if (!imageFile && !videoFile)
+      return jsonError("At least one of image or video is required", 422);
 
     // Validate image constraints
     if (imageFile) {
-      if (!ALLOWED_IMAGE_TYPES.includes(imageFile.type)) {
-        return jsonError(`Unsupported image type: ${imageFile.type}`, 415);
+      const mime = imageFile.type.toLowerCase();
+      let allowed = ALLOWED_IMAGE_TYPES.includes(mime);
+      // Some environments provide blank type for SVG or others; fallback to extension sniff
+      if (!allowed && (!mime || mime === '')) {
+        const lowerName = imageFile.name.toLowerCase();
+        const exts = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg", ".avif", ".heic", ".heif"]; 
+        allowed = exts.some(ext => lowerName.endsWith(ext));
+      }
+      // Generic image/* acceptance as a final fallback (excluding video types already separate)
+      if (!allowed && mime.startsWith('image/')) allowed = true;
+      if (!allowed) {
+        return jsonError(`Unsupported image type: ${imageFile.type || imageFile.name}`, 415);
       }
       if (imageFile.size > MAX_IMAGE_BYTES) {
-        return jsonError(`Image too large. Max ${(MAX_IMAGE_BYTES / (1024 * 1024)).toFixed(0)}MB`, 413);
+        return jsonError(
+          `Image too large. Max ${(MAX_IMAGE_BYTES / (1024 * 1024)).toFixed(
+            0
+          )}MB`,
+          413
+        );
       }
     }
 
@@ -67,14 +109,25 @@ export async function POST(request: Request) {
         return jsonError(`Unsupported video type: ${videoFile.type}`, 415);
       }
       if (videoFile.size > MAX_VIDEO_BYTES) {
-        return jsonError(`Video too large. Max ${(MAX_VIDEO_BYTES / (1024 * 1024)).toFixed(0)}MB`, 413);
+        return jsonError(
+          `Video too large. Max ${(MAX_VIDEO_BYTES / (1024 * 1024)).toFixed(
+            0
+          )}MB`,
+          413
+        );
       }
     }
 
     // Perform uploads (parallel where possible)
     const uploads: Promise<UploadedAsset>[] = [];
-    if (imageFile) uploads.push(uploadToBucket({ file: imageFile, folder: "images", kind: "image" }));
-    if (videoFile) uploads.push(uploadToBucket({ file: videoFile, folder: "videos", kind: "video" }));
+    if (imageFile)
+      uploads.push(
+        saveToLocal({ file: imageFile, folder: "images", kind: "image" })
+      );
+    if (videoFile)
+      uploads.push(
+        saveToLocal({ file: videoFile, folder: "videos", kind: "video" })
+      );
 
     let uploaded: UploadedAsset[] = [];
     try {
@@ -84,36 +137,34 @@ export async function POST(request: Request) {
       return jsonError(message, 500);
     }
 
-    const imageUrl = uploaded.find(u => u.kind === "image")?.publicUrl || null;
-    const videoUrl = uploaded.find(u => u.kind === "video")?.publicUrl || null;
+    const imageUrl =
+      uploaded.find((u) => u.kind === "image")?.publicUrl || null;
+    const videoUrl =
+      uploaded.find((u) => u.kind === "video")?.publicUrl || null;
 
-    // Insert metadata into MongoDB reports collection
-    const db = await getDb();
-    try {
-      await db.collection('reports').insertOne({
-        description,
-        image_url: imageUrl,
-        video_url: videoUrl,
-        status: 'Processing',
-        created_at: new Date()
-      });
-    } catch (dbErr) {
-      // Attempt best-effort cleanup of uploaded assets
-      const pathsToRemove = uploaded.map(u => u.path);
-      if (pathsToRemove.length) {
-        await supabase.storage.from('media').remove(pathsToRemove);
+    const noDb = !process.env.MONGODB_URI || !process.env.MONGODB_DB;
+    if (!noDb) {
+      const db = await getDb();
+      try {
+        await db.collection("reports").insertOne({
+          description,
+            image_url: imageUrl,
+            video_url: videoUrl,
+            status: "Processing",
+            created_at: new Date(),
+          });
+      } catch (dbErr) {
+        // Attempt best-effort cleanup of written files
+        await Promise.all(uploaded.map((u) => fs.unlink(u.path).catch(() => {})));
+        const message = dbErr instanceof Error ? dbErr.message : "Database error";
+        return jsonError(`Database error: ${message}`, 500);
       }
-      const message = dbErr instanceof Error ? dbErr.message : 'Database error';
-      return jsonError(`Database error: ${message}`, 500);
     }
 
-    return NextResponse.json({
-      success: true,
-      message: "Upload successful",
-      data: { description, imageUrl, videoUrl },
-    });
+    return NextResponse.json({ success: true, message: "Upload successful", data: { description, imageUrl, videoUrl, persisted: !noDb } });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Unexpected server error";
+    const message =
+      err instanceof Error ? err.message : "Unexpected server error";
     console.error("/api/upload error", err);
     return jsonError(message, 500);
   }

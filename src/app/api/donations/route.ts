@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getDb } from '@/lib/mongodb';
+import { getDb } from "@/lib/mongodb";
 
 // Simple donations endpoint creating a donation intent and returning a UPI deep link.
 // For real-time confirmation integrate a payment gateway (Razorpay/Cashfree) and verify signatures.
@@ -21,30 +21,47 @@ function buildUpiLink(amount: number, note: string, reference?: string) {
 
 export async function POST(request: Request) {
   try {
+    if (!process.env.MONGODB_URI || !process.env.MONGODB_DB) {
+      // Return link but skip DB persistence
+      const body = await request.json().catch(() => null);
+      if (!body) return NextResponse.json({ success: false, message: "Invalid JSON" }, { status: 400 });
+      const { amount, note = "Donation" } = body;
+      if (typeof amount !== 'number' || amount <= 0) return NextResponse.json({ success:false, message:'Amount must be positive'}, { status:422 });
+      const reference = `DON-${Date.now()}`;
+      return NextResponse.json({ success:true, data:{ reference, upiLink: buildUpiLink(amount, note, reference), persisted:false } });
+    }
     const body = await request.json().catch(() => null);
-    if (!body) return NextResponse.json({ success: false, message: 'Invalid JSON' }, { status: 400 });
-    const { amount, donor_name, donor_email, note = 'Donation' } = body;
-    if (typeof amount !== 'number' || amount <= 0) return NextResponse.json({ success: false, message: 'Amount must be positive' }, { status: 422 });
+    if (!body)
+      return NextResponse.json(
+        { success: false, message: "Invalid JSON" },
+        { status: 400 }
+      );
+    const { amount, donor_name, donor_email, note = "Donation" } = body;
+    if (typeof amount !== "number" || amount <= 0)
+      return NextResponse.json(
+        { success: false, message: "Amount must be positive" },
+        { status: 422 }
+      );
 
     const reference = `DON-${Date.now()}`;
     const upiLink = buildUpiLink(amount, note, reference);
 
-    const db = await getDb();
-    await db.collection('payments').insertOne({
+  const db = await getDb();
+  await db.collection("payments").insertOne({
       amount,
-      currency: 'INR',
-      method: 'upi',
-      status: 'initiated',
+      currency: "INR",
+      method: "upi",
+      status: "initiated",
       reference,
       donor_name: donor_name || null,
       donor_email: donor_email || null,
       meta: { note },
-      created_at: new Date()
+      created_at: new Date(),
     });
 
     return NextResponse.json({ success: true, data: { reference, upiLink } });
   } catch (e) {
-    const message = e instanceof Error ? e.message : 'Unexpected error';
+    const message = e instanceof Error ? e.message : "Unexpected error";
     return NextResponse.json({ success: false, message }, { status: 500 });
   }
 }

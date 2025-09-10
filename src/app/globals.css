@@ -34,3 +34,65 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Global form text color override */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+textarea,
+select {
+  color: #000000 !important;
+  background-color: #ffffff !important;
+  border: 1px solid #d1d5db; /* tailwind gray-300 */
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #6b7280 !important; /* tailwind gray-500 */
+}
+
+/* Focus state */
+input:focus, textarea:focus, select:focus {
+  outline: 2px solid #2563eb55; /* subtle blue focus */
+  outline-offset: 1px;
+  background-color: #ffffff !important;
+}
+
+/* --- Shadcn-style lightweight animation utilities --- */
+@keyframes fade-in-down {
+  0% { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes scale-in {
+  0% { opacity: 0; transform: scale(.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes slide-down-soft {
+  0% { opacity:0; transform: translateY(-10px); }
+  100% { opacity:1; transform: translateY(0); }
+}
+
+.animate-in { animation-duration: .55s; animation-fill-mode: both; }
+.fade-in-down { animation-name: fade-in-down; }
+.fade-in-up { animation-name: fade-in-up; }
+.scale-in { animation-name: scale-in; }
+.slide-down-soft { animation-name: slide-down-soft; }
+
+/* Stagger helper: data-animate-child used with parent having data-animate-stagger */
+[data-animate-stagger] [data-animate-child] { opacity:0; }
+[data-animate-stagger] [data-animate-child].is-visible { opacity:1; }
+
+/* Mobile menu specific */
+.menu-panel-animate { animation: slide-down-soft .45s cubic-bezier(.16,.84,.44,1); }
+
+/* Scroll reveal base */
+.reveal { transition: opacity .6s ease, transform .6s cubic-bezier(.16,.84,.44,1); }
+.reveal-visible { opacity:1 !important; transform: translateY(0) !important; }

@@ -1,6 +1,6 @@
 import UploadSection from "@/components/UploadSection";
 import ReportsSection from "@/components/ReportsSection";
-import AdminSummary from '../../components/admin/AdminSummary';
+import AdminSummary from "../../components/admin/AdminSummary";
 
 export default function DashboardPage() {
   return (

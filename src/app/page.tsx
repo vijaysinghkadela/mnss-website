@@ -14,7 +14,6 @@ import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
 // Removed AnnualProgressReports (unused on home page)
 import ProgramHighlights from "@/components/ProgramHighlights";
-import ReportsSection from "@/components/ReportsSection";
 import Gallery from "@/components/Gallery";
 
 export default function Home() {
@@ -117,8 +116,8 @@ export default function Home() {
         {/* <AnnualProgressReports /> */}
         {/* <AnnualProgressReports /> */}
         <ProgramHighlights />
-  <ReportsSection />
-  <Gallery />
+        {/* <ReportsSection /> */}
+        <Gallery />
         <Statistics />
         <Timeline />
         <Contact />

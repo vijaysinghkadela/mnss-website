@@ -7,18 +7,18 @@ import { Button } from "./ui/Button";
 import { useCounter } from "@/hooks/useCounter";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { heroStats } from "@/lib/data";
-import Icon from './icons'
+import Icon from "./icons";
 import { scrollToElement } from "@/lib/utils";
-import { useLanguage } from '@/context/LanguageContext'
+import { useLanguage } from "@/context/LanguageContext";
 
 export function Hero() {
   const { elementRef, isVisible } = useScrollAnimation();
-  const { t } = useLanguage()
+  const { t } = useLanguage();
 
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50"
+      className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50"
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
@@ -26,26 +26,31 @@ export function Hero() {
         <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_49%,rgba(59,130,246,0.05)_50%,transparent_51%)] bg-[length:20px_20px]" />
       </div>
 
-      <Container className="relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <Container className="relative z-10 pt-24 pb-16">
+        <div className="grid xl:grid-cols-12 gap-12 items-center">
           {/* Content */}
-          <div className="space-y-8">
+          <div className="space-y-8 xl:col-span-6 col-span-12">
             <div className="space-y-4">
-              <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-primary-100 to-primary-200 text-primary-700 rounded-full text-sm font-medium">
-                <span className="mr-2">�️</span>
-                {new Date().getFullYear() - 2009} {t('yearsOfService')} • ISO 9001:2015 Certified
+              <div className="inline-flex items-center gap-2 pl-2 pr-4 py-1.5 rounded-full border border-blue-200 bg-white/70 backdrop-blur text-xs sm:text-sm font-medium shadow-sm">
+                <span className="flex w-6 h-6 items-center justify-center rounded-full bg-blue-600 text-white text-[10px] font-bold">
+                  {new Date().getFullYear() - 2009}
+                </span>
+                <span>{t("yearsOfServiceLabel")} • ISO 9001:2015</span>
               </div>
 
-              <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight">
-                Transforming{" "}
-                <span className=" bg-clip-text bg-gradient-to-r from-primary-600 text-gray-900 to-secondary-600">
-                  Lives
+              <h1 className="font-bold tracking-tight text-gray-900 text-4xl sm:text-5xl lg:text-6xl leading-[1.1]">
+                <span className="block">
+                  {t('heroTransforming')}{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                    {t('heroLives')}
+                  </span>
                 </span>
-                <br />
-                <span className="text-gray-900 bg-clip-text bg-gradient-to-r from-secondary-600 to-accent-600">
-                  Building
-                </span>{" "}
-                Communities
+                <span className="block mt-1">
+                  {t('heroBuilding')}{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
+                    {t('heroCommunities')}
+                  </span>
+                </span>
               </h1>
 
               {/* <p className="text-xl text-gray-600 max-w-2xl leading-relaxed">
@@ -55,21 +60,27 @@ export function Hero() {
 
             <div className="flex items-center space-x-2 text-gray-600">
               <span className="text-lg">📍</span>
-              <span className="font-medium">{t('serving')}</span>
+              <span className="font-medium">{t("serving")}</span>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 pt-2">
               <Button
                 size="lg"
                 onClick={() => scrollToElement("services")}
                 className="group text-gray-900 bg-purple-300"
               >
-                {t('exploreHero')}
-                <span className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform">➤</span>
+                {t("exploreHero")}
+                <span className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform">
+                  ➤
+                </span>
               </Button>
 
-              <Button variant="outline" size="lg" onClick={() => scrollToElement("contact")}>
-                {t('emergencyHelp')}
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => scrollToElement("contact")}
+              >
+                {t("emergencyHelp")}
               </Button>
             </div>
 
@@ -86,15 +97,17 @@ export function Hero() {
           </div>
 
           {/* Stats Cards */}
-          <div ref={elementRef} className="grid grid-cols-2 gap-6">
-            {heroStats.map((stat, index) => (
-              <StatCard
-                key={stat.label}
-                stat={stat}
-                index={index}
-                isVisible={isVisible}
-              />
-            ))}
+          <div ref={elementRef} className="xl:col-span-6 col-span-12">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-2 gap-5 lg:gap-6">
+              {heroStats.map((stat, index) => (
+                <StatCard
+                  key={stat.label}
+                  stat={stat}
+                  index={index}
+                  isVisible={isVisible}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </Container>
@@ -118,21 +131,34 @@ interface StatCardProps {
 }
 
 function StatCard({ stat, index, isVisible }: StatCardProps) {
-  const { count, startAnimation } = useCounter({
+  const { count, startAnimation, isAnimating } = useCounter({
     end: stat.number,
-    duration: 2500,
+    duration: 2200,
   });
+  const { t } = useLanguage();
+  const startedRef = React.useRef(false);
 
   React.useEffect(() => {
+    if (startedRef.current) return;
+    // Start when visible OR after short delay to guarantee firing
     if (isVisible) {
-      const timer = setTimeout(() => startAnimation(), index * 200);
-      return () => clearTimeout(timer);
+      startedRef.current = true;
+      const t = setTimeout(startAnimation, index * 160);
+      return () => clearTimeout(t);
     }
+    // Safety kickoff after 1s if intersection never triggers
+    const safety = setTimeout(() => {
+      if (!startedRef.current) {
+        startedRef.current = true;
+        startAnimation();
+      }
+    }, 1000 + index * 50);
+    return () => clearTimeout(safety);
   }, [isVisible, index, startAnimation]);
 
   return (
     <div
-      className={`relative p-6 bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-white/50 overflow-hidden group hover:-translate-y-2`}
+      className={`relative p-5 sm:p-6 bg-white/80 backdrop-blur-md rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-white/60 overflow-hidden group hover:-translate-y-1.5`}
     >
       {/* Gradient Background */}
       <div
@@ -141,16 +167,27 @@ function StatCard({ stat, index, isVisible }: StatCardProps) {
 
       {/* Icon */}
       <div className="relative z-10">
-        <div className="text-3xl mb-2">
-          {stat.icon ? <Icon name={String(stat.icon)} className="w-8 h-8" /> : <span className="text-2xl">🌐</span>}
+        <div className="flex items-center justify-between mb-2">
+          <div className="text-3xl">
+            {stat.icon ? (
+              <Icon name={String(stat.icon)} className="w-8 h-8" />
+            ) : (
+              <span className="text-2xl">🌐</span>
+            )}
+          </div>
+          <div className="text-[10px] uppercase tracking-wide font-semibold text-gray-400">
+            {t(stat.label)}
+          </div>
         </div>
         <div className="space-y-1">
-    <div className="text-2xl font-bold text-gray-900">{count.toLocaleString()}{stat.suffix}</div>
-          <div className="text-sm font-semibold text-gray-700">
-            {stat.label}
+          <div className="text-2xl font-bold text-gray-900 tabular-nums">
+            {count.toLocaleString()}{stat.suffix}
+            {!isAnimating && count === 0 && stat.number > 0 && (
+              <span className="opacity-0">{stat.number}</span>
+            )}
           </div>
-          <div className="text-xs text-gray-500 leading-relaxed">
-            {stat.description}
+          <div className="text-xs text-gray-500 leading-relaxed line-clamp-2 min-h-[2rem]">
+            {t(stat.description)}
           </div>
         </div>
       </div>

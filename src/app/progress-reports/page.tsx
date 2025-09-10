@@ -1,5 +1,5 @@
-import React from 'react';
-import { AnnualProgressReports } from '@/components/AnnualProgressReports';
+import React from "react";
+import { AnnualProgressReports } from "@/components/AnnualProgressReports";
 
 export default function ProgressReportsPage() {
   return (
@@ -8,5 +8,3 @@ export default function ProgressReportsPage() {
     </main>
   );
 }
-
-
