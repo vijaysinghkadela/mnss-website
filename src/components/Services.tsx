@@ -1,6 +1,7 @@
 "use client";
 
 import { Container } from "./ui/Container";
+import Link from "next/link";
 import { Card, CardContent, CardFooter } from "./ui/Card";
 import { Button } from "./ui/Button";
 import { useLanguage } from "@/context/LanguageContext";
@@ -14,46 +15,34 @@ export function Services() {
   return (
     <section
       id="services"
-      className="py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden"
+      className="py-24 bg-gradient-to-br from-gray-50 to-white"
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(59,130,246,0.3)_1px,transparent_0)] bg-[length:30px_30px]"></div>
-      </div>
-
-      <Container className="relative z-10">
+      <Container>
         <div ref={elementRef} className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 rounded-full text-sm font-medium mb-6">
-            <span className="mr-2">🛠️</span>
-            Our Services
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            {t('servicesTitle')}
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            {t("servicesTitle")}
           </h2>
-          <p className="text-xl text-slate-700 max-w-3xl mx-auto leading-relaxed">
-            {t('servicesDescription')}
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            {t("servicesDescription")}
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {services.map((service, index) => (
-            <ServiceCard key={service.id} service={service} index={index} />
+          {services.map((service) => (
+            <ServiceCard key={service.id} service={service} />
           ))}
         </div>
 
         <div className="mt-16 text-center">
-          <Button
-            size="lg"
-            className="group bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white border-0 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
-            onClick={() => {
-              if (typeof window !== 'undefined') {
-                window.location.href = '/programs'
-              }
-            }}
+          <Link
+            href="/programs"
+            className="inline-flex items-center px-8 py-3 rounded-lg font-medium bg-purple-300 text-gray-900 shadow-lg hover:bg-purple-200 transition-colors group"
           >
-            {t('viewAllPrograms')}
-            <span className="ml-2 group-hover:translate-x-1 transition-transform">➤</span>
-          </Button>
+            {t("viewAllPrograms")}
+            <span className="ml-2 group-hover:translate-x-1 transition-transform">
+              ➤
+            </span>
+          </Link>
         </div>
       </Container>
     </section>
@@ -62,71 +51,39 @@ export function Services() {
 
 interface ServiceCardProps {
   service: (typeof services)[0];
-  index: number;
 }
 
-function ServiceCard({ service, index }: ServiceCardProps) {
+function ServiceCard({ service }: ServiceCardProps) {
   const { t } = useLanguage();
-  
-  const cardColors = [
-    'from-blue-500 to-blue-600',
-    'from-emerald-500 to-emerald-600', 
-    'from-amber-500 to-amber-600',
-    'from-purple-500 to-purple-600'
-  ];
-  
-  const iconColors = [
-    'text-blue-600',
-    'text-emerald-600',
-    'text-amber-600', 
-    'text-purple-600'
-  ];
-
-  const bgColors = [
-    'bg-blue-50',
-    'bg-emerald-50',
-    'bg-amber-50',
-    'bg-purple-50'
-  ];
-
-  const colorIndex = index % cardColors.length;
-
   return (
-    <div className="group">
+    <div>
       <Card
         hover
-        className="h-full cursor-pointer relative overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
+        className="h-full group cursor-pointer relative overflow-hidden"
       >
         <div
-          className={`absolute inset-0 bg-gradient-to-br ${cardColors[colorIndex]} opacity-0 group-hover:opacity-10 transition-all duration-500`}
+          className={`absolute inset-0 bg-gradient-to-br from-primary-500 to-primary-600 opacity-0 group-hover:opacity-12 transition-all duration-500`}
         />
-        
-        {/* Top accent bar */}
-        <div className={`h-1 w-full bg-gradient-to-r ${cardColors[colorIndex]} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 
-        <CardContent className="relative z-10 p-8">
-          <div className={`text-5xl mb-6 ${iconColors[colorIndex]}`}>
-            {service.icon || '🌐'}
-          </div>
-          
-          <h3 className="text-xl font-bold text-slate-900 mb-4 group-hover:text-slate-800 transition-colors">
-            {service.title}
+        <CardContent className="relative z-10">
+          <div className="text-4xl mb-4">🌐</div>
+          <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary-700 transition-colors">
+            {t(service.title)}
           </h3>
-          
-          <p className="text-slate-700 text-sm leading-relaxed mb-6">
-            {service.shortDesc}
+          <p className="text-gray-600 text-sm leading-relaxed mb-4">
+            {t(service.shortDesc)}
           </p>
 
-          <div className="space-y-3 mb-6">
+          <div className="space-y-2 mb-4">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-slate-600 font-medium">{t('beneficiaries')}:</span>
-              <span className={`font-bold ${iconColors[colorIndex]}`}>
+              <span className="text-gray-500">{t("beneficiaries")}:</span>
+              <span className="font-semibold text-primary-600">
                 {service.beneficiaries}
               </span>
             </div>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-slate-600 font-medium">{t('locations')}:</span>
-              <span className={`font-bold ${iconColors[colorIndex]}`}>
+              <span className="text-gray-500">{t("locations")}:</span>
+              <span className="font-semibold text-secondary-600">
                 {service.locations}
               </span>
             </div>
@@ -136,32 +93,40 @@ function ServiceCard({ service, index }: ServiceCardProps) {
             {service.features.slice(0, 3).map((feature, idx) => (
               <div
                 key={idx}
-                className="flex items-center text-sm text-slate-700"
+                className="flex items-center text-sm text-gray-600"
               >
-                <div className={`w-2 h-2 ${bgColors[colorIndex]} rounded-full mr-3 flex-shrink-0`} />
-                {feature}
+                <div className="w-1.5 h-1.5 bg-primary-400 rounded-full mr-2 flex-shrink-0" />
+                {t(feature)}
               </div>
             ))}
             {service.features.length > 3 && (
-              <div className={`text-xs ${iconColors[colorIndex]} font-medium mt-2`}>
-                +{service.features.length - 3} more services
+              <div className="text-xs text-primary-600 font-medium">
+                {t('moreServices').replace('{count}', String(service.features.length - 3))}
               </div>
             )}
           </div>
         </CardContent>
 
-        <CardFooter className="relative z-10 p-6 pt-0">
+        <CardFooter className="relative z-10">
           {service.contacts && (
-            <div className="flex items-center justify-between w-full p-3 bg-slate-50 rounded-lg">
-              <span className="text-xs text-slate-600 font-medium">Emergency:</span>
+            <div className="flex items-center justify-between w-full">
+              <span className="text-xs text-gray-500">{t('emergency')}:</span>
               <a
                 href={`tel:${service.contacts[0].replace(/\D/g, "")}`}
-                className={`text-xs ${iconColors[colorIndex]} font-bold hover:underline`}
+                className="text-xs text-accent-600 font-semibold hover:text-accent-700"
               >
                 {service.contacts[0]}
               </a>
             </div>
           )}
+
+          <Button
+            variant="ghost"
+            size="sm"
+            className="w-full mt-3 group-hover:bg-primary-50 group-hover:text-primary-700"
+          >
+            {t("learnMore")}
+          </Button>
         </CardFooter>
       </Card>
     </div>

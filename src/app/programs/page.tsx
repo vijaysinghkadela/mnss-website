@@ -1,103 +1,100 @@
-"use client";
-
-import React, { useState } from 'react';
-import ProgramCard from '@/components/ProgramCard';
-import { PROGRAMS, ProgramCategory } from '@/data/constants';
+import React from "react";
+import Link from "next/link";
+// Removed lucide-react icons due to type issues; using emoji fallbacks
+import { ProgramHighlights } from "@/components/ProgramHighlights";
+import { EnhancedStatistics } from "@/components/EnhancedStatistics";
 
 export default function ProgramsPage() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<ProgramCategory | 'all'>('all');
-  const [showActiveOnly, setShowActiveOnly] = useState(false);
-
-  const categories: { value: ProgramCategory | 'all'; label: string }[] = [
-    { value: 'all', label: 'All Programs' },
-    { value: 'women-empowerment', label: 'Women Empowerment' },
-    { value: 'traditional-crafts', label: 'Traditional Crafts' },
-    { value: 'social-awareness', label: 'Social Awareness' },
-    { value: 'environmental', label: 'Environmental' },
-    { value: 'government-schemes', label: 'Government Schemes' },
-  ];
-
-  const filteredPrograms = PROGRAMS.filter((program) => {
-    const matchesSearch = program.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      program.titleHindi.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || program.category === selectedCategory;
-    const matchesStatus = !showActiveOnly || program.isActive;
-    return matchesSearch && matchesCategory && matchesStatus;
-  });
-
   return (
-    <>
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+    <main className="min-h-screen">
+      <section className="bg-gradient-to-br from-blue-600 to-indigo-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Our Programs</h1>
-          <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-            Comprehensive training and development programs designed to empower communities and create sustainable livelihoods
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            Our Programs &amp; Impact
+          </h1>
+          <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-8">
+            Comprehensive community development programs transforming lives
+            across Rajasthan since 2009. Explore our documented journey from
+            2014-2018 and see the real impact we&apos;ve made together.
           </p>
-        </div>
-      </section>
-
-      <section className="py-8 bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
-            <div className="relative flex-1 max-w-md">
-              <input
-                type="text"
-                placeholder="Search programs..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-3 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-            <div className="flex items-center gap-4">
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value as ProgramCategory | 'all')}
-                className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                {categories.map((category) => (
-                  <option key={category.value} value={category.value}>{category.label}</option>
-                ))}
-              </select>
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={showActiveOnly}
-                  onChange={(e) => setShowActiveOnly(e.target.checked)}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-                <span className="ml-2 text-sm text-gray-700">Active only</span>
-              </label>
-            </div>
-            <div className="text-sm text-gray-500">{filteredPrograms.length} results</div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Link
+              href="/progress-reports"
+              className="bg-white text-blue-600 px-8 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors shadow-lg flex items-center"
+            >
+              <span className="mr-2" aria-hidden>
+                📄
+              </span>
+              View Annual Reports
+              <span className="ml-2" aria-hidden>
+                ➡️
+              </span>
+            </Link>
+            <Link
+              href="/contact"
+              className="border-2 border-white text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-all"
+            >
+              Get Involved
+            </Link>
           </div>
         </div>
       </section>
 
+      <ProgramHighlights />
+      <EnhancedStatistics />
+
       <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {filteredPrograms.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredPrograms.map((program) => (
-                <ProgramCard key={program.id} program={program} />
-              ))}
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-8 border border-gray-200">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              Transparency Through Documentation
+            </h2>
+            <p className="text-gray-600 mb-6 leading-relaxed">
+              We believe in complete transparency and accountability. Our annual
+              progress reports provide detailed documentation of every program,
+              its beneficiaries, outcomes, and impact. These reports cover our
+              activities from 2014-2018 and showcase our commitment to
+              measurable social change.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div className="text-left p-6 bg-white rounded-lg shadow-md">
+                <h3 className="font-semibold text-gray-800 mb-2">
+                  What You&apos;ll Find:
+                </h3>
+                <ul className="text-sm text-gray-600 space-y-1">
+                  <li>• Detailed program descriptions</li>
+                  <li>• Number of beneficiaries reached</li>
+                  <li>• Specific outcomes and impacts</li>
+                  <li>• Team member information</li>
+                </ul>
+              </div>
+              <div className="text-left p-6 bg-white rounded-lg shadow-md">
+                <h3 className="font-semibold text-gray-800 mb-2">
+                  Years Covered:
+                </h3>
+                <ul className="text-sm text-gray-600 space-y-1">
+                  <li>• 2014-15 Annual Report</li>
+                  <li>• 2015-16 Annual Report</li>
+                  <li>• 2016-17 Annual Report</li>
+                  <li>• 2017-18 Annual Report</li>
+                </ul>
+              </div>
             </div>
-          ) : (
-            <div className="text-center py-16">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No programs found</h3>
-              <p className="text-gray-600 mb-6">Try adjusting your search criteria or browse all programs</p>
-              <button
-                onClick={() => { setSearchTerm(''); setSelectedCategory('all'); setShowActiveOnly(false); }}
-                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Clear Filters
-              </button>
-            </div>
-          )}
+            <Link
+              href="/progress-reports"
+              className="inline-flex items-center bg-indigo-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors shadow-lg"
+            >
+              <span className="mr-2" aria-hidden>
+                📄
+              </span>
+              Explore Annual Reports
+              <span className="ml-2" aria-hidden>
+                ➡️
+              </span>
+            </Link>
+          </div>
         </div>
       </section>
-    </>
+    </main>
   );
 }
-
-

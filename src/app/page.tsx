@@ -1,128 +1,108 @@
-"use client"
+"use client";
 
 import React from "react";
-import Image from 'next/image'
+import Image from "next/image";
+
+import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { Statistics } from "@/components/Statistics";
 import { Timeline } from "@/components/Timeline";
-// import { Reports } from "@/components/Reports";
 import { Contact } from "@/components/Contact";
-// import { Footer } from "@/components/Footer";
-import ProgressGallery from "@/components/ProgressGallery";
+import { Footer } from "@/components/Footer";
 // ComprehensiveServices intentionally not included on the home page by default
-import { useLanguage } from '@/context/LanguageContext'
-
+import { useLanguage } from "@/context/LanguageContext";
+// Removed AnnualProgressReports (unused on home page)
+import ProgramHighlights from "@/components/ProgramHighlights";
+import Gallery from "@/components/Gallery";
 
 export default function Home() {
-  const { t } = useLanguage()
+  const { t } = useLanguage();
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 text-slate-800">
-      <main>
+    <div className="min-h-screen bg-white text-gray-900">
+      <Header />
+
+      <main className="pt-24">
         <Hero />
-        <section id="about" className="py-16 bg-white">
+        <section id="about" className="py-16 bg-gray-50">
           <div className="max-w-6xl mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-slate-900">{t('aboutTitle')}</h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-amber-500 mx-auto rounded-full"></div>
-            </div>
+            <h2 className="text-3xl font-bold mb-6">{t("aboutTitle")}</h2>
 
-            <div className="grid md:grid-cols-2 gap-12 items-start">
-              <div className="space-y-8">
-                <div className="prose prose-lg max-w-none">
-                  <p className="text-slate-800 leading-relaxed">{t('aboutParagraph')}</p>
-                </div>
+            <div className="grid md:grid-cols-2 gap-8 items-start">
+              <div>
+                <p className="text-gray-700 mb-4">{t("aboutParagraph")}</p>
 
-                <div className="space-y-6">
-                  <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-100">
-                    <h3 className="text-xl font-semibold text-blue-900 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm mr-3">🎯</span>
-                      {t('mission')}
-                    </h3>
-                    <p className="text-slate-800 leading-relaxed">{t('missionText')}</p>
-                  </div>
+                <h3 className="text-lg font-semibold mt-4">{t("mission")}</h3>
+                <p className="text-gray-600">{t("missionText")}</p>
 
-                  <div className="p-6 bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl border border-amber-100">
-                    <h3 className="text-xl font-semibold text-amber-900 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-amber-600 rounded-full flex items-center justify-center text-white text-sm mr-3">👁️</span>
-                      {t('vision')}
-                    </h3>
-                    <p className="text-slate-800 leading-relaxed">{t('visionText')}</p>
-                  </div>
-                </div>
+                <h3 className="text-lg font-semibold mt-4">{t("vision")}</h3>
+                <p className="text-gray-600">{t("visionText")}</p>
 
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <a href="#services" className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r bg-blue-400  text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
-                    {t('exploreServices')}
-                    <span className="ml-2">→</span>
+                <div className="mt-6 flex gap-3">
+                  <a
+                    href="#services"
+                    className="inline-flex items-center px-5 py-3 bg-primary-600 text-gray-900  rounded-lg shadow hover:opacity-95 bg-purple-400"
+                  >
+                    {t("exploreServices")}
                   </a>
-                  <a href="#contact" className="inline-flex items-center justify-center px-8 py-4 border-2 border-blue-600 text-blue-100 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300">
-                    {t('getHelpShort')}
+                  <a
+                    href="#contact"
+                    className="inline-flex items-center px-5 py-3 border border-gray-200 rounded-lg text-gray-700"
+                  >
+                    {t("getHelpShort")}
                   </a>
                 </div>
               </div>
 
-              <div className="space-y-8">
-                {/* Enhanced image with better styling */}
-                <div className="relative w-full h-64 md:h-96 rounded-2xl overflow-hidden shadow-xl group bg-gradient-to-br from-blue-100 to-indigo-100">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-6xl mb-4">🏛️</div>
-                      <div className="text-slate-700 font-semibold">Community Outreach</div>
-                      <div className="text-slate-500 text-sm">MNSS in Action</div>
+              <div>
+                {/* Responsive image placeholder - replace /mnss-hero.jpg with the image you provide in /public */}
+                <div className="relative w-full h-56 md:h-80 rounded-lg overflow-hidden shadow-sm mb-6">
+                  <Image
+                    src="/mnss-hero.jpg"
+                    alt="MNSS community outreach"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+
+                <h4 className="text-sm font-semibold text-gray-700 uppercase mb-3">
+                  {t("corePrograms")}
+                </h4>
+                <ul className="space-y-2 text-gray-600 mb-4">
+                  <li>• {t("coreProgram1")}</li>
+                  <li>• {t("coreProgram2")}</li>
+                  <li>• {t("coreProgram3")}</li>
+                  <li>• {t("coreProgram4")}</li>
+                </ul>
+
+                <h4 className="text-sm font-semibold text-gray-700 uppercase mb-3">
+                  {t("impactHighlights")}
+                </h4>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white p-4 rounded-lg shadow-sm text-center">
+                    <div className="text-2xl font-bold">10,000+</div>
+                    <div className="text-sm text-gray-500">
+                      {t("livesPositivelyImpacted")}
                     </div>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                </div>
-
-                {/* Core Programs */}
-                <div className="p-6 bg-gradient-to-br from-slate-50 to-blue-50 rounded-2xl border border-slate-200">
-                  <h4 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
-                    <span className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs mr-3">📋</span>
-                    {t('corePrograms')}
-                  </h4>
-                  <ul className="space-y-3">
-                    <li className="flex items-center text-slate-800">
-                      <span className="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>
-                      {t('coreProgram1')}
-                    </li>
-                    <li className="flex items-center text-slate-800">
-                      <span className="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>
-                      {t('coreProgram2')}
-                    </li>
-                    <li className="flex items-center text-slate-800">
-                      <span className="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>
-                      {t('coreProgram3')}
-                    </li>
-                    <li className="flex items-center text-slate-800">
-                      <span className="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>
-                      {t('coreProgram4')}
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Impact Highlights */}
-                <div className="p-6 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl border border-emerald-200">
-                  <h4 className="text-lg font-semibold text-emerald-800 mb-6 flex items-center">
-                    <span className="w-6 h-6 bg-emerald-600 rounded-full flex items-center justify-center text-white text-xs mr-3">📊</span>
-                    {t('impactHighlights')}
-                  </h4>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-white p-4 rounded-xl shadow-sm text-center hover:shadow-md transition-shadow">
-                      <div className="text-3xl font-bold text-emerald-600 mb-1">10,000+</div>
-                      <div className="text-sm text-slate-700">{t('livesPositivelyImpacted')}</div>
+                  <div className="bg-white p-4 rounded-lg shadow-sm text-center">
+                    <div className="text-2xl font-bold">5+</div>
+                    <div className="text-sm text-gray-500">
+                      {t("districtsServed")}
                     </div>
-                    <div className="bg-white p-4 rounded-xl shadow-sm text-center hover:shadow-md transition-shadow">
-                      <div className="text-3xl font-bold text-emerald-600 mb-1">5+</div>
-                      <div className="text-sm text-slate-700">{t('districtsServed')}</div>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg shadow-sm text-center">
+                    <div className="text-2xl font-bold">200+</div>
+                    <div className="text-sm text-gray-500">
+                      {t("programsTrainings")}
                     </div>
-                    <div className="bg-white p-4 rounded-xl shadow-sm text-center hover:shadow-md transition-shadow">
-                      <div className="text-3xl font-bold text-emerald-600 mb-1">200+</div>
-                      <div className="text-sm text-slate-700">{t('programsTrainings')}</div>
-                    </div>
-                    <div className="bg-white p-4 rounded-xl shadow-sm text-center hover:shadow-md transition-shadow">
-                      <div className="text-3xl font-bold text-emerald-600 mb-1">16</div>
-                      <div className="text-sm text-slate-700">{t('yearsOfServiceLabel')}</div>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg shadow-sm text-center">
+                    <div className="text-2xl font-bold">16</div>
+                    <div className="text-sm text-gray-500">
+                      {t("yearsOfServiceLabel")}
                     </div>
                   </div>
                 </div>
@@ -131,16 +111,19 @@ export default function Home() {
           </div>
         </section>
 
-  {/* <ComprehensiveServices /> */}
-  <Services />
+        {/* <ComprehensiveServices /> */}
+        <Services />
+        {/* <AnnualProgressReports /> */}
+        {/* <AnnualProgressReports /> */}
+        <ProgramHighlights />
+        {/* <ReportsSection /> */}
+        <Gallery />
         <Statistics />
-        <ProgressGallery />
-  <Timeline />
-  {/* <Reports /> */}
+        <Timeline />
         <Contact />
       </main>
 
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }
