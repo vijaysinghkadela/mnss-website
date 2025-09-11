@@ -73,8 +73,8 @@ export function Header() {
         <Container>
           <div className={`flex items-center justify-between ${scrolled ? 'h-16' : 'h-20'} animate-in fade-in-down transition-[height] duration-300`}>
             {/* Logo */}
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl overflow-hidden shadow-md bg-white ring-1 ring-gray-100 flex items-center justify-center">
+            <div className="flex items-center gap-3 min-w-0 group/logo">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl overflow-hidden shadow bg-white ring-1 ring-gray-100 flex items-center justify-center">
                 <Image
                   src={logoSrc}
                   alt="MNSS logo"
@@ -84,14 +84,25 @@ export function Header() {
                   priority
                 />
               </div>
-              <div className="leading-tight min-w-0 select-none">
-                <h1 className="font-bold tracking-tight text-gray-900 text-base sm:text-lg md:text-xl truncate">
-                  <span className="sm:hidden">MNSS</span>
-                  <span className="hidden sm:inline">Marut Narayan Sewa Sansthan</span>
-                </h1>
-                <p className="mt-0.5 text-[9px] sm:text-[11px] md:text-xs text-gray-500 md:text-gray-600 whitespace-nowrap tracking-wide">
-                  Transforming Communities Since 2009
-                </p>
+              <div className="leading-tight min-w-0 select-none relative">
+                <div className="flex items-center gap-2">
+                  <h1 className="font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 text-lg sm:text-lg md:text-xl">
+                    MNSS
+                  </h1>
+                  {/* Inline language toggle (merged into brand area) */}
+                  <button
+                    onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
+                    className="hidden sm:inline-flex px-2 py-0.5 rounded-md border border-indigo-200 bg-white/60 backdrop-blur text-[10px] font-semibold text-indigo-700 hover:bg-white shadow-sm transition"
+                    aria-label="Toggle language"
+                  >
+                    {lang === 'en' ? 'EN' : 'हिं'}
+                  </button>
+                </div>
+                {/* Reveal secondary short name & tagline on hover or focus for accessibility */}
+                <div className="pt-0.5 text-[10px] sm:text-[11px] font-medium text-gray-500 group-hover/logo:opacity-100 group-focus-within/logo:opacity-100 opacity-90 transition-opacity">
+                  <span className="hidden sm:inline-block align-middle">Marut Narayan Sewa</span>
+                  <span className="inline-block sm:block align-middle sm:ml-1 text-[9px] sm:text-[10px] font-normal text-purple-600/80">{new Date().getFullYear() - 2009}+ yrs</span>
+                </div>
               </div>
             </div>
 
@@ -125,7 +136,7 @@ export function Header() {
             </nav>
 
             {/* Utility Controls & Mobile Menu */}
-      <div className="flex items-center gap-3 xl:gap-4">
+            <div className="flex items-center gap-3 xl:gap-4">
               {/* Donate button (desktop) */}
               <a
                 href="/donate"
@@ -144,15 +155,7 @@ export function Header() {
               </Button>
 
               {/* Single Language toggle */}
-        <div className="ml-1 xl:ml-2">
-                <button
-                  onClick={() => setLang(lang === "en" ? "hi" : "en")}
-          className="px-2.5 py-1 rounded-md border bg-white/60 backdrop-blur hover:bg-white text-gray-700 text-xs xl:text-sm font-medium shadow-sm"
-                  aria-label="Toggle language"
-                >
-                  {lang === "en" ? "EN" : "हिं"}
-                </button>
-              </div>
+              {/* Removed separate language toggle (merged into brand) */}
 
               {/* Theme toggle removed as requested */}
 
