@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 // Removed phone contact; Link no longer needed
 import Image from "next/image";
 // avoid framer-motion and lucide-react typing issues; use simple divs and emoji
@@ -19,9 +19,10 @@ const navigation = [
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [logoSrc, setLogoSrc] = useState<string>("/logo.svg");
-
-  // Removed scroll background behavior; header remains transparent
+  const [logoSrc] = useState<string>("/logo.svg");
+  const [scrolled, setScrolled] = useState(false);
+  const [activeKey, setActiveKey] = useState<string>("home");
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
   const handleNavClick = (href: string) => {
     const id = href.replace("#", "");
@@ -31,45 +32,64 @@ export function Header() {
 
   const { lang, setLang, t } = useLanguage();
 
-  // Attempt to use JPG logo only if the resource actually is an image (not a PDF placeholder)
+  // Removed remote JPG probe (was causing repeated invalid image console noise); always use SVG which is crisp at all sizes.
+
+  // Scroll state for background / shadow
   useEffect(() => {
-    const encodedJpg = "/Logo%20MNSS.jpg";
-    fetch(encodedJpg, { method: "HEAD" })
-      .then((res) => {
-        const ct = res.headers.get("content-type") || "";
-        if (res.ok && ct.startsWith("image/")) {
-          setLogoSrc(encodedJpg);
-        } else {
-          setLogoSrc("/logo.svg");
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Active section tracking with IntersectionObserver
+  useEffect(() => {
+    const ids = navigation.map(n => n.href.replace('#',''));
+    const elements = ids
+      .map(id => typeof document !== 'undefined' ? document.getElementById(id) : null)
+      .filter(Boolean) as HTMLElement[];
+    if (!elements.length) return;
+    observerRef.current?.disconnect();
+    observerRef.current = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+            const navItem = navigation.find(n => n.href === `#${id}`);
+            if (navItem) setActiveKey(navItem.key);
         }
-      })
-      .catch(() => setLogoSrc("/logo.svg"));
+      });
+    }, { root: null, threshold: 0.45 });
+    elements.forEach(el => observerRef.current?.observe(el));
+    return () => observerRef.current?.disconnect();
   }, []);
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'backdrop-blur-md bg-white/90 shadow-sm border-gray-200' : 'bg-transparent'} border-b`}
       >
         <Container>
-          <div className="flex items-center justify-between h-20 animate-in fade-in-down">
+          <div className={`flex items-center justify-between ${scrolled ? 'h-16' : 'h-20'} animate-in fade-in-down transition-[height] duration-300`}>
             {/* Logo */}
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-lg overflow-hidden shadow-lg bg-white flex items-center justify-center">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl overflow-hidden shadow-md bg-white ring-1 ring-gray-100 flex items-center justify-center">
                 <Image
                   src={logoSrc}
                   alt="MNSS logo"
                   width={48}
                   height={48}
-                  className="object-contain"
+                  className="object-contain w-full h-full p-1.5"
                   priority
                 />
               </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900 leading-tight">
-                  Marut Narayan Sewa Sansthan
+              <div className="leading-tight min-w-0 select-none">
+                <h1 className="font-bold tracking-tight text-gray-900 text-lg sm:text-xl md:text-2xl truncate">
+                  <span className="sm:hidden">MNSS</span>
+                  <span className="hidden sm:inline">Marut Narayan Sewa Sansthan</span>
                 </h1>
-                <p className="text-sm text-gray-600">
+                <p className="mt-0.5 text-[10px] sm:text-xs md:text-sm text-gray-500 md:text-gray-600 whitespace-nowrap">
                   Transforming Communities Since 2009
                 </p>
               </div>
@@ -77,36 +97,39 @@ export function Header() {
 
             {/* Desktop Navigation */}
             <nav
-              className="hidden lg:flex items-center space-x-8"
+              className="hidden lg:flex items-center gap-6 xl:gap-8"
               data-animate-stagger
+              aria-label="Main navigation"
             >
-              {navigation.map((item) => (
-                <button
-                  key={item.key}
-                  onClick={() => handleNavClick(item.href)}
-                  className="text-gray-700 hover:text-primary-600 font-medium transition-colors duration-200 relative group cursor-pointer opacity-0"
-                  data-animate-child
-                  onAnimationEnd={(e) =>
-                    e.currentTarget.classList.add("is-visible")
-                  }
-                  style={{
-                    animation: `fade-in-up .6s both ${
-                      0.05 * navigation.findIndex((n) => n.key === item.key)
-                    }s`,
-                  }}
-                >
-                  {t(item.key)}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full"></span>
-                </button>
-              ))}
+              {navigation.map((item) => {
+                const isActive = activeKey === item.key;
+                return (
+                  <button
+                    key={item.key}
+                    onClick={() => handleNavClick(item.href)}
+                    className={`font-medium tracking-wide text-sm xl:text-[15px] transition-colors duration-200 relative group cursor-pointer opacity-0 ${isActive ? 'text-primary-600' : 'text-gray-600 hover:text-primary-600'} `}
+                    data-animate-child
+                    onAnimationEnd={(e) =>
+                      e.currentTarget.classList.add('is-visible')
+                    }
+                    style={{
+                      animation: `fade-in-up .6s both ${0.05 * navigation.findIndex(n => n.key === item.key)}s`,
+                    }}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    {t(item.key)}
+                    <span className={`absolute -bottom-1 left-1/2 -translate-x-1/2 h-0.5 bg-primary-600 rounded-full transition-all duration-300 ${isActive ? 'w-5' : 'w-0 group-hover:w-5'}`}></span>
+                  </button>
+                );
+              })}
             </nav>
 
             {/* Utility Controls & Mobile Menu */}
-            <div className="flex items-center space-x-4">
+      <div className="flex items-center gap-3 xl:gap-4">
               {/* Donate button (desktop) */}
               <a
                 href="/donate"
-                className="hidden md:inline-flex items-center bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2 rounded-md shadow transition-colors"
+        className="hidden md:inline-flex items-center bg-green-600 hover:bg-green-700 text-white text-xs xl:text-sm font-semibold px-3.5 py-2 rounded-md shadow-sm transition-colors"
               >
                 {t('donate')}
               </a>
@@ -115,16 +138,16 @@ export function Header() {
                 variant="primary"
                 size="sm"
                 onClick={() => handleNavClick("#contact")}
-                className="hidden md:inline-flex text-gray-100 bg-purple-400"
+        className="hidden md:inline-flex text-gray-100 bg-purple-500 hover:bg-purple-600 text-xs xl:text-sm px-3.5"
               >
                 {t("getHelp")}
               </Button>
 
               {/* Single Language toggle */}
-              <div className="ml-2">
+        <div className="ml-1 xl:ml-2">
                 <button
                   onClick={() => setLang(lang === "en" ? "hi" : "en")}
-                  className="px-3 py-1 rounded-md border bg-transparent hover:bg-gray-100 dark:hover:bg-gray-200 hover:cursor-pointer font-medium"
+          className="px-2.5 py-1 rounded-md border bg-white/60 backdrop-blur hover:bg-white text-gray-700 text-xs xl:text-sm font-medium shadow-sm"
                   aria-label="Toggle language"
                 >
                   {lang === "en" ? "EN" : "हिं"}
@@ -136,9 +159,11 @@ export function Header() {
               {/* Mobile menu button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                aria-label="Toggle menu"
+                aria-expanded={isMobileMenuOpen}
               >
-                <span className="text-lg">{isMobileMenuOpen ? "✕" : "☰"}</span>
+                <span className="text-base">{isMobileMenuOpen ? "✕" : "☰"}</span>
               </button>
             </div>
           </div>
