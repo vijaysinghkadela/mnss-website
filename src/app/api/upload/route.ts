@@ -1,171 +1,100 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/mongodb";
 import { promises as fs } from "fs";
 import path from "path";
-import crypto from "crypto";
+import type { MediaItem, MediaType } from "@/types";
 
-/**
- * Constraints (adjust if needed)
- */
-const MAX_IMAGE_BYTES = 10 * 1024 * 1024; // 10MB
-const MAX_VIDEO_BYTES = 200 * 1024 * 1024; // 200MB
-const ALLOWED_IMAGE_TYPES = [
-  "image/jpeg",
-  "image/jpg", // some browsers / environments still emit this legacy form
-  "image/png",
-  "image/webp",
-  "image/gif",
-  "image/svg+xml",
-  "image/avif",
-  "image/heic",
-  "image/heif",
-];
-const ALLOWED_VIDEO_TYPES = [
-  "video/mp4",
-  "video/webm",
-  "video/ogg",
-  "video/mpeg",
-];
+export const dynamic = "force-dynamic"; // ensure Node runtime and no edge caching
 
-type UploadedAsset = {
-  kind: "image" | "video";
-  path: string;
-  publicUrl: string;
+const publicDir = path.join(process.cwd(), "public");
+const imagesDir = path.join(publicDir, "uploads", "images");
+const videosDir = path.join(publicDir, "uploads", "videos");
+
+const IMAGE_MIME: Record<string, string> = {
+  "image/jpeg": ".jpg",
+  "image/png": ".png",
+  "image/webp": ".webp",
+  "image/gif": ".gif",
 };
 
-// Helper to build consistent error responses
-function jsonError(message: string, status = 400) {
-  return NextResponse.json({ success: false, message }, { status });
+const VIDEO_MIME: Record<string, string> = {
+  "video/mp4": ".mp4",
+  "video/webm": ".webm",
+  "video/ogg": ".ogv",
+};
+
+function slugify(input: string) {
+  return input
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
 }
 
-async function saveToLocal(opts: {
-  file: File;
-  folder: string;
-  kind: "image" | "video";
-}): Promise<UploadedAsset> {
-  const { file, folder, kind } = opts;
-  const uploadRoot = path.join(process.cwd(), "public", "uploads");
-  const subDir = path.join(uploadRoot, folder);
-  await fs.mkdir(subDir, { recursive: true });
-  const ext = path.extname(file.name) || "";
-  const base = crypto.randomBytes(8).toString("hex");
-  const filename = `${Date.now()}_${base}${ext}`;
-  const filePath = path.join(subDir, filename);
-  const arrayBuffer = await file.arrayBuffer();
-  await fs.writeFile(filePath, Buffer.from(arrayBuffer));
-  const publicPath = `/uploads/${folder}/${filename}`;
-  return { kind, path: filePath, publicUrl: publicPath };
+async function ensureDirs() {
+  await fs.mkdir(imagesDir, { recursive: true });
+  await fs.mkdir(videosDir, { recursive: true });
 }
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    if (request.method !== "POST") {
-      return jsonError("Method not allowed", 405);
+    await ensureDirs();
+
+    const form = await req.formData();
+    const file = form.get("file");
+    const title = String(form.get("title") || "").trim();
+    const description = String(form.get("description") || "").trim();
+    const explicitType = String(form.get("type") || "").trim() as MediaType | "";
+
+    if (!file || !(file instanceof File)) {
+      return NextResponse.json({ success: false, message: "No file uploaded." }, { status: 400 });
     }
 
-    const form = await request.formData();
+    const mime = file.type || "";
+  const isVideoByMime = mime.startsWith("video/");
 
-    const rawDescription = form.get("description");
-    const imageField = form.get("image");
-    const videoField = form.get("video");
-
-    const description =
-      typeof rawDescription === "string" ? rawDescription.trim() : "";
-    const imageFile = imageField instanceof File ? imageField : null;
-    const videoFile = videoField instanceof File ? videoField : null;
-
-    if (!description) return jsonError("Description is required", 422);
-    if (!imageFile && !videoFile)
-      return jsonError("At least one of image or video is required", 422);
-
-    // Validate image constraints
-    if (imageFile) {
-      const mime = imageFile.type.toLowerCase();
-      let allowed = ALLOWED_IMAGE_TYPES.includes(mime);
-      // Some environments provide blank type for SVG or others; fallback to extension sniff
-      if (!allowed && (!mime || mime === '')) {
-        const lowerName = imageFile.name.toLowerCase();
-        const exts = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg", ".avif", ".heic", ".heif"]; 
-        allowed = exts.some(ext => lowerName.endsWith(ext));
-      }
-      // Generic image/* acceptance as a final fallback (excluding video types already separate)
-      if (!allowed && mime.startsWith('image/')) allowed = true;
-      if (!allowed) {
-        return jsonError(`Unsupported image type: ${imageFile.type || imageFile.name}`, 415);
-      }
-      if (imageFile.size > MAX_IMAGE_BYTES) {
-        return jsonError(
-          `Image too large. Max ${(MAX_IMAGE_BYTES / (1024 * 1024)).toFixed(
-            0
-          )}MB`,
-          413
-        );
-      }
+    let type: MediaType;
+    if (explicitType === "image" || explicitType === "video") {
+      type = explicitType;
+    } else if (isVideoByMime) {
+      type = "video";
+    } else {
+      type = "image"; // default to image
     }
 
-    // Validate video constraints
-    if (videoFile) {
-      if (!ALLOWED_VIDEO_TYPES.includes(videoFile.type)) {
-        return jsonError(`Unsupported video type: ${videoFile.type}`, 415);
-      }
-      if (videoFile.size > MAX_VIDEO_BYTES) {
-        return jsonError(
-          `Video too large. Max ${(MAX_VIDEO_BYTES / (1024 * 1024)).toFixed(
-            0
-          )}MB`,
-          413
-        );
-      }
-    }
-
-    // Perform uploads (parallel where possible)
-    const uploads: Promise<UploadedAsset>[] = [];
-    if (imageFile)
-      uploads.push(
-        saveToLocal({ file: imageFile, folder: "images", kind: "image" })
+    const allowedMap = type === "image" ? IMAGE_MIME : VIDEO_MIME;
+    const allowedMimes = Object.keys(allowedMap);
+    if (!allowedMimes.includes(mime)) {
+      return NextResponse.json(
+        { success: false, message: `Unsupported ${type} mime type: ${mime || "unknown"}` },
+        { status: 400 }
       );
-    if (videoFile)
-      uploads.push(
-        saveToLocal({ file: videoFile, folder: "videos", kind: "video" })
-      );
-
-    let uploaded: UploadedAsset[] = [];
-    try {
-      uploaded = await Promise.all(uploads);
-    } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : "Upload failed";
-      return jsonError(message, 500);
     }
 
-    const imageUrl =
-      uploaded.find((u) => u.kind === "image")?.publicUrl || null;
-    const videoUrl =
-      uploaded.find((u) => u.kind === "video")?.publicUrl || null;
+    const originalName = (file as File).name || `upload-${Date.now()}`;
+    const origExt = path.extname(originalName);
+    const mappedExt = allowedMap[mime] || origExt || (type === "image" ? ".jpg" : ".mp4");
+    const baseName = slugify(originalName.replace(/\.[^.]+$/, "")) || `file-${Date.now()}`;
+    const filename = `${baseName}-${Date.now()}${mappedExt}`;
+    const targetDir = type === "image" ? imagesDir : videosDir;
+    const targetPath = path.join(targetDir, filename);
 
-    const noDb = !process.env.MONGODB_URI || !process.env.MONGODB_DB;
-    if (!noDb) {
-      const db = await getDb();
-      try {
-        await db.collection("reports").insertOne({
-          description,
-            image_url: imageUrl,
-            video_url: videoUrl,
-            status: "Processing",
-            created_at: new Date(),
-          });
-      } catch (dbErr) {
-        // Attempt best-effort cleanup of written files
-        await Promise.all(uploaded.map((u) => fs.unlink(u.path).catch(() => {})));
-        const message = dbErr instanceof Error ? dbErr.message : "Database error";
-        return jsonError(`Database error: ${message}`, 500);
-      }
-    }
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    await fs.writeFile(targetPath, buffer);
 
-    return NextResponse.json({ success: true, message: "Upload successful", data: { description, imageUrl, videoUrl, persisted: !noDb } });
-  } catch (err: unknown) {
-    const message =
-      err instanceof Error ? err.message : "Unexpected server error";
-    console.error("/api/upload error", err);
-    return jsonError(message, 500);
+    const url = `/uploads/${type === "image" ? "images" : "videos"}/${filename}`;
+    const item: MediaItem = {
+      id: `${type}-${filename}`,
+      type,
+      url,
+      title: title || filename,
+      description,
+      createdAt: new Date().toISOString(),
+      filename,
+    };
+
+    return NextResponse.json({ success: true, item });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Upload failed";
+    return NextResponse.json({ success: false, message }, { status: 500 });
   }
 }

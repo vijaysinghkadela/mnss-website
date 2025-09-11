@@ -1,7 +1,6 @@
 "use client";
 
 import { Container } from "./ui/Container";
-import Link from "next/link";
 import { Card, CardContent, CardFooter } from "./ui/Card";
 import { Button } from "./ui/Button";
 import { useLanguage } from "@/context/LanguageContext";
@@ -15,15 +14,15 @@ export function Services() {
   return (
     <section
       id="services"
-      className="py-24 bg-gradient-to-br from-gray-50 to-white"
+      className="py-16 bg-gradient-to-br from-gray-50 to-white"
     >
       <Container>
-        <div ref={elementRef} className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            {t("servicesTitle")}
+        <div ref={elementRef} className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            {t('servicesTitle')}
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            {t("servicesDescription")}
+          <p className="text-base text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            {t('servicesDescription')}
           </p>
         </div>
 
@@ -33,16 +32,11 @@ export function Services() {
           ))}
         </div>
 
-        <div className="mt-16 text-center">
-          <Link
-            href="/programs"
-            className="inline-flex items-center px-8 py-3 rounded-lg font-medium bg-purple-300 text-gray-900 shadow-lg hover:bg-purple-200 transition-colors group"
-          >
-            {t("viewAllPrograms")}
-            <span className="ml-2 group-hover:translate-x-1 transition-transform">
-              ➤
-            </span>
-          </Link>
+        <div className="mt-12 text-center">
+          <Button size="sm" className="group text-gray-900 bg-purple-300 px-5 py-2.5">
+            {t('viewAllPrograms')}
+            <span className="ml-2">➤</span>
+          </Button>
         </div>
       </Container>
     </section>
@@ -68,21 +62,21 @@ function ServiceCard({ service }: ServiceCardProps) {
         <CardContent className="relative z-10">
           <div className="text-4xl mb-4">🌐</div>
           <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary-700 transition-colors">
-            {t(service.title)}
+            {service.title}
           </h3>
           <p className="text-gray-600 text-sm leading-relaxed mb-4">
-            {t(service.shortDesc)}
+            {service.shortDesc}
           </p>
 
           <div className="space-y-2 mb-4">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-500">{t("beneficiaries")}:</span>
+              <span className="text-gray-500">{t('beneficiaries')}:</span>
               <span className="font-semibold text-primary-600">
                 {service.beneficiaries}
               </span>
             </div>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-500">{t("locations")}:</span>
+              <span className="text-gray-500">{t('locations')}:</span>
               <span className="font-semibold text-secondary-600">
                 {service.locations}
               </span>
@@ -96,12 +90,12 @@ function ServiceCard({ service }: ServiceCardProps) {
                 className="flex items-center text-sm text-gray-600"
               >
                 <div className="w-1.5 h-1.5 bg-primary-400 rounded-full mr-2 flex-shrink-0" />
-                {t(feature)}
+                {feature}
               </div>
             ))}
             {service.features.length > 3 && (
               <div className="text-xs text-primary-600 font-medium">
-                {t('moreServices').replace('{count}', String(service.features.length - 3))}
+                +{service.features.length - 3} more services
               </div>
             )}
           </div>
@@ -110,7 +104,7 @@ function ServiceCard({ service }: ServiceCardProps) {
         <CardFooter className="relative z-10">
           {service.contacts && (
             <div className="flex items-center justify-between w-full">
-              <span className="text-xs text-gray-500">{t('emergency')}:</span>
+              <span className="text-xs text-gray-500">Emergency:</span>
               <a
                 href={`tel:${service.contacts[0].replace(/\D/g, "")}`}
                 className="text-xs text-accent-600 font-semibold hover:text-accent-700"
@@ -120,13 +114,13 @@ function ServiceCard({ service }: ServiceCardProps) {
             </div>
           )}
 
-          <Button
-            variant="ghost"
-            size="sm"
-            className="w-full mt-3 group-hover:bg-primary-50 group-hover:text-primary-700"
-          >
-            {t("learnMore")}
-          </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="w-full mt-3 group-hover:bg-primary-50 group-hover:text-primary-700"
+            >
+              {t('learnMore')}
+            </Button>
         </CardFooter>
       </Card>
     </div>

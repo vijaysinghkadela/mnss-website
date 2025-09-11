@@ -1,28 +1,35 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-// Removed phone contact; Link no longer needed
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 // avoid framer-motion and lucide-react typing issues; use simple divs and emoji
 import { Container } from "./ui/Container";
 import { Button } from "./ui/Button";
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage } from '@/context/LanguageContext'
 import { scrollToElement } from "@/lib/utils";
 
 const navigation = [
-  { key: "home", href: "#home" },
-  { key: "about", href: "#about" },
-  { key: "services", href: "#services" },
-  { key: "impact", href: "#impact" },
-  { key: "contact", href: "#contact" },
+  { key: 'home', href: "#home" },
+  { key: 'about', href: "#about" },
+  { key: 'services', href: "#services" },
+  { key: 'impact', href: "#impact" },
+  { key: 'contact', href: "#contact" },
 ];
 
 export function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [logoSrc] = useState<string>("/logo.svg");
-  const [scrolled, setScrolled] = useState(false);
-  const [activeKey, setActiveKey] = useState<string>("home");
-  const observerRef = useRef<IntersectionObserver | null>(null);
+  const [logoSrc, setLogoSrc] = useState<string>("/logo-mnss.png"); // preferred new image name
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleNavClick = (href: string) => {
     const id = href.replace("#", "");
@@ -30,150 +37,102 @@ export function Header() {
     setIsMobileMenuOpen(false);
   };
 
-  const { lang, setLang, t } = useLanguage();
-
-  // Removed remote JPG probe (was causing repeated invalid image console noise); always use SVG which is crisp at all sizes.
-
-  // Scroll state for background / shadow
-  useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 8);
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  // Active section tracking with IntersectionObserver
-  useEffect(() => {
-    const ids = navigation.map(n => n.href.replace('#',''));
-    const elements = ids
-      .map(id => typeof document !== 'undefined' ? document.getElementById(id) : null)
-      .filter(Boolean) as HTMLElement[];
-    if (!elements.length) return;
-    observerRef.current?.disconnect();
-    observerRef.current = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id;
-            const navItem = navigation.find(n => n.href === `#${id}`);
-            if (navItem) setActiveKey(navItem.key);
-        }
-      });
-    }, { root: null, threshold: 0.45 });
-    elements.forEach(el => observerRef.current?.observe(el));
-    return () => observerRef.current?.disconnect();
-  }, []);
+  const { lang, setLang, theme, toggleTheme, t } = useLanguage()
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'backdrop-blur-md bg-white/90 shadow-sm border-gray-200' : 'bg-transparent'} border-b`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-white/90 backdrop-blur-md shadow-lg border-b border-gray-200"
+            : "bg-white/90 backdrop-blur-md border-b border-gray-200"
+        }`}
       >
         <Container>
-          <div className={`flex items-center justify-between ${scrolled ? 'h-14 sm:h-16' : 'h-16 sm:h-20'} animate-in fade-in-down transition-[height] duration-300`}>
+          <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <div className="flex items-center gap-3 min-w-0 group/logo">
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl overflow-hidden shadow bg-white ring-1 ring-gray-100 flex items-center justify-center">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 rounded-md overflow-hidden shadow bg-white flex items-center justify-center">
+                {/* prefer a provided logo at /public/logo.svg (exported from your PDF) */}
                 <Image
                   src={logoSrc}
                   alt="MNSS logo"
                   width={48}
                   height={48}
-                  className="object-contain w-full h-full p-1.5"
+                  className="object-contain bg-white"
+                  onError={() => setLogoSrc("/Logo%20MNSS.jpg")}
                   priority
                 />
               </div>
-              <div className="leading-tight min-w-0 select-none relative">
-                <div className="flex items-center gap-2">
-                  <h1 className="font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 text-lg sm:text-lg md:text-xl">
-                    MNSS
-                  </h1>
-                  {/* Inline language toggle (merged into brand area) */}
-                  <button
-                    onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
-                    className="hidden sm:inline-flex px-2 py-0.5 rounded-md border border-indigo-200 bg-white/70 backdrop-blur text-[10px] font-semibold text-indigo-700 hover:bg-white shadow-sm transition"
-                    aria-label="Toggle language"
-                  >
-                    {lang === 'en' ? 'EN' : 'हिं'}
-                  </button>
-                </div>
-                <div className="pt-0.5 text-[10px] sm:text-[11px] font-medium text-gray-500 flex items-center gap-2">
-                  <span className="hidden sm:inline-block align-middle truncate max-w-[160px] md:max-w-[220px]">
-                    {lang === 'hi' ? 'मरुत नारायण सेवा संस्थान' : 'Marut Narayan Sewa'}
-                  </span>
-                  <span
-                    className="relative inline-flex items-center px-1.5 py-0.5 rounded-md bg-indigo-50 text-indigo-600 font-semibold text-[9px] sm:text-[10px] border border-indigo-100 shadow-sm"
-                    title={`${new Date().getFullYear() - 2009}+ years of service`}
-                  >
-                    <span className="absolute inset-0 rounded-md animate-ping bg-indigo-400/10" aria-hidden="true" />
-                    <span className="relative">{new Date().getFullYear() - 2009}+ yrs</span>
-                  </span>
-                </div>
+              <div>
+                <h1 className="text-lg font-bold text-gray-900 leading-tight">
+                  Marut Narayan Sewa Sansthan
+                </h1>
+                <p className="text-xs text-gray-600">
+                  Transforming Communities Since 2009
+                </p>
               </div>
             </div>
 
             {/* Desktop Navigation */}
-            <nav
-              className="hidden lg:flex items-center gap-6 xl:gap-8"
-              data-animate-stagger
-              aria-label="Main navigation"
-            >
-              {navigation.map((item) => {
-                const isActive = activeKey === item.key;
-                return (
-                  <button
-                    key={item.key}
-                    onClick={() => handleNavClick(item.href)}
-                    className={`font-medium tracking-wide text-sm xl:text-[15px] transition-colors duration-200 relative group cursor-pointer opacity-0 ${isActive ? 'text-primary-600' : 'text-gray-600 hover:text-primary-600'} `}
-                    data-animate-child
-                    onAnimationEnd={(e) =>
-                      e.currentTarget.classList.add('is-visible')
-                    }
-                    style={{
-                      animation: `fade-in-up .6s both ${0.05 * navigation.findIndex(n => n.key === item.key)}s`,
-                    }}
-                    aria-current={isActive ? 'page' : undefined}
-                  >
-                    {t(item.key)}
-                    <span className={`absolute -bottom-1 left-1/2 -translate-x-1/2 h-0.5 bg-primary-600 rounded-full transition-all duration-300 ${isActive ? 'w-5' : 'w-0 group-hover:w-5'}`}></span>
-                  </button>
-                );
-              })}
+            <nav className="hidden lg:flex items-center space-x-6">
+              {navigation.map((item) => (
+                <button
+                  key={item.key}
+                  onClick={() => handleNavClick(item.href)}
+                  className="text-gray-700 hover:text-primary-600 font-medium text-sm transition-colors duration-200 relative group cursor-pointer"
+                >
+                  {t(item.key)}
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full"></span>
+                </button>
+              ))}
+              <Link href="/donate" className="ml-2">
+                <Button variant="accent" size="sm" className="whitespace-nowrap">Donate</Button>
+              </Link>
             </nav>
 
-            {/* Utility Controls & Mobile Menu */}
-            <div className="flex items-center gap-3 xl:gap-4">
-              {/* Donate button (desktop) */}
-              <a
-                href="/donate"
-        className="hidden md:inline-flex items-center bg-green-600 hover:bg-green-700 text-white text-xs xl:text-sm font-semibold px-3.5 py-2 rounded-md shadow-sm transition-colors"
-              >
-                {t('donate')}
-              </a>
-
+            {/* Mobile Menu, Language & Theme toggles */}
+            <div className="flex items-center space-x-4">
               <Button
                 variant="primary"
                 size="sm"
                 onClick={() => handleNavClick("#contact")}
-        className="hidden md:inline-flex text-gray-100 bg-purple-500 hover:bg-purple-600 text-xs xl:text-sm px-3.5"
+                className="hidden md:inline-flex text-gray-900 bg-purple-400 px-3 py-2 text-sm"
               >
-                {t("getHelp")}
+                {t('getHelp')}
               </Button>
 
-              {/* Single Language toggle */}
-              {/* Removed separate language toggle (merged into brand) */}
+              {/* Donate button (desktop) */}
+              <Link href="/donate" className="hidden md:inline-flex">
+                <Button variant="accent" size="sm" className="px-3 py-2 text-sm">Donate</Button>
+              </Link>
 
-              {/* Theme toggle removed as requested */}
+              {/* Single Language toggle */}
+              <div className="ml-2">
+                <button
+                  onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
+                  className="px-2.5 py-1.5 rounded-md border bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-sm font-medium"
+                  aria-label="Toggle language"
+                >
+                  {lang === 'en' ? 'EN' : 'हिं'}
+                </button>
+              </div>
+
+              {/* Theme toggle */}
+              <button
+                onClick={toggleTheme}
+                className="ml-2 px-2.5 py-1.5 rounded-md border border-gray-200 text-sm"
+                aria-label="Toggle theme"
+              >
+                {theme === 'dark' ? '🌙' : '☀️'}
+              </button>
 
               {/* Mobile menu button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
-                aria-label="Toggle menu"
-                aria-expanded={isMobileMenuOpen}
+                className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
               >
-                <span className="text-base">{isMobileMenuOpen ? "✕" : "☰"}</span>
+                <span className="text-lg">{isMobileMenuOpen ? "✕" : "☰"}</span>
               </button>
             </div>
           </div>
@@ -187,32 +146,28 @@ export function Header() {
             className="absolute inset-0 bg-black/50"
             onClick={() => setIsMobileMenuOpen(false)}
           />
-          <div className="absolute top-20 left-0 right-0 bg-white/90 backdrop-blur-md shadow-xl border-t border-gray-200 menu-panel-animate">
+          <div className="absolute top-20 left-0 right-0 bg-white shadow-xl border-t border-gray-200">
             <div className="px-4 py-6 space-y-4">
               {navigation.map((item) => (
                 <button
                   key={item.key}
                   onClick={() => handleNavClick(item.href)}
-                  className="block w-full text-left px-4 py-3 text-lg font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors animate-in fade-in-up"
+                  className="block w-full text-left px-4 py-3 text-lg font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
                 >
                   {t(item.key)}
                 </button>
               ))}
               <div className="px-4 py-3 border-t border-gray-200">
-                <a
-                  href="/donate"
-                  className="w-full inline-flex justify-center mb-3 px-4 py-3 rounded-lg bg-green-600 text-white font-semibold text-sm hover:bg-green-700 animate-in scale-in"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {t('donate')}
-                </a>
                 <Button
                   variant="primary"
-                  className="w-full animate-in fade-in-up"
+                  className="inline-flex items-center px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   onClick={() => handleNavClick("#contact")}
                 >
-                  {t("getHelp")}
+                  {t('getHelp')}
                 </Button>
+                <Link href="/donate" className="inline-block ml-3">
+                  <Button variant="accent">Donate</Button>
+                </Link>
               </div>
             </div>
           </div>

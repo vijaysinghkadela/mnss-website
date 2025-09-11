@@ -63,3 +63,15 @@ export interface EmergencyContact {
   available: string;
   type: string;
 }
+
+export type MediaType = 'image' | 'video';
+
+export interface MediaItem {
+  id: string;
+  type: MediaType;
+  url: string; // public path under /public
+  title: string;
+  description?: string;
+  createdAt: string; // ISO string
+  filename: string;
+}
