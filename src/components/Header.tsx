@@ -85,11 +85,11 @@ export function Header() {
                 />
               </div>
               <div className="leading-tight min-w-0 select-none">
-                <h1 className="font-bold tracking-tight text-gray-900 text-lg sm:text-xl md:text-2xl truncate">
+                <h1 className="font-bold tracking-tight text-gray-900 text-base sm:text-lg md:text-xl truncate">
                   <span className="sm:hidden">MNSS</span>
                   <span className="hidden sm:inline">Marut Narayan Sewa Sansthan</span>
                 </h1>
-                <p className="mt-0.5 text-[10px] sm:text-xs md:text-sm text-gray-500 md:text-gray-600 whitespace-nowrap">
+                <p className="mt-0.5 text-[9px] sm:text-[11px] md:text-xs text-gray-500 md:text-gray-600 whitespace-nowrap tracking-wide">
                   Transforming Communities Since 2009
                 </p>
               </div>
