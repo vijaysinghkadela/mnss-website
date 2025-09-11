@@ -1,29 +1,47 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { ORGANIZATION } from '@/data/constants';
 
-interface ContactForm {
+interface ContactFormState {
   name: string;
   email: string;
   phone: string;
   subject: string;
   message: string;
-  type: 'general' | 'volunteer' | 'partnership' | 'program';
+  type: string;
 }
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<ContactForm>();
+  const [form, setForm] = useState<ContactFormState>({
+    name: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: '',
+    type: ''
+  });
+  const [errors, setErrors] = useState<Partial<Record<keyof ContactFormState, string>>>({});
 
-  const onSubmit = async (data: ContactForm) => {
+  function validate(): boolean {
+    const e: Partial<Record<keyof ContactFormState, string>> = {};
+    if (!form.name.trim()) e.name = 'Name is required';
+    if (!form.email.trim()) e.email = 'Email is required';
+    if (!form.subject.trim()) e.subject = 'Subject is required';
+    if (!form.message.trim()) e.message = 'Message is required';
+    if (!form.type.trim()) e.type = 'Please select an inquiry type';
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  }
+
+  const onSubmit = async (ev: React.FormEvent) => {
+    ev.preventDefault();
+    if (!validate()) return;
     setIsSubmitting(true);
     try {
-      console.log("Form data:", data);
-      await new Promise((r) => setTimeout(r, 800));
-      alert("Message sent successfully!");
-      reset();
+      await new Promise(r => setTimeout(r, 800));
+      setForm({ name: '', email: '', phone: '', subject: '', message: '', type: '' });
     } finally {
       setIsSubmitting(false);
     }
@@ -71,34 +89,37 @@ export default function ContactPage() {
 
           <div className="bg-white rounded-2xl shadow-xl p-8">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h3>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={onSubmit} className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
                 <input
                   type="text"
-                  {...register('name', { required: 'Name is required' })}
+                  value={form.name}
+                  onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter your full name"
                 />
-                {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
+                {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
                 <input
                   type="email"
-                  {...register('email', { required: 'Email is required' })}
+                  value={form.email}
+                  onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter your email address"
                 />
-                {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
+                {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
                 <input
                   type="tel"
-                  {...register('phone')}
+                  value={form.phone}
+                  onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter your phone number"
                 />
@@ -107,7 +128,8 @@ export default function ContactPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Inquiry Type</label>
                 <select
-                  {...register('type', { required: 'Please select an inquiry type' })}
+                  value={form.type}
+                  onChange={e => setForm(f => ({ ...f, type: e.target.value }))}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   <option value="">Select inquiry type</option>
@@ -115,29 +137,31 @@ export default function ContactPage() {
                     <option key={t.value} value={t.value}>{t.label}</option>
                   ))}
                 </select>
-                {errors.type && <p className="mt-1 text-sm text-red-600">{errors.type.message}</p>}
+                {errors.type && <p className="mt-1 text-sm text-red-600">{errors.type}</p>}
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Subject *</label>
                 <input
                   type="text"
-                  {...register('subject', { required: 'Subject is required' })}
+                  value={form.subject}
+                  onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter the subject of your message"
                 />
-                {errors.subject && <p className="mt-1 text-sm text-red-600">{errors.subject.message}</p>}
+                {errors.subject && <p className="mt-1 text-sm text-red-600">{errors.subject}</p>}
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Message *</label>
                 <textarea
                   rows={5}
-                  {...register('message', { required: 'Message is required' })}
+                  value={form.message}
+                  onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                   placeholder="Enter your message"
                 />
-                {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>}
+                {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message}</p>}
               </div>
 
               <button

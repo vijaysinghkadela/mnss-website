@@ -1,6 +1,5 @@
 import UploadSection from "@/components/UploadSection";
 import ReportsSection from "@/components/ReportsSection";
-import AdminSummary from "../../components/admin/AdminSummary";
 
 export default function DashboardPage() {
   return (
@@ -13,12 +12,9 @@ export default function DashboardPage() {
           </p>
         </header>
 
-        <div className="grid gap-8 lg:grid-cols-3">
-          <div className="space-y-8 col-span-2">
-            <UploadSection />
-            <ReportsSection />
-          </div>
-          <AdminSummary />
+        <div className="flex flex-col items-start justify-center gap-8 lg:flex-row">
+          <UploadSection />
+          <ReportsSection />
         </div>
       </div>
     </main>
