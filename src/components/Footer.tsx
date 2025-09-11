@@ -1,15 +1,22 @@
 "use client";
 
 import { Container } from "./ui/Container";
+import Link from "next/link";
+import { Button } from "./ui/Button";
 import { useLanguage } from '@/context/LanguageContext'
 
 export function Footer() {
   const { t } = useLanguage()
   return (
     <footer className="py-8 bg-gray-50">
-      <Container className="flex flex-col md:flex-row items-center justify-between">
+      <Container className="flex flex-col md:flex-row items-center justify-between gap-3">
         <div className="text-sm text-gray-600">© {new Date().getFullYear()} Marut Narayan Sewa Sansthan. All rights reserved.</div>
-        <div className="mt-3 md:mt-0 text-sm text-gray-500">{t('contact')}: marutnarayan7181@gmail.com</div>
+        <div className="flex items-center gap-4">
+          <div className="text-sm text-gray-500 hidden sm:block">{t('contact')}: marutnarayan7181@gmail.com</div>
+          <Link href="/donate">
+            <Button variant="accent" size="sm">Donate</Button>
+          </Link>
+        </div>
       </Container>
     </footer>
   );

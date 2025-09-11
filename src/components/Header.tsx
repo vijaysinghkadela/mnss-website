@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 // avoid framer-motion and lucide-react typing issues; use simple divs and emoji
 import { Container } from "./ui/Container";
 import { Button } from "./ui/Button";
@@ -19,7 +20,7 @@ const navigation = [
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [logoSrc, setLogoSrc] = useState<string>("/Logo%20MNSS.jpg");
+  const [logoSrc, setLogoSrc] = useState<string>("/logo-mnss.png"); // preferred new image name
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,7 +60,7 @@ export function Header() {
                   width={48}
                   height={48}
                   className="object-contain bg-white"
-                  onError={() => setLogoSrc("/logo.png")}
+                  onError={() => setLogoSrc("/Logo%20MNSS.jpg")}
                   priority
                 />
               </div>
@@ -85,6 +86,9 @@ export function Header() {
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full"></span>
                 </button>
               ))}
+              <Link href="/donate" className="ml-2">
+                <Button variant="accent" size="sm" className="whitespace-nowrap">Donate</Button>
+              </Link>
             </nav>
 
             {/* Mobile Menu, Language & Theme toggles */}
@@ -97,6 +101,11 @@ export function Header() {
               >
                 {t('getHelp')}
               </Button>
+
+              {/* Donate button (desktop) */}
+              <Link href="/donate" className="hidden md:inline-flex">
+                <Button variant="accent" size="sm" className="px-3 py-2 text-sm">Donate</Button>
+              </Link>
 
               {/* Single Language toggle */}
               <div className="ml-2">
@@ -151,11 +160,14 @@ export function Header() {
               <div className="px-4 py-3 border-t border-gray-200">
                 <Button
                   variant="primary"
-                  className="w-full"
+                  className="inline-flex items-center px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   onClick={() => handleNavClick("#contact")}
                 >
                   {t('getHelp')}
                 </Button>
+                <Link href="/donate" className="inline-block ml-3">
+                  <Button variant="accent">Donate</Button>
+                </Link>
               </div>
             </div>
           </div>
