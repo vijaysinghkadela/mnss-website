@@ -10,8 +10,6 @@ export default function Gallery() {
 	const [loading, setLoading] = React.useState(true);
 	const [error, setError] = React.useState<string | null>(null);
 	const [visibleCount, setVisibleCount] = React.useState(6);
-	const [lightboxIndex, setLightboxIndex] = React.useState<number | null>(null);
-	const [zoom, setZoom] = React.useState(1);
 
 	React.useEffect(() => {
 		let mounted = true;
@@ -34,6 +32,20 @@ export default function Gallery() {
 		};
 	}, []);
 
+	// Handle keyboard navigation in modal
+	React.useEffect(() => {
+		if (activeIndex === null) return;
+
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				setActiveIndex(null);
+			}
+		};
+
+		document.addEventListener('keydown', handleKeyDown);
+		return () => document.removeEventListener('keydown', handleKeyDown);
+	}, [activeIndex]);
+
 	if (loading) {
 		return <div className="py-8 text-center text-gray-500">Loading gallery…</div>;
 	}
@@ -42,13 +54,6 @@ export default function Gallery() {
 	}
 
 	const images = items.filter((it) => it.type === "image");
-	const displayed = images.slice(0, visibleCount);
-	const currentItem: MediaItem | null = lightboxIndex !== null ? displayed[lightboxIndex] ?? null : null;
-	const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-		e.preventDefault();
-		const delta = e.deltaY > 0 ? -0.1 : 0.1;
-		setZoom((z) => Math.min(5, Math.max(1, Math.round((z + delta) * 100) / 100)));
-	};
 
 	if (!images.length) {
 		return <div className="py-8 text-center text-gray-500">No media uploaded yet.</div>;
@@ -59,16 +64,9 @@ export default function Gallery() {
 			<div className="max-w-6xl mx-auto px-6">
 				<h2 className="text-2xl font-bold mb-6">Gallery</h2>
 				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-					{displayed.map((it, i) => (
-						<figure
-							key={it.id}
-							className="relative group bg-white rounded-lg overflow-hidden shadow-sm cursor-zoom-in"
-							onClick={() => {
-								setLightboxIndex(i);
-								setZoom(1);
-							}}
-						>
-							<Image src={it.url} alt={it.title} width={800} height={600} className="w-full h-56 object-cover transition-transform group-hover:scale-105" />
+					{images.slice(0, visibleCount).map((it) => (
+						<figure key={it.id} className="relative group bg-white rounded-lg overflow-hidden shadow-sm">
+							<Image src={it.url} alt={it.title} width={800} height={600} className="w-full h-56 object-cover" />
 							<figcaption className="p-3 border-t">
 								<div className="text-sm font-medium truncate">{it.title}</div>
 								{it.description ? (
@@ -80,24 +78,13 @@ export default function Gallery() {
 				</div>
 				{visibleCount < images.length ? (
 					<div className="mt-6 text-center">
-						<Button variant="primary" size="md" onClick={() => setVisibleCount((c) => c + 6)}>
+						<button
+							className="inline-flex items-center px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+							onClick={() => setVisibleCount((c) => c + 6)}
+						>
 							View More
-						</Button>
+						</button>
 					</div>
-				) : null}
-
-				{/* Lightbox overlay */}
-				{currentItem ? (
-					<Lightbox
-						item={currentItem}
-						zoom={zoom}
-						setZoom={setZoom}
-						onClose={() => {
-							setLightboxIndex(null);
-							setZoom(1);
-						}}
-						onWheel={handleWheel}
-					/>
 				) : null}
 			</div>
 		</section>
