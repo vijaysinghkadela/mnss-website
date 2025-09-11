@@ -71,7 +71,7 @@ export function Header() {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'backdrop-blur-md bg-white/90 shadow-sm border-gray-200' : 'bg-transparent'} border-b`}
       >
         <Container>
-          <div className={`flex items-center justify-between ${scrolled ? 'h-16' : 'h-20'} animate-in fade-in-down transition-[height] duration-300`}>
+          <div className={`flex items-center justify-between ${scrolled ? 'h-14 sm:h-16' : 'h-16 sm:h-20'} animate-in fade-in-down transition-[height] duration-300`}>
             {/* Logo */}
             <div className="flex items-center gap-3 min-w-0 group/logo">
               <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl overflow-hidden shadow bg-white ring-1 ring-gray-100 flex items-center justify-center">
@@ -92,16 +92,23 @@ export function Header() {
                   {/* Inline language toggle (merged into brand area) */}
                   <button
                     onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
-                    className="hidden sm:inline-flex px-2 py-0.5 rounded-md border border-indigo-200 bg-white/60 backdrop-blur text-[10px] font-semibold text-indigo-700 hover:bg-white shadow-sm transition"
+                    className="hidden sm:inline-flex px-2 py-0.5 rounded-md border border-indigo-200 bg-white/70 backdrop-blur text-[10px] font-semibold text-indigo-700 hover:bg-white shadow-sm transition"
                     aria-label="Toggle language"
                   >
                     {lang === 'en' ? 'EN' : 'हिं'}
                   </button>
                 </div>
-                {/* Reveal secondary short name & tagline on hover or focus for accessibility */}
-                <div className="pt-0.5 text-[10px] sm:text-[11px] font-medium text-gray-500 group-hover/logo:opacity-100 group-focus-within/logo:opacity-100 opacity-90 transition-opacity">
-                  <span className="hidden sm:inline-block align-middle">Marut Narayan Sewa</span>
-                  <span className="inline-block sm:block align-middle sm:ml-1 text-[9px] sm:text-[10px] font-normal text-purple-600/80">{new Date().getFullYear() - 2009}+ yrs</span>
+                <div className="pt-0.5 text-[10px] sm:text-[11px] font-medium text-gray-500 flex items-center gap-2">
+                  <span className="hidden sm:inline-block align-middle truncate max-w-[160px] md:max-w-[220px]">
+                    {lang === 'hi' ? 'मरुत नारायण सेवा संस्थान' : 'Marut Narayan Sewa'}
+                  </span>
+                  <span
+                    className="relative inline-flex items-center px-1.5 py-0.5 rounded-md bg-indigo-50 text-indigo-600 font-semibold text-[9px] sm:text-[10px] border border-indigo-100 shadow-sm"
+                    title={`${new Date().getFullYear() - 2009}+ years of service`}
+                  >
+                    <span className="absolute inset-0 rounded-md animate-ping bg-indigo-400/10" aria-hidden="true" />
+                    <span className="relative">{new Date().getFullYear() - 2009}+ yrs</span>
+                  </span>
                 </div>
               </div>
             </div>
