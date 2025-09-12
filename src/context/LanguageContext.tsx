@@ -63,6 +63,12 @@ const translations: Record<string, { en: string; hi: string }> = {
   learnMore: { en: 'Learn More', hi: 'और पढ़ें' },
   statisticsTitle: { en: 'Our Impact in Numbers', hi: 'हमारा प्रभाव संख्याओं में' },
   statisticsDescription: { en: 'Measurable outcomes that reflect our commitment to community transformation and sustainable social development across Rajasthan.', hi: 'नापने योग्य परिणाम जो राजस्थान भर में समुदाय परिवर्तन और सतत विकास के प्रति हमारी प्रतिबद्धता को दर्शाते हैं।' },
+  // Statistics cards
+  statLivesDesc: { en: 'Individuals directly impacted across all programs', hi: 'सभी कार्यक्रमों से सीधे प्रभावित व्यक्ति' },
+  programsCompleted: { en: 'Programs Completed', hi: 'पूर्ण किए गए कार्यक्रम' },
+  programsCompletedDesc: { en: 'Successful training and empowerment initiatives', hi: 'सफल प्रशिक्षण और सशक्तिकरण पहल' },
+  statDistrictsDesc: { en: 'Multi-district operations across Rajasthan', hi: 'राजस्थान भर में बहु-जिला संचालन' },
+  yearsOfServiceDesc: { en: 'Continuous community transformation since 2009', hi: '2009 से निरंतर सामुदायिक परिवर्तन' },
   timelineTitle: { en: 'Our Journey of Impact', hi: 'हमारी प्रभाव यात्रा' },
   timelineDescription: { en: 'From a local initiative to a multi-district social service organization with government partnerships and specialized programs.', hi: 'स्थानीय पहल से लेकर बहु-जिला सामाजिक सेवा संगठन तक, सरकारी साझेदारियों और विशेष कार्यक्रमों के साथ।' },
   contactTitle: { en: 'Get in Touch', hi: 'संपर्क करें' },
@@ -83,6 +89,31 @@ const translations: Record<string, { en: string; hi: string }> = {
   optionSkillDev: { en: 'Skill Development', hi: 'कौशल विकास' },
   optionInformation: { en: 'General Information', hi: 'सामान्य जानकारी' },
   optionPartnership: { en: 'Partnership Inquiry', hi: 'साझेदारी पूछताछ' }
+  ,
+  donateNow: { en: 'Donate Now', hi: 'अभी दान करें' },
+  // Statistics section (Impact Highlights)
+  emergencySupportTitle: { en: 'Emergency Support', hi: 'आपातकालीन सहायता' },
+  emergencySupportDesc: {
+    en: 'Round-the-clock crisis intervention and emergency services across all centers',
+    hi: 'सभी केंद्रों पर चौबीसों घंटे संकट हस्तक्षेप और आपातकालीन सेवाएँ'
+  },
+  qualityCertifiedTitle: { en: 'Quality Certified', hi: 'गुणवत्ता प्रमाणित' },
+  qualityCertifiedDesc: {
+    en: 'ISO 9001:2015 certified organization with government recognition',
+    hi: 'ISO 9001:2015 प्रमाणित संगठन, सरकारी मान्यता के साथ'
+  },
+  villageCoverageTitle: { en: 'Village Coverage', hi: 'ग्राम कवरेज' },
+  villageCoverageDesc: {
+    en: 'Financial literacy and banking services across village cooperative societies',
+    hi: 'ग्राम सहकारी समितियों में वित्तीय साक्षरता और बैंकिंग सेवाएँ'
+  },
+  // Program Breakdown
+  programBreakdownTitle: { en: 'Program Breakdown', hi: 'कार्यक्रम विवरण' },
+  programBreakdownDesc: { en: 'Key areas of impact across initiatives', hi: 'पहल के प्रमुख प्रभाव क्षेत्र' },
+  pbEducation: { en: 'Education & Digital Literacy', hi: 'शिक्षा और डिजिटल साक्षरता' },
+  pbLivelihood: { en: 'Livelihood & Skill Training', hi: 'आजिविका और कौशल प्रशिक्षण' },
+  pbHealth: { en: 'Health & Nutrition', hi: 'स्वास्थ्य और पोषण' },
+  pbFinance: { en: 'Financial Inclusion', hi: 'वित्तीय समावेशन' }
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)

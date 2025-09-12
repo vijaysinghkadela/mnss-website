@@ -140,6 +140,11 @@ export const timeline: TimelineItem[] = [
     milestone: "Organization Founded",
     impact: "Local community focus",
     image: "/assets/timeline-2009.svg",
+    titleHi: "स्थापना और दृष्टि",
+    descriptionHi:
+      "नागौर में महिलाओं और बच्चों को सशक्त बनाने के उद्देश्य से स्थानीय पहुँच कार्यक्रमों और सामुदायिक भागीदारी के साथ स्थापना की गई।",
+    milestoneHi: "संस्था की स्थापना",
+    impactHi: "स्थानीय समुदाय पर ध्यान",
   },
   {
     year: "2014-17",
@@ -150,6 +155,11 @@ export const timeline: TimelineItem[] = [
     milestone: "Programs Launched",
     impact: "Government recognition",
     image: "/assets/timeline-2014-17.svg",
+    titleHi: "विकास और मान्यता",
+    descriptionHi:
+      "प्रशिक्षण कार्यक्रमों का विस्तार, औपचारिक सरकारी पंजीकरण प्राप्त किया, और कौशल व आजीविका पर केंद्रित बहु-जिला पहलों की शुरुआत की।",
+    milestoneHi: "कार्यक्रम शुरू",
+    impactHi: "सरकारी मान्यता",
   },
   {
     year: "2022-23",
@@ -160,6 +170,11 @@ export const timeline: TimelineItem[] = [
     milestone: "Craft Programs",
     impact: "Traditional skills modernized",
     image: "/assets/timeline-2022-23.svg",
+    titleHi: "शिल्प नवाचार",
+    descriptionHi:
+      "KVIC और वस्त्र मंत्रालय के साथ साझेदारी में शिल्प नवाचार और हस्तशिल्प आधुनिकीकरण कार्यक्रम शुरू किए, जिससे कारीगरों की आय और बाजार पहुँच सक्षम हुई।",
+    milestoneHi: "शिल्प कार्यक्रम",
+    impactHi: "पारंपरिक कौशल का आधुनिकीकरण",
   },
   {
     year: "2024-25",
@@ -170,6 +185,11 @@ export const timeline: TimelineItem[] = [
     milestone: "Specialized Centers",
     impact: "Comprehensive care network",
     image: "/assets/timeline-2024-25.svg",
+    titleHi: "समेकित सामाजिक सेवाएँ",
+    descriptionHi:
+      "कई जिलों में समेकित महिला सुरक्षा केंद्र, पुनर्वास सुविधाएँ और आपातकालीन प्रतिक्रिया प्रणालियाँ लागू की गईं।",
+    milestoneHi: "विशेषीकृत केंद्र",
+    impactHi: "व्यापक देखभाल नेटवर्क",
   },
 ];
 

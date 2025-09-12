@@ -33,7 +33,7 @@ export function Services() {
         </div>
 
         <div className="mt-12 text-center">
-          <Button size="sm" className="group text-gray-900 bg-purple-300 px-5 py-2.5">
+          <Button size="sm" className="group text-white bg-purple-600 hover:bg-purple-700 px-5 py-2.5">
             {t('viewAllPrograms')}
             <span className="ml-2">➤</span>
           </Button>
@@ -95,7 +95,7 @@ function ServiceCard({ service }: ServiceCardProps) {
             ))}
             {service.features.length > 3 && (
               <div className="text-xs text-primary-600 font-medium">
-                +{service.features.length - 3} more services
+                +{service.features.length - 3} {t('moreServices').replace('{count}', String(service.features.length - 3))}
               </div>
             )}
           </div>
@@ -104,7 +104,7 @@ function ServiceCard({ service }: ServiceCardProps) {
         <CardFooter className="relative z-10">
           {service.contacts && (
             <div className="flex items-center justify-between w-full">
-              <span className="text-xs text-gray-500">Emergency:</span>
+              <span className="text-xs text-gray-500">{t('emergency')}:</span>
               <a
                 href={`tel:${service.contacts[0].replace(/\D/g, "")}`}
                 className="text-xs text-accent-600 font-semibold hover:text-accent-700"

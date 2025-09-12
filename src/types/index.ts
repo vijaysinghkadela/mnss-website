@@ -40,6 +40,11 @@ export interface TimelineItem {
   milestone: string;
   impact: string;
   image?: string; // optional path under /public/assets/
+  // Optional Hindi equivalents for localization
+  titleHi?: string;
+  descriptionHi?: string;
+  milestoneHi?: string;
+  impactHi?: string;
 }
 
 export interface Partnership {

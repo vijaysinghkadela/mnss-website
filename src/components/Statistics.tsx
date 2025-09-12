@@ -3,6 +3,7 @@
 import React from "react";
 import { Container } from "./ui/Container";
 import { Card } from "./ui/Card";
+import { Icon } from "./icons";
 import { useCounter } from "@/hooks/useCounter";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useLanguage } from "@/context/LanguageContext";
@@ -15,6 +16,7 @@ type StatItem = {
   trend?: "up" | "down";
   trendValue?: string; // e.g., +12% vs last year
   percent?: number; // optional progress toward a goal
+  icon?: "star" | "book" | "palette" | "hospital";
 };
 
 export function Statistics() {
@@ -26,38 +28,42 @@ export function Statistics() {
     {
       number: 10000,
       suffix: "+",
-      label: "Lives Transformed",
-      description: "Individuals directly impacted across all programs",
+      label: t("livesPositivelyImpacted"),
+      description: t("statLivesDesc"),
       trend: "up",
       trendValue: "+8% vs last year",
       percent: 80,
+      icon: "star",
     },
     {
       number: 200,
       suffix: "+",
-      label: "Programs Completed",
-      description: "Successful training and empowerment initiatives",
+      label: t("programsCompleted"),
+      description: t("programsCompletedDesc"),
       trend: "up",
       trendValue: "+5%",
       percent: 65,
+      icon: "book",
     },
     {
       number: 5,
       suffix: "+",
-      label: "Districts Served",
-      description: "Multi-district operations across Rajasthan",
+      label: t("districtsServed"),
+      description: t("statDistrictsDesc"),
       trend: "up",
       trendValue: "+1 district",
       percent: 50,
+      icon: "palette",
     },
     {
       number: yearsOfService,
       suffix: "",
-      label: "Years of Service",
-      description: "Continuous community transformation since 2009",
+      label: t("yearsOfServiceLabel"),
+      description: t("yearsOfServiceDesc"),
       trend: "up",
       trendValue: "+1 year",
       percent: 100,
+      icon: "hospital",
     },
   ];
 
@@ -84,64 +90,90 @@ export function Statistics() {
           ))}
         </div>
 
-  {/* Impact Highlights */}
+        {/* Impact Highlights */}
         <div className="mt-16 grid md:grid-cols-3 gap-8">
           <Card className="text-center p-8 bg-gradient-to-br from-blue-50 to-indigo-50">
             <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
               24/7
             </div>
+            <Icon
+              name="hospital"
+              className="w-6 h-6 text-indigo-600 mx-auto mb-2"
+            />
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              Emergency Support
+              {t("emergencySupportTitle")}
             </h3>
-            <p className="text-gray-600 text-sm">
-              Round-the-clock crisis intervention and emergency services across
-              all centers
-            </p>
+            <p className="text-gray-600 text-sm">{t("emergencySupportDesc")}</p>
           </Card>
 
           <Card className="text-center p-8 bg-gradient-to-br from-emerald-50 to-green-50">
             <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-green-600 rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">
               ISO
             </div>
+            <Icon
+              name="star"
+              className="w-6 h-6 text-emerald-600 mx-auto mb-2"
+            />
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              Quality Certified
+              {t("qualityCertifiedTitle")}
             </h3>
-            <p className="text-gray-600 text-sm">
-              ISO 9001:2015 certified organization with government recognition
-            </p>
+            <p className="text-gray-600 text-sm">{t("qualityCertifiedDesc")}</p>
           </Card>
 
           <Card className="text-center p-8 bg-gradient-to-br from-purple-50 to-pink-50">
             <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-white text-lg font-bold mx-auto mb-4">
               126+
             </div>
+            <Icon name="map" className="w-6 h-6 text-purple-600 mx-auto mb-2" />
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              Village Coverage
+              {t("villageCoverageTitle")}
             </h3>
-            <p className="text-gray-600 text-sm">
-              Financial literacy and banking services across village cooperative
-              societies
-            </p>
+            <p className="text-gray-600 text-sm">{t("villageCoverageDesc")}</p>
           </Card>
         </div>
 
         {/* Program Breakdown */}
         <div className="mt-16">
           <div className="text-center mb-6">
-            <h3 className="text-2xl font-bold text-gray-900">Program Breakdown</h3>
-            <p className="text-gray-600 text-sm">Key areas of impact across initiatives</p>
+            <h3 className="text-2xl font-bold text-gray-900">
+              {t("programBreakdownTitle")}
+            </h3>
+            <p className="text-gray-600 text-sm">{t("programBreakdownDesc")}</p>
           </div>
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {[
-              { label: "Education & Digital Literacy", value: 72, color: "from-indigo-500 to-blue-500" },
-              { label: "Livelihood & Skill Training", value: 64, color: "from-emerald-500 to-green-500" },
-              { label: "Health & Nutrition", value: 48, color: "from-rose-500 to-pink-500" },
-              { label: "Financial Inclusion", value: 58, color: "from-amber-500 to-orange-500" },
+              {
+                label: t("pbEducation"),
+                value: 72,
+                color: "from-indigo-500 to-blue-500",
+              },
+              {
+                label: t("pbLivelihood"),
+                value: 64,
+                color: "from-emerald-500 to-green-500",
+              },
+              {
+                label: t("pbHealth"),
+                value: 48,
+                color: "from-rose-500 to-pink-500",
+              },
+              {
+                label: t("pbFinance"),
+                value: 58,
+                color: "from-amber-500 to-orange-500",
+              },
             ].map((item) => (
-              <div key={item.label} className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+              <div
+                key={item.label}
+                className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm"
+              >
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-800">{item.label}</span>
-                  <span className="text-sm font-semibold text-gray-900">{item.value}%</span>
+                  <span className="text-sm font-medium text-gray-800">
+                    {item.label}
+                  </span>
+                  <span className="text-sm font-semibold text-gray-900">
+                    {item.value}%
+                  </span>
                 </div>
                 <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
                   <div
@@ -177,9 +209,6 @@ function StatisticCard({ stat, index, isVisible }: StatisticCardProps) {
     }
   }, [isVisible, index, startAnimation]);
 
-  // render a simple emoji icon instead of external icon components
-  const IconEmoji = "📊";
-
   return (
     <div>
       <Card
@@ -191,14 +220,7 @@ function StatisticCard({ stat, index, isVisible }: StatisticCardProps) {
           className={`absolute inset-0 bg-gradient-to-br from-primary-500 to-primary-600 opacity-5 group-hover:opacity-10 transition-opacity duration-300`}
         />
 
-        {/* Icon */}
-        <div className="relative z-10 mb-6">
-          <div
-            className={`w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center text-white mx-auto transform group-hover:scale-110 transition-all duration-300 shadow-lg`}
-          >
-            <span className="text-2xl">{IconEmoji}</span>
-          </div>
-        </div>
+        {/* Icon removed as requested (circle badge) */}
 
         {/* Content */}
         <div className="relative z-10">
@@ -213,11 +235,13 @@ function StatisticCard({ stat, index, isVisible }: StatisticCardProps) {
             {stat.description}
           </p>
           {stat.trend && stat.trendValue && (
-            <div className={`inline-flex items-center gap-1 mt-3 text-xs font-medium px-2 py-1 rounded-full ${
-              stat.trend === "up"
-                ? "bg-green-50 text-green-700 border border-green-200"
-                : "bg-red-50 text-red-700 border border-red-200"
-            }`}>
+            <div
+              className={`inline-flex items-center gap-1 mt-3 text-xs font-medium px-2 py-1 rounded-full ${
+                stat.trend === "up"
+                  ? "bg-green-50 text-green-700 border border-green-200"
+                  : "bg-red-50 text-red-700 border border-red-200"
+              }`}
+            >
               <span aria-hidden>{stat.trend === "up" ? "▲" : "▼"}</span>
               <span>{stat.trendValue}</span>
             </div>
@@ -227,7 +251,9 @@ function StatisticCard({ stat, index, isVisible }: StatisticCardProps) {
               <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-primary-500 to-primary-600"
-                  style={{ width: `${Math.max(0, Math.min(100, stat.percent))}%` }}
+                  style={{
+                    width: `${Math.max(0, Math.min(100, stat.percent))}%`,
+                  }}
                 />
               </div>
             </div>

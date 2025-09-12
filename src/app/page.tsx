@@ -14,13 +14,12 @@ import Gallery from "@/components/Gallery";
 export default function Home() {
   const { t } = useLanguage();
   return (
-    
     <div className="min-h-screen bg-white text-gray-900">
       <main>
         <Hero />
-    <section id="about" className="py-12 bg-gray-50">
+        <section id="about" className="py-12 bg-gray-50">
           <div className="max-w-6xl mx-auto px-6">
-      <h2 className="text-2xl font-bold mb-4">{t("aboutTitle")}</h2>
+            <h2 className="text-2xl font-bold mb-4">{t("aboutTitle")}</h2>
 
             <div className="grid md:grid-cols-2 gap-8 items-start">
               <div>
@@ -35,13 +34,13 @@ export default function Home() {
                 <div className="mt-6 flex gap-3">
                   <a
                     href="#services"
-                    className="inline-flex items-center px-5 py-3 bg-primary-600 text-gray-900  rounded-lg shadow hover:opacity-95 bg-purple-400"
+                    className="inline-flex items-center px-5 py-3 rounded-lg shadow text-white bg-purple-600 hover:bg-purple-700"
                   >
                     {t("exploreServices")}
                   </a>
                   <a
                     href="#contact"
-                    className="inline-flex items-center px-5 py-3 border border-gray-200 rounded-lg text-gray-700"
+                    className="inline-flex items-center px-5 py-3 border border-gray-200 rounded-lg text-white bg-gray-700"
                   >
                     {t("getHelpShort")}
                   </a>
@@ -52,8 +51,8 @@ export default function Home() {
                 {/* Responsive image placeholder - replace /mnss-hero.jpg with the image you provide in /public */}
                 <div className="relative w-full h-56 md:h-72 rounded-lg overflow-hidden shadow-sm mb-5 bg-white">
                   <Image
-                    src="/Logo%20MNSS.jpg"
-                    alt="MNSS logo"
+                    src="/images/progress/इलेक्ट्रिक व्हील पोट्री प्रशिक्षण __ 2023-2024.jpg"
+                    alt="इलेक्ट्रिक व्हील पोट्री प्रशिक्षण 2023-2024"
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-contain"

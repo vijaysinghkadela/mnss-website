@@ -14,7 +14,7 @@ export function Footer() {
         <div className="flex items-center gap-4">
           <div className="text-sm text-gray-500 hidden sm:block">{t('contact')}: marutnarayan7181@gmail.com</div>
           <Link href="/donate">
-            <Button variant="accent" size="sm">Donate</Button>
+            <Button variant="success" size="sm">{t('donateNow')}</Button>
           </Link>
         </div>
       </Container>

@@ -10,6 +10,9 @@ export default function Gallery() {
 	const [loading, setLoading] = React.useState(true);
 	const [error, setError] = React.useState<string | null>(null);
 	const [visibleCount, setVisibleCount] = React.useState(6);
+  // Lightbox state
+  const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
+  const [zoom, setZoom] = React.useState(1);
 
 	React.useEffect(() => {
 		let mounted = true;
@@ -54,6 +57,14 @@ export default function Gallery() {
 	}
 
 	const images = items.filter((it) => it.type === "image");
+	const visibleImages = images.slice(0, visibleCount);
+	const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+		e.preventDefault();
+		setZoom((z) => {
+			const next = e.deltaY < 0 ? z + 0.25 : z - 0.25;
+			return Math.max(1, Math.min(5, Number(next.toFixed(2))));
+		});
+	};
 
 	if (!images.length) {
 		return <div className="py-8 text-center text-gray-500">No media uploaded yet.</div>;
@@ -64,8 +75,12 @@ export default function Gallery() {
 			<div className="max-w-6xl mx-auto px-6">
 				<h2 className="text-2xl font-bold mb-6">Gallery</h2>
 				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-					{images.slice(0, visibleCount).map((it) => (
-						<figure key={it.id} className="relative group bg-white rounded-lg overflow-hidden shadow-sm">
+					{visibleImages.map((it, idx) => (
+						<figure
+							key={it.id}
+							className="relative group bg-white rounded-lg overflow-hidden shadow-sm cursor-zoom-in"
+							onClick={() => { setActiveIndex(idx); setZoom(1); }}
+						>
 							<Image src={it.url} alt={it.title} width={800} height={600} className="w-full h-56 object-cover" />
 							<figcaption className="p-3 border-t">
 								<div className="text-sm font-medium truncate">{it.title}</div>
@@ -78,13 +93,19 @@ export default function Gallery() {
 				</div>
 				{visibleCount < images.length ? (
 					<div className="mt-6 text-center">
-						<button
-							className="inline-flex items-center px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-							onClick={() => setVisibleCount((c) => c + 6)}
-						>
-							View More
-						</button>
+						<Button onClick={() => setVisibleCount((c) => c + 6)}>View More</Button>
 					</div>
+				) : null}
+
+				{/* Lightbox overlay */}
+				{activeIndex !== null ? (
+					<Lightbox
+						item={visibleImages[activeIndex] ?? null}
+						zoom={zoom}
+						setZoom={setZoom}
+						onClose={() => setActiveIndex(null)}
+						onWheel={handleWheel}
+					/>
 				) : null}
 			</div>
 		</section>

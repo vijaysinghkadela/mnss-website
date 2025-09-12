@@ -96,6 +96,12 @@ export function Contact() {
           </p>
         </div>
 
+        {/* Simple placeholder block as requested */}
+        <div className="text-center mb-8">
+          <div className="text-2xl font-bold text-gray-900">Contact</div>
+          <div className="text-sm text-gray-600">(work in program)</div>
+        </div>
+
         <div className="grid lg:grid-cols-2 gap-12">
           <div className="space-y-8">
             <Card className="p-8 bg-gradient-to-br from-white to-gray-50">
@@ -208,7 +214,7 @@ export function Contact() {
             <Card className="p-8">
               <CardContent>
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                  {t('sendMessage')}
+                  {t('contact')}
                 </h3>
 
                 {isSuccess && (
@@ -356,16 +362,16 @@ export function Contact() {
                     type="submit"
                     size="lg"
                     disabled={isSubmitting}
-                    className="w-full group text-gray-900 bg-purple-400"
+                    className="w-full group text-white bg-purple-600 hover:bg-purple-700"
                   >
           {isSubmitting ? (
                       <div className="flex items-center">
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2 text-gray-900" />
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
             {t('sendingMessage')}
                       </div>
                     ) : (
                       <>
-            {t('sendMessage')}
+            {t('contact')}
                         <span
                           className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform text-lg"
                           aria-hidden

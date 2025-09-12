@@ -6,21 +6,21 @@ import Link from "next/link";
 // avoid framer-motion and lucide-react typing issues; use simple divs and emoji
 import { Container } from "./ui/Container";
 import { Button } from "./ui/Button";
-import { useLanguage } from '@/context/LanguageContext'
+import { useLanguage } from "@/context/LanguageContext";
 import { scrollToElement } from "@/lib/utils";
 
 const navigation = [
-  { key: 'home', href: "#home" },
-  { key: 'about', href: "#about" },
-  { key: 'services', href: "#services" },
-  { key: 'impact', href: "#impact" },
-  { key: 'contact', href: "#contact" },
+  { key: "home", href: "#home" },
+  { key: "about", href: "#about" },
+  { key: "services", href: "#services" },
+  { key: "impact", href: "#impact" },
+  { key: "contact", href: "#contact" },
 ];
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [logoSrc, setLogoSrc] = useState<string>("/logo-mnss.png"); // preferred new image name
+  const [logoSrc, setLogoSrc] = useState<string>("/logo.png");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,7 +37,7 @@ export function Header() {
     setIsMobileMenuOpen(false);
   };
 
-  const { lang, setLang, theme, toggleTheme, t } = useLanguage()
+  const { lang, toggle, t } = useLanguage();
 
   return (
     <>
@@ -53,14 +53,14 @@ export function Header() {
             {/* Logo */}
             <div className="flex items-center space-x-3">
               <div className="w-12 h-12 rounded-md overflow-hidden shadow bg-white flex items-center justify-center">
-                {/* prefer a provided logo at /public/logo.svg (exported from your PDF) */}
+                {/* Use provided logo from /public; falls back to SVG if PNG missing */}
                 <Image
                   src={logoSrc}
                   alt="MNSS logo"
                   width={48}
                   height={48}
                   className="object-contain bg-white"
-                  onError={() => setLogoSrc("/Logo%20MNSS.jpg")}
+                  onError={() => setLogoSrc("/logo.svg")}
                   priority
                 />
               </div>
@@ -86,9 +86,6 @@ export function Header() {
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full"></span>
                 </button>
               ))}
-              <Link href="/donate" className="ml-2">
-                <Button variant="accent" size="sm" className="whitespace-nowrap">Donate</Button>
-              </Link>
             </nav>
 
             {/* Mobile Menu, Language & Theme toggles */}
@@ -97,35 +94,34 @@ export function Header() {
                 variant="primary"
                 size="sm"
                 onClick={() => handleNavClick("#contact")}
-                className="hidden md:inline-flex text-gray-900 bg-purple-400 px-3 py-2 text-sm"
+                className="hidden md:inline-flex text-white bg-purple-600 hover:bg-purple-700 px-3 py-2 text-sm"
               >
-                {t('getHelp')}
+                {t("getHelp")}
               </Button>
 
               {/* Donate button (desktop) */}
               <Link href="/donate" className="hidden md:inline-flex">
-                <Button variant="accent" size="sm" className="px-3 py-2 text-sm">Donate</Button>
+                <Button
+                  variant="success"
+                  size="sm"
+                  className="px-3 py-2 text-sm"
+                >
+                  {t('donateNow')}
+                </Button>
               </Link>
 
-              {/* Single Language toggle */}
+              {/* Language toggle: shows EN when Hindi active, HI when English active */}
               <div className="ml-2">
                 <button
-                  onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
-                  className="px-2.5 py-1.5 rounded-md border bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-sm font-medium"
+                  onClick={toggle}
+                  className="px-2.5 py-1.5 rounded-md border-2 border-blue-400 font-bold text-blue-400 bg-transparent hover:bg-gray-100 text-sm"
                   aria-label="Toggle language"
                 >
-                  {lang === 'en' ? 'EN' : 'हिं'}
+                  {lang === 'hi' ? 'EN' : 'HI'}
                 </button>
               </div>
 
-              {/* Theme toggle */}
-              <button
-                onClick={toggleTheme}
-                className="ml-2 px-2.5 py-1.5 rounded-md border border-gray-200 text-sm"
-                aria-label="Toggle theme"
-              >
-                {theme === 'dark' ? '🌙' : '☀️'}
-              </button>
+              {/* Theme toggle removed */}
 
               {/* Mobile menu button */}
               <button
@@ -160,13 +156,13 @@ export function Header() {
               <div className="px-4 py-3 border-t border-gray-200">
                 <Button
                   variant="primary"
-                  className="inline-flex items-center px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className="inline-flex items-center px-4 py-2 rounded-md bg-blue-600 text-gray-100 hover:bg-blue-700 "
                   onClick={() => handleNavClick("#contact")}
                 >
-                  {t('getHelp')}
+                  {t("getHelp")}
                 </Button>
                 <Link href="/donate" className="inline-block ml-3">
-                  <Button variant="accent">Donate</Button>
+                  <Button variant="success">{t('donateNow')}</Button>
                 </Link>
               </div>
             </div>
