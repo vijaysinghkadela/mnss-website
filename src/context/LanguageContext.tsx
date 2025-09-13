@@ -63,6 +63,13 @@ const translations: Record<string, { en: string; hi: string }> = {
   learnMore: { en: 'Learn More', hi: 'और पढ़ें' },
   statisticsTitle: { en: 'Our Impact in Numbers', hi: 'हमारा प्रभाव संख्याओं में' },
   statisticsDescription: { en: 'Measurable outcomes that reflect our commitment to community transformation and sustainable social development across Rajasthan.', hi: 'नापने योग्य परिणाम जो राजस्थान भर में समुदाय परिवर्तन और सतत विकास के प्रति हमारी प्रतिबद्धता को दर्शाते हैं।' },
+  viewAll: { en: 'View All', hi: 'सभी देखें' },
+  // Statistics-specific trend labels
+  trendLivesUp: { en: '+8% vs last year', hi: '+8% पिछले वर्ष की तुलना में' },
+  trendProgramsUp: { en: '+5%', hi: '+5%' },
+  trendDistrictsUp: { en: '+1 district', hi: '+1 जिला' },
+  trendYearsUp: { en: '+1 year', hi: '+1 वर्ष' },
+  processing: { en: 'Processing', hi: 'प्रोसेस हो रहा है' },
   // Statistics cards
   statLivesDesc: { en: 'Individuals directly impacted across all programs', hi: 'सभी कार्यक्रमों से सीधे प्रभावित व्यक्ति' },
   programsCompleted: { en: 'Programs Completed', hi: 'पूर्ण किए गए कार्यक्रम' },
@@ -115,6 +122,77 @@ const translations: Record<string, { en: string; hi: string }> = {
   pbHealth: { en: 'Health & Nutrition', hi: 'स्वास्थ्य और पोषण' },
   pbFinance: { en: 'Financial Inclusion', hi: 'वित्तीय समावेशन' }
 }
+
+// Donate page & form translations
+Object.assign(translations, {
+  // Impact page hero
+  impactHeroTitle: { en: 'Our Impact Across Rajasthan', hi: 'राजस्थान भर में हमारा प्रभाव' },
+  impactHeroDesc: { en: 'See how your support helps us create lasting change through programs, training, and community services.', hi: 'देखें कि आपका समर्थन कैसे कार्यक्रमों, प्रशिक्षण और सामुदायिक सेवाओं के माध्यम से स्थायी परिवर्तन लाने में मदद करता है।' },
+  impactCtaTitle: { en: 'Help Us Expand Our Impact', hi: 'हमारे प्रभाव को बढ़ाने में मदद करें' },
+  impactCtaDesc: { en: 'Your contribution enables us to reach more villages, support women’s safety, and create sustainable livelihoods.', hi: 'आपका सहयोग हमें अधिक गाँवों तक पहुँचने, महिला सुरक्षा का समर्थन करने और सतत आजीविका बनाने में सक्षम बनाता है।' },
+  // Contact page additions
+  getInTouch: { en: 'Get in Touch', hi: 'संपर्क करें' },
+  ourAddress: { en: 'Our Address', hi: 'हमारा पता' },
+  phoneLabel: { en: 'Phone', hi: 'फ़ोन' },
+  emailLabel: { en: 'Email', hi: 'ईमेल' },
+  inquiryTypeLabel: { en: 'Inquiry Type', hi: 'पूछताछ का प्रकार' },
+  inquiryTypeGeneral: { en: 'General Inquiry', hi: 'सामान्य पूछताछ' },
+  inquiryTypeVolunteer: { en: 'Volunteer Opportunity', hi: 'स्वयंसेवक अवसर' },
+  inquiryTypePartnership: { en: 'Partnership/Collaboration', hi: 'साझेदारी/सहयोग' },
+  inquiryTypeProgram: { en: 'Program Information', hi: 'कार्यक्रम जानकारी' },
+  subjectLabel: { en: 'Subject', hi: 'विषय' },
+  contactSentSuccess: { en: 'Thanks! Your message has been sent.', hi: 'धन्यवाद! आपका संदेश भेज दिया गया है।' },
+  errorInquiryTypeRequired: { en: 'Please select an inquiry type', hi: 'कृपया पूछताछ का प्रकार चुनें।' },
+  errorSubjectRequired: { en: 'Subject is required', hi: 'विषय आवश्यक है।' },
+  errorMessageRequired: { en: 'Message is required', hi: 'संदेश आवश्यक है।' },
+  donateHeroTitle: { en: 'Support Our Mission', hi: 'हमारे मिशन का समर्थन करें' },
+  donateHeroDesc: {
+    en: 'Your contribution directly funds education, livelihoods, women’s safety, and community welfare in Rajasthan.',
+    hi: 'आपका सहयोग राजस्थान में शिक्षा, आजीविका, महिला सुरक्षा और सामुदायिक कल्याण के लिए सीधे उपयोग होता है।'
+  },
+  donateViaUpiTitle: { en: 'Donate securely via UPI', hi: 'UPI के माध्यम से सुरक्षित दान करें' },
+  donateViaUpiDesc: {
+    en: "Use the form to generate a secure UPI payment link. We'll show a reference number after you create the link.",
+    hi: 'सुरक्षित UPI भुगतान लिंक बनाने के लिए फॉर्म उपयोग करें। लिंक बनने के बाद आपको एक संदर्भ संख्या दिखाई जाएगी।'
+  },
+  donateBadgeSecureUpi: { en: 'Secure UPI processing', hi: 'सुरक्षित UPI प्रोसेसिंग' },
+  donateBadgeProgramSupport: { en: '100% program support', hi: '100% कार्यक्रम समर्थन' },
+  donateBadgeTrustedSince: { en: 'Trusted NGO since 2009', hi: '2009 से विश्वसनीय एनजीओ' },
+
+  bankCorporateDonationsTitle: { en: 'Bank/Corporate Donations', hi: 'बैंक/कॉरपोरेट दान' },
+  bankCorporateDonationsDesc: {
+    en: "For large, recurring, or corporate donations, please contact our office. We'll share bank details and receipts.",
+    hi: 'बड़े, आवर्ती या कॉरपोरेट दान के लिए कृपया हमारे कार्यालय से संपर्क करें। हम बैंक विवरण और रसीदें साझा करेंगे।'
+  },
+  contactCorporateDonation: { en: 'Contact for Corporate Donation', hi: 'कॉरपोरेट दान के लिए संपर्क करें' },
+  yourImpactTitle: { en: 'Your Impact', hi: 'आपका प्रभाव' },
+  donateImpact1: { en: 'Enable skill development and entrepreneurship', hi: 'कौशल विकास और उद्यमिता को सक्षम करें' },
+  donateImpact2: { en: 'Support women’s safety and crisis response', hi: 'महिला सुरक्षा और संकट प्रतिक्रिया का समर्थन करें' },
+  donateImpact3: { en: 'Reach more villages with essential programs', hi: 'आवश्यक कार्यक्रमों के साथ अधिक गाँवों तक पहुँचें' },
+
+  // Donation form
+  amountInINR: { en: 'Amount (INR)', hi: 'राशि (INR)' },
+  nameOptional: { en: 'Name (optional)', hi: 'नाम (वैकल्पिक)' },
+  emailOptional: { en: 'Email (optional)', hi: 'ईमेल (वैकल्पिक)' },
+  enterAmount: { en: 'Enter amount', hi: 'राशि दर्ज करें' },
+  generateUpiLink: { en: 'Generate UPI Link', hi: 'UPI लिंक बनाएं' },
+  processingDonation: { en: 'Processing...', hi: 'प्रोसेस हो रहा है...' },
+  creatingDonation: { en: 'Creating donation...', hi: 'दान बनाया जा रहा है...' },
+  donationCreatedInstruction: {
+    en: 'Donation intent created. Use the UPI link or scan the QR below.',
+    hi: 'दान इंटेंट बन गया है। नीचे दिए गए UPI लिंक का उपयोग करें या QR स्कैन करें।'
+  },
+  unexpectedError: { en: 'Unexpected error', hi: 'अप्रत्याशित त्रुटि' },
+  copyLink: { en: 'Copy link', hi: 'लिंक कॉपी करें' },
+  copySuccessStatus: { en: 'UPI link copied to clipboard.', hi: 'UPI लिंक क्लिपबोर्ड पर कॉपी हो गया।' },
+  copyFailedStatus: { en: "Couldn't copy the link. You can copy it manually.", hi: 'लिंक कॉपी नहीं हो सका। आप इसे मैन्युअली कॉपी कर सकते हैं।' },
+  scanToPayUpi: { en: 'Scan to pay via UPI', hi: 'UPI से भुगतान हेतु स्कैन करें' },
+  referenceLabel: { en: 'Reference', hi: 'संदर्भ' },
+  // Validation errors
+  errorNameInvalid: { en: 'Please enter your full name.', hi: 'कृपया अपना पूरा नाम दर्ज करें।' },
+  errorEmailInvalid: { en: 'Please enter a valid email address.', hi: 'कृपया मान्य ईमेल पता दर्ज करें।' },
+  errorPhoneInvalid: { en: 'Please enter at least 10-digit phone numbers.', hi: 'कृपया कम से कम 10 अंकों का फोन नंबर दर्ज करें।' },
+})
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 

@@ -36,7 +36,7 @@ export async function POST(request: Request) {
         { success: false, message: "Invalid JSON" },
         { status: 400 }
       );
-    const { amount, donor_name, donor_email, note = "Donation" } = body;
+    const { amount, donor_name, donor_phone, donor_email, note = "Donation" } = body;
     if (typeof amount !== "number" || amount <= 0)
       return NextResponse.json(
         { success: false, message: "Amount must be positive" },
@@ -55,6 +55,7 @@ export async function POST(request: Request) {
       reference,
       donor_name: donor_name || null,
       donor_email: donor_email || null,
+      donor_phone: donor_phone || null,
       meta: { note },
       created_at: new Date(),
     });

@@ -50,29 +50,31 @@ export function Header() {
       >
         <Container>
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-md overflow-hidden shadow bg-white flex items-center justify-center">
+            {/* Logo + Site name (clickable to go home) */}
+            <Link
+              href="/"
+              aria-label="Go to homepage"
+              className="flex items-center space-x-3 cursor-pointer group"
+            >
+              <div className="w-14 h-14 rounded-md overflow-hidden shadow bg-white flex items-center justify-center">
                 {/* Use provided logo from /public; falls back to SVG if PNG missing */}
                 <Image
                   src={logoSrc}
                   alt="MNSS logo"
-                  width={48}
-                  height={48}
+                  width={56}
+                  height={56}
                   className="object-contain bg-white"
                   onError={() => setLogoSrc("/logo.svg")}
                   priority
                 />
               </div>
               <div>
-                <h1 className="text-lg font-bold text-gray-900 leading-tight">
+                <h1 className="text-lg font-bold text-gray-900 leading-tight group-hover:text-primary-600 transition-colors">
                   Marut Narayan Sewa Sansthan
                 </h1>
-                <p className="text-xs text-gray-600">
-                  Transforming Communities Since 2009
-                </p>
+                <p className="text-xs text-gray-600">Transforming Communities Since 2009</p>
               </div>
-            </div>
+            </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-6">
@@ -110,14 +112,14 @@ export function Header() {
                 </Button>
               </Link>
 
-              {/* Language toggle: shows EN when Hindi active, HI when English active */}
+              {/* Language toggle: shows EN when Hindi active, हिंदी when English active */}
               <div className="ml-2">
                 <button
                   onClick={toggle}
                   className="px-2.5 py-1.5 rounded-md border-2 border-blue-400 font-bold text-blue-400 bg-transparent hover:bg-gray-100 text-sm"
                   aria-label="Toggle language"
                 >
-                  {lang === 'hi' ? 'EN' : 'HI'}
+                  {lang === 'hi' ? 'EN' : 'हिंदी'}
                 </button>
               </div>
 
@@ -128,7 +130,7 @@ export function Header() {
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
               >
-                <span className="text-lg">{isMobileMenuOpen ? "✕" : "☰"}</span>
+                <span className="text-lg text-black">{isMobileMenuOpen ? "✕" : "☰"}</span>
               </button>
             </div>
           </div>
@@ -148,7 +150,7 @@ export function Header() {
                 <button
                   key={item.key}
                   onClick={() => handleNavClick(item.href)}
-                  className="block w-full text-left px-4 py-3 text-lg font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                  className="block w-full text-left px-4 py-3 text-lg font-semibold text-black hover:text-blue-700 hover:bg-gray-50 rounded-lg transition-colors"
                 >
                   {t(item.key)}
                 </button>
